@@ -1,6 +1,6 @@
 Kickoff meeting
 
-Time: 1/17/2021
+Time: 1/17/2021 5:30 PM - 6 PM
 
 Location: Zoom (https://ucsd.zoom.us/meeting/tJIkcOysqTgqHt2UOaL4uMxX6UFOb-G514Oe/ics?icsToken=98tyKuCupzwvHtOWsB2ORowAHY_CZ-jwtnZfgrcPqTDkL3RGTxvOYNdkHbAyN42B)
 
