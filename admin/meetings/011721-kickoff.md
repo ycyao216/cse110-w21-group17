@@ -9,6 +9,7 @@ Attendance:
 (Everyone was here)
 
 
+
 Agenda
 
 -This meeting's probably going to take over an hour
@@ -32,11 +33,13 @@ Agenda
 -Start planning out Pomorado
 
 
+
 For Future Investigation:
 
 -Asking about using Discord instead of Slack
 
 -Ask about features for Pomorado provided and specs
+
 
 
 Decisions Made: 
