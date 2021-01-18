@@ -1,4 +1,4 @@
-Kickoff meeting
+Group bonding meeting
 
 Time: 1/17/2021 5 PM - 5:30 PM
 
