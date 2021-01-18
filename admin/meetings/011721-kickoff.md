@@ -21,3 +21,10 @@ For Future Investigation:
 
 
 Decisions Made: 
+
+-Using Discord instead of Slack, if possible
+-Monday meetings 2-4 PM
+-Github Wiki/Pages: Colby + Liam
+-Make slack channel for video submissions (of people's pictures). Harry leading video. People sends 15-18 sec intro of themselves to Harry + written intro. 
+-Weekly notes: Bryan
+-Ask about features for Pomorado provided and specs?
