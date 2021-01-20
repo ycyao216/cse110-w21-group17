@@ -62,6 +62,6 @@ If a team member fails to live up to this agreement, the situation may be report
 
 ***This document is subject to change. Amendments need to be unanimously agreed upon, rather than majority vote. Because of this, there is no need to re-sign the contract upon amendment.***
 
-*([source](https://groups.cs.umass.edu/nmahyar/wp-content/uploads/sites/8/2019/01/Team-Contract-690A.pdf) for contract formatting)*
+*([source](https://ohiostate.pressbooks.pub/feptechcomm/chapter/7-project-communications/) for contract formatting)*
 
 #### Signature Below:
