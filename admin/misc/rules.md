@@ -9,7 +9,7 @@ Instructor: Thomas Powell
 
 TA: Sanat Bhandarkar
 
-Team Name: ?
+Team Name: Team Tortellini
 
 Team Member Info:
 | Name | Email | Discord |
@@ -34,6 +34,8 @@ Bi-weekly meetings, in PST ([zoom link](https://ucsd.zoom.us/j/96975473049) for 
 
 Sundays 5-6 PM, PST
 
+Wednesdays 2-3 PM, PST
+
 If for any reason a meeting is cancelled or the meeting time is changed, an announcement will be made to the team 48 hours before the original scheduled meeting time.
 
 Similarly, newly created meetings will be announced to the team 48 hours before that meeting.
@@ -55,9 +57,11 @@ Similarly, newly created meetings will be announced to the team 48 hours before 
 - If someone has an issue, they will take it up to the team leads first, and then team leads can decide if a team meeting is necessary or not (these meetings will follow standard meeting creation procedure).
 - If that team meeting does not solve the issue, we may then bring the issue higher up to the TA or professor.
 
-### 6. Expectations of TAs and Professor
+### 6. Contract Violation
 If a team member fails to live up to this agreement, the situation may be reported to the TAs or the professor, but the team will still be responsible for submitting completed assignments.
 
 ***This document is subject to change. Amendments need to be unanimously agreed upon, rather than majority vote. Because of this, there is no need to re-sign the contract upon amendment.***
+
+*([source](https://groups.cs.umass.edu/nmahyar/wp-content/uploads/sites/8/2019/01/Team-Contract-690A.pdf) for contract formatting)*
 
 #### Signature Below:
