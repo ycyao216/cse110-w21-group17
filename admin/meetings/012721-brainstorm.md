@@ -1,6 +1,6 @@
 ## CSE110 Group 17 Team Tortellini Meeting Notes
 
-Meeting Purpose: Brainstorming for 
+Meeting Purpose: Brainstorming
 
 Date: 01/27/2021
 
