@@ -19,6 +19,8 @@
   "dependencies": {
     "eslint": "*",
     "prettier": "*",
-    "stylelint": "*"
+    "stylelint": "*",
+    "stylelint-config-recommended": "*",
+    "eslint-config-recommended": "*",
   }
 }
