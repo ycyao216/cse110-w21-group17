@@ -1,3 +1,4 @@
+name: test-coverage
 on: push
 
 jobs:
@@ -8,5 +9,5 @@ jobs:
         uses: mattallty/jest-github-action@v1.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          working-directory: "source/site"
+        # with:
+        #   working-directory: "source/site"
