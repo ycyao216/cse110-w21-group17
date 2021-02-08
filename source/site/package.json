@@ -21,6 +21,7 @@
     "prettier": "*",
     "stylelint": "*",
     "stylelint-config-recommended": "*",
+    "stylelint-config-standard": "*",
     "eslint-config-recommended": "*",
     "eslint-config-prettier": "*"
   }
