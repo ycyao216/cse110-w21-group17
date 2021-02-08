@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ycyao216/cse110-w21-group17.git"
+  "jest": {
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -17,11 +21,16 @@
   },
   "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
   "dependencies": {
-    "eslint": "7.0.0",
-    "prettier": "*",
+    "jest": "*",
+    "js-beautify": "*"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "html-validate": "*",
     "stylelint": "*",
-    "stylelint-config-recommended": "*",
-    "eslint-config-recommended": "*",
-    "eslint-config-prettier": "*"
+    "stylelint-config-standard": "*",
+    "jsdoc": "*"
   }
 }
