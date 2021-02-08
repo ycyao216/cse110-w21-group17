@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
   "dependencies": {
-    "eslint": "6.0.0",
+    "eslint": "7.0.0",
     "prettier": "*",
     "stylelint": "*",
     "stylelint-config-recommended": "*",
