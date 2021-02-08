@@ -1,0 +1,24 @@
+{
+  "name": "pomodoro-timer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ycyao216/cse110-w21-group17.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ycyao216/cse110-w21-group17/issues"
+  },
+  "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
+  "dependencies": {
+    "eslint": "*",
+    "prettier": "*",
+    "stylelint": "*"
+  }
+}
