@@ -10,5 +10,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          working-directory: "source/site"
-          test-command: "npm test --prefix source/site"
+          working-directory: "/home/runner/work/cse110-w21-group17/cse110-w21-group17/source/site"
+          test-command: "npm test --prefix /home/runner/work/cse110-w21-group17/cse110-w21-group17/source/site"
