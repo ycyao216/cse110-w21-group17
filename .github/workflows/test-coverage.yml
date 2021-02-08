@@ -5,10 +5,17 @@ jobs:
   test-coverage:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: "cd source/site && npm i"
+
+    steps:
       - name: test-coverage
         uses: mattallty/jest-github-action@v1.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          working-directory: "/home/runner/work/cse110-w21-group17/cse110-w21-group17/source/site"
-          test-command: "npm test --prefix /home/runner/work/cse110-w21-group17/cse110-w21-group17/source/site"
+          working-directory: "source/site"
+          test-command: "npm test"
