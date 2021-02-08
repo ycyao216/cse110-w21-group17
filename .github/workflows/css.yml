@@ -23,11 +23,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Enable linters
-          eslint: true
-          eslint_dir: source/site/
-          eslint_args: "--no-error-on-unmatched-pattern"
-          stylelint: true 
-          stylelint_args: "--no-error-on-unmatched-pattern"
+          stylelint: true
           stylelint_dir: source/site/
           prettier: true
           prettier_dir: source/site/
