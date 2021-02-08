@@ -9,4 +9,5 @@ jobs:
         uses: raulanatol/jest-coverage-comment-action@v1.0.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          jest-command: 'npm jest --coverage'
           working-directory: 'source/site'
