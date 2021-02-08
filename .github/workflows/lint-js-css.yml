@@ -27,7 +27,7 @@ jobs:
           eslint_dir: source/site/
           eslint_args: "--no-error-on-unmatched-pattern"
           stylelint: true 
-          stylelint: "--no-error-on-unmatched-pattern"
+          stylelint_args: "--no-error-on-unmatched-pattern"
           stylelint_dir: source/site/
           prettier: true
           prettier_dir: source/site/
