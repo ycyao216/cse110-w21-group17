@@ -9,6 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions-hub/stylelint@master
-        ENV:
+        env:
           PATTERN: "*.css"
           INDENT_SPACES: 4
