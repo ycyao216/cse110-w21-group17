@@ -2,6 +2,7 @@ name: jest
 on: push
 jobs:
   build:
+    name: Unit Test Using Jest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
