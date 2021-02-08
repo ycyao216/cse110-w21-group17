@@ -20,7 +20,6 @@ jobs:
         run:  npm install
 
       - name: Run linters
-        working-directory: source/site
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
