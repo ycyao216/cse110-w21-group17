@@ -20,13 +20,12 @@
   },
   "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
   "dependencies": {
-    "eslint": "7.0.0",
-    "prettier": "*",
-    "stylelint": "*",
-    "stylelint-config-recommended": "*",
-    "eslint-config-recommended": "*",
-    "eslint-config-prettier": "*",
     "jest": "*",
     "js-beautify": "*"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
