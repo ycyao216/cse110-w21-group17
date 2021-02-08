@@ -25,7 +25,6 @@ jobs:
           # Enable linters
           eslint: true
           eslint_dir: source/site/
-          eslint_args: "--no-error-on-unmatched-pattern"
           stylelint: true
           stylelint_dir: source/site/
           prettier: true
