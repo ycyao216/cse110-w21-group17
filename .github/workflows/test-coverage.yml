@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test-coverage
-        uses: raulanatol/jest-coverage-comment-action@v1.0.0
+        uses: raulanatol/jest-coverage-comment-action@v1.0.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: 'source/site'
