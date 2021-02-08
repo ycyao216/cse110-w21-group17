@@ -8,4 +8,4 @@ jobs:
     - name: Install modules
       run: npm install --prefix source/site
     - name: Run tests
-      run: npm test
+      run: npm --prefix source/site test
