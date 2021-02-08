@@ -618,3 +618,6 @@ bower_components/
 
 build/
 dist/
+
+### test result
+**/*jest.results.json
