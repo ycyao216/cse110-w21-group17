@@ -6,6 +6,13 @@
   "scripts": {
     "test": "jest --coverage"
   },
+  "jest": {
+    "coverageReporters": [
+      "json-summary", 
+      "text",
+      "lcov"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "bugs": {

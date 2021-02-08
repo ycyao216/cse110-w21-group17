@@ -1,13 +1,14 @@
+name: test-coverage
 on: push
 
 jobs:
-  build:
+  test-coverage:
     runs-on: ubuntu-latest
     steps:
       - name: test-coverage
-        id: hello
-        uses: raulanatol/jest-coverage-comment-action@v1.0.4
+        uses: mattallty/jest-github-action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          jest-command: 'npm jest --coverage'
-          working-directory: 'packages/my-package'
+          working-directory: "source/site"
+          test-command: "npm test"
