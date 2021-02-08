@@ -16,13 +16,16 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
-        run: cd source/site && npm install
+        run: cd source/site && npm install && npm install stylelint-config-recommended eslint-config-recommended
 
       - name: Run linters
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Enable linters
+          eslint: true
+          eslint_dir: source/site/
+          eslint_args: "--no-error-on-unmatched-pattern"
           stylelint: true
           stylelint_dir: source/site/
           prettier: true
