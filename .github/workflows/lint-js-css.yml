@@ -4,8 +4,7 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
-    working-directory: source/site
-    
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -17,9 +16,11 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
+        working-directory: source/site
         run:  npm install
 
       - name: Run linters
+        working-directory: source/site
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
