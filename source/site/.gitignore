@@ -621,3 +621,4 @@ dist/
 
 ### test result
 **/*jest.results.json
+**/*docs
