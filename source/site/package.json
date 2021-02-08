@@ -23,7 +23,8 @@
   "dependencies": {
     "jest": "*",
     "js-beautify": "*",
-    "express": "*"
+    "express": "*",
+    "mongodb": "*"
   },
   "devDependencies": {
     "eslint": "^7.19.0",
