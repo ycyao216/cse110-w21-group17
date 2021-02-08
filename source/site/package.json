@@ -22,7 +22,9 @@
   "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
   "dependencies": {
     "jest": "*",
-    "js-beautify": "*"
+    "js-beautify": "*",
+    "express": "*",
+    "mongodb": "*"
   },
   "devDependencies": {
     "eslint": "^7.19.0",

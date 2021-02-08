@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+cd "$(dirname "$0")"
 cd ../
 export jsbeautify="node_modules/.bin/js-beautify"
 find backend -type f -name "*.html" -exec $jsbeautify -r {} \;
