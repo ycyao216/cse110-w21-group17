@@ -2,8 +2,11 @@ on: push
 
 jobs:
   test-coverage:
-    uses: mattallty/jest-github-action@v1
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:
-      working-directory: "source/site"
+    runs-on: ubuntu-latest
+    steps:
+      - name: test-coverage
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          working-directory: "frontend"
