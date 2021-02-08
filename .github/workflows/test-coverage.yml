@@ -6,9 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test-coverage
-        uses: mattallty/jest-github-action@v1.0.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: raulanatol/jest-coverage-comment-action@v1.0.0
         with:
-          # working-directory: "source/site"
-          test-command: "npm test"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: 'source/site'
