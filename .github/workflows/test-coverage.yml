@@ -1,13 +1,13 @@
-name: test-coverage
-on: push
+on: pull_request
 
 jobs:
-  test-coverage:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: test-coverage
+        id: hello
         uses: raulanatol/jest-coverage-comment-action@v1.0.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           jest-command: 'npm jest --coverage'
-          working-directory: 'source/site'
+          working-directory: 'packages/my-package'
