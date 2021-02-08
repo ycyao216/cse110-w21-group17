@@ -4,23 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest source/site --json --outputFile=jest.results.json --coverage=true"
-  },
-  "jest": {
-    "clearMocks": true,
-    "moduleFileExtensions": [
-      "js",
-      "ts"
-    ],
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/*.test.js"
-    ],
-    "verbose": true
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ycyao216/cse110-w21-group17.git"
+    "test": "jest source/site --coverage"
   },
   "author": "",
   "license": "ISC",
