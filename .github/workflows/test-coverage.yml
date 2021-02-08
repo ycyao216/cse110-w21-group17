@@ -11,4 +11,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           working-directory: "source/site"
-          test-command: "npm test"
+          test-command: "npm test --prefix source/site"
