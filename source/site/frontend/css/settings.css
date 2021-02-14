@@ -1,0 +1,356 @@
+* {
+  box-sizing:border-box;
+}
+body {
+  background:#ddd;
+  font-family:"monospace";
+}
+.tabs {
+  position:absolute;
+  top:50%;
+  left:30%;
+  transform:translate(-20%,-50%);
+  width:1300px;
+  height: 800px;
+  padding:30px 20px;
+  background:#f5f5f5;
+  box-shadow:5px 5px 10px 5px #ccc;
+  overflow:hidden;
+}
+.tabs .tab-header {
+  float:left;
+  width:180px;
+  height:100%;
+  border-right:1px solid #ccc;
+  padding:50px 0px;
+}
+.tabs .tab-header > div {
+  height:50px;
+  line-height:50px;
+  font-size:16px;
+  font-weight:600;
+  color:#888;
+  cursor:pointer;
+  padding-left:10px;
+}
+.tabs .tab-header > div:hover,
+.tabs .tab-header > div.active {
+  color:#00acee;
+}
+.tabs .tab-header div i {
+  display:inline-block;
+  margin-left:10px;
+  margin-right:5px;
+}
+.tabs .tab-content {
+  position:relative;
+  height:100%;
+  overflow:hidden;
+}
+.tabs .tab-content > div > i {
+  display:inline-block;
+  width:50px;
+  height:50px;
+  background:#555;
+  color:#f5f5f5;
+  font-size:25px;
+  font-weight:600;
+  text-align:center;
+  line-height:50px;
+  border-radius:50%;
+}
+
+.cover-contianer {  
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.tabcontent {
+  display:inline-block;
+  width:100%;
+}
+
+.tabs .tab-content > div {
+  position:absolute;
+  text-align:center;
+  padding:40px 20px;
+  top:-200%;
+  transition:all 500ms ease-in-out;
+}
+.tabs .tab-content > div.active {
+  top:0px;
+}
+ 
+.tabs .tab-indicator {
+  position:absolute;
+  width:4px;
+  height:50px;
+  background:#00acee;
+  left:198px;
+  top:80px;
+  transition:all 500ms ease-in-out;
+}
+
+/* options */
+.option-list {
+  display:flex;
+  width:100%;
+  flex-direction: column;
+  padding-top: 40px;
+}
+
+.option-container {
+  line-height: normal;
+}
+
+.option-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  height: 50px;
+}
+
+.option-control {
+  float: right;
+}
+/* options */
+
+
+
+/* Toggle buttons */
+.tgl {
+  display: none;
+}
+.tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+  box-sizing: border-box;
+}
+.tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+  background: none;
+}
+.tgl + .tgl-btn {
+  outline: 0;
+  display: block;
+  width: 4em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+}
+.tgl + .tgl-btn:after {
+  left: 0;
+}
+.tgl + .tgl-btn:before {
+  display: none;
+}
+.tgl:checked + .tgl-btn:after {
+  left: 50%;
+}
+.tgl-light + .tgl-btn {
+  background: #f0f0f0;
+  border-radius: 2em;
+  padding: 2px;
+  transition: all 0.4s ease;
+}
+.tgl-light + .tgl-btn:after {
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+.tgl-light:checked + .tgl-btn {
+  background: #9fd6ae;
+}
+
+
+
+
+/** Time Picker Style **/
+:root {
+  --font-size: 30px;
+  --default-line-height: 46px;
+  --default-height: 50px;
+  --default-border: 2px solid rgba(200, 200, 200, .5);
+  --dark-color: #08192D;
+  --focus-color: #0089A7;
+}
+
+/** time-picker-container start */
+.ios-time-picker-container {
+  position: relative;
+  width: 120px;
+  background: white;
+  border: var(--default-border);
+  border-radius: 5px;
+  height: var(--default-height);
+  overflow: hidden;
+  transition: all .5s ease;
+}
+
+.ios-time-picker-container::before {
+  content: ":";
+  position: absolute;
+  display: block;
+  width: 10px;
+  font-size: var(--font-size);
+  height: var(--default-height);
+  line-height: var(--default-line-height);
+  text-align: center;
+  line-height: var(--default-line-height);
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+
+.ios-time-picker-container.is-dark {
+  color: #fff;
+  background: rgba(0, 0, 0, .5)
+}
+
+.ios-time-picker-container.is-focus {
+  color: var(--focus-color);
+  border-color: var(--focus-color);
+}
+/** time-picker-container end */
+
+/** time-picker-text start */
+.ios-time-picker-container.is-focus .ios-time-picker-text {
+  opacity: 0;
+  z-index: 9;
+}
+.ios-time-picker-container.is-inserting .ios-time-picker-text {
+  opacity: 1;
+  z-index: 9;
+}
+
+.ios-time-picker-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  font-size: var(--font-size);
+  line-height: var(--default-line-height);
+  display: flex;
+}
+
+.ios-time-picker-text > div {
+  width: 50%;
+  text-align: right;
+  padding: 1px 12px 0 0;
+}
+/** time-picker-text end */
+
+/** time-picker-scroller start */
+.ios-time-picker-container.is-focus .ios-time-picker-scroller {
+  opacity: 1;
+  z-index: 9;
+}
+
+.ios-time-picker-container.is-inserting .ios-time-picker-scroller,
+.ios-time-picker-scroller {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  padding-top: 9px;
+  opacity: 0;
+  z-index: 0;
+}
+
+.ios-time-picker-scroller::before,
+.ios-time-picker-scroller::after {content: '';
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  z-index: 3;
+}
+
+.ios-time-picker-scroller::before {
+  top: 0;
+  background: -moz-linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+}
+
+.ios-time-picker-scroller::after {
+  bottom: 0;
+  background: -moz-linear-gradient(0deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-linear-gradient(0deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(0deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+}
+
+.ios-time-picker-container.is-dark .ios-time-picker-scroller::before {
+  background: -moz-linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+}
+
+.ios-time-picker-container.is-dark .ios-time-picker-scroller::after {
+  background: -moz-linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  background: -webkit-linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+}
+
+.ios-time-picker-slider {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 9px 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ios-time-picker-slider.is-disabled {
+  overflow: hidden;
+  filter: grayscale(100);
+}
+
+.ios-time-picker-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.ios-time-picker-slider + .ios-time-picker-slider { 
+  left: 50%;
+}
+
+.ios-time-picker-slider .ios-time-picker-slide {
+  font-size: var(--font-size);
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+}
+
+/** time-picker-scroller end */
+
+/** time-picker-input start */
+.ios-time-picker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  font-size: var(--font-size);
+  line-height: var(--default-height);
+  text-align: center;
+  cursor: pointer;
+  border: 0;
+  opacity: 0;
+  z-index: 9;
+  padding: 0;
+}
+/** time-picker-input end */
