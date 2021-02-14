@@ -38,5 +38,8 @@ function countdown(timerElement) {
     text = minutes.toString + ":" + seconds.toString;
 
     timerElement.innerHTML = text;
+
+    // for testing purposes
+    return text;
 }
 
