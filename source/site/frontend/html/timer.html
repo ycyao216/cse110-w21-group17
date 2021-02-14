@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../css/main.css">
 </head>
 
-<body>
+<body class="background">
   <div id="container">
     <header>
       <h1>Pomodoro Timer</h1>
@@ -16,36 +16,22 @@
 
     <main>
         <fieldset id="timer-display">
-          <div id="radio-air-horn-container">
-            <p id="timer-display-box"></p> 
+          <div id="timer-page-display-container">
+            <p id="timer-display-box" > 25:00:00 </p> 
           </div>
 
-
-
-
-
-          
-
-          <div id="radio-car-horn-container">
-            <input type="radio" id="radio-car-horn" name="radio-sound">
-            <label for="radio-car-horn">Car Horn</label>
+          <div id="timer-control-button-container">
+            <button class="button" id="start-button" type="submit" >Start</button>
+            <!--Add stop button when start button is clicked via javascript event listener--> 
+            <!--Add Finished button when start button is clicked via javascript event listener--> 
           </div>
-          <div id="radio-party-horn-container">
-            <input type="radio" id="radio-party-horn" name="radio-sound">
-            <label for="radio-party-horn">Party Horn</label>
-</div>
         </fieldset>
 
-        <audio id="horn-sound" src="./assets/media/audio/air-horn.mp3"></audio>
-
-        <div id="honk-btn-container">
-          <button id="honk-btn" type="submit">Honk</button>
-        </div>
-      </form>
+        <audio id="alarm-sound" src="../assets/audio/spongebob-screaming-alarm-placeholder.mp3"></audio>
     </main>
-  </div>
+    </div>
 
-  <script src="./javascript.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 
 </html>
