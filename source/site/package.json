@@ -1,0 +1,38 @@
+{
+  "name": "pomodoro-timer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
+  },
+  "jest": {
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ycyao216/cse110-w21-group17/issues"
+  },
+  "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
+  "dependencies": {
+    "jest": "*",
+    "js-beautify": "*",
+    "express": "*",
+    "mongodb": "*"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "html-validate": "*",
+    "stylelint": "*",
+    "stylelint-config-standard": "*",
+    "jsdoc": "*"
+  }
+}
