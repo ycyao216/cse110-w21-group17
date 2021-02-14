@@ -43,3 +43,8 @@ function countdown(timerElement) {
     return text;
 }
 
+// for testing
+module.exports = {
+    countdown
+};
+
