@@ -1,9 +1,9 @@
 /* place holder */
 .background {
   /* Image used */
-  background-image: url("../assets/images/ocean-cliffs-background-2.jfif");  
-  background-size:     cover;                      
-  background-repeat:   no-repeat;
+  background-image: url("../assets/images/ocean-cliffs-background-2.jfif");
+  background-size: cover;
+  background-repeat: no-repeat;
   background-position: center center;
 }
 
@@ -20,19 +20,17 @@ h1 {
 
 .timer {
   font-size: 150px;
-  width: 80%x;
+  width: 80%;
   color: white;
   background-color: gray;
   border-radius: 5px;
   border: 2px  solid gray;
-
 }
 
 .button {
   font-size: 80px;
-  border: 2px gray; 
+  border: 2px gray;
   border-radius: 5px;
   background-color: gray;
   color: white;
-
 }
