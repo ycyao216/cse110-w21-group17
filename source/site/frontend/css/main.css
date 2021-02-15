@@ -1,8 +1,7 @@
 /* place holder */
 .background {
-  /*Image used */
-  background-image: url("../assets/images/ocean-cliffs-background-2.jfif") ;
-  
+  /* Image used */
+  background-image: url("../assets/images/ocean-cliffs-background-2.jfif");  
   background-size:     cover;                      
   background-repeat:   no-repeat;
   background-position: center center;
@@ -37,6 +36,3 @@ h1 {
   color: white;
 
 }
-
-
-
