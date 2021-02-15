@@ -1,3 +1,4 @@
+// Written by: Liam O'Brien
 // interval for countdown
 var everySecond;
 
@@ -21,7 +22,7 @@ function countdownElement(timerElement) {
     if(seconds === 0) {
         minutes = minutes - 1;
         seconds = 59;
-    } if(minutes === 0) {
+    } else if(minutes === 0) {
         minutes = 0;
         seconds = 0;   
     } else {
@@ -30,15 +31,15 @@ function countdownElement(timerElement) {
 
     // if seconds or minutes less than 10, add leading 0
     if(minutes < 10) {
-        minutes = "0" + minutes.toString;
+        minutes = "0" + minutes.toString();
     }
 
     if(seconds < 10) {
-        seconds = "0" + seconds.toString;
+        seconds = "0" + seconds.toString();
     }
 
     //set the innerHTML back
-    text = minutes.toString + ":" + seconds.toString;
+    text = minutes.toString() + ":" + seconds.toString();
 
     if(text === "00:00" && everySecond != null) {
         clearInterval(everySecond);

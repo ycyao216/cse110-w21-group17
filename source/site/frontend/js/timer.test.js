@@ -1,4 +1,5 @@
-const timer = require('./timer');
+const {countdownElement,isLongBreak,altType} = require('./timer');
+
 let testobj1 = document.createElement("p");
 testobj1.innerHTML = "25:00";
 let testobj2 = document.createElement("p");
