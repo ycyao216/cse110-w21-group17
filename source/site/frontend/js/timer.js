@@ -19,12 +19,12 @@ function countdownElement(timerElement) {
     let seconds = parseInt(text.substring(3, 5));
 
     // if 25:00, decrement minutes and get 24:59
-    if(seconds === 0) {
-        minutes = minutes - 1;
-        seconds = 59;
-    } else if(minutes === 0) {
+    if(seconds === 0 && minutes === 0) {
         minutes = 0;
-        seconds = 0;   
+        seconds = 0;
+    } else if(seconds === 0) {
+        minutes = minutes - 1;
+        seconds = 59; 
     } else {
         seconds = seconds - 1;
     }
