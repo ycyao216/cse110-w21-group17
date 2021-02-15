@@ -88,6 +88,7 @@ function isLongBreak(numOfPomo) {
  * timer reaches 0. resetting of timer and breaks handled in driver.
  */
 function startButton(timerElement) {
+    this.style.display = "none";
 
     everySecond = setInterval(countdownElement(timerElement), [1000]);
 
@@ -96,7 +97,7 @@ function startButton(timerElement) {
 /*
  * function stopEarlyButton()
  * 
- * param: HTMLelement of prompt to unhide (display stlye should be "none")
+ * param: HTMLelement of prompt to unhide (display style should be "none")
  * function to bring up the prompts when user finishes early. timer keeps going
  */
 function stopEarlyButton(earlyPrompt) {
