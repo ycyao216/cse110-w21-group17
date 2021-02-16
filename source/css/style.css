@@ -73,7 +73,7 @@
 .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    right: 25px; 
     font-size: 36px;
     margin-left: 50px;
 }
@@ -82,5 +82,5 @@
 
 }
 
-#list1 li:nth-of-type(odd){ background:#00ccff;} 
+#list1 li:nth-of-type(odd){ background:#00ccff;}
 #list1 li:nth-of-type(even){ background:#ffcc00;}
