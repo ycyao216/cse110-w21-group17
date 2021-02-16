@@ -97,6 +97,7 @@ var n = 0;
 
        // insert the new task
        // if it is the renning task
+       
        if(j == 0){
          // delete the old task, add new combined task
          var oldTask = document.getElementById(combinedName);
