@@ -230,7 +230,7 @@ function taskFinished(){
   taskNameArr.splice(0, 1);
   cyclesArr.splice(0, 1);
 
-  // record the information in finished arrays  
+  // record the information in finished arrays
   finishedTask.push(finishedTaskName);
   finishedCycles.push(finishedTaskCycles);
 
