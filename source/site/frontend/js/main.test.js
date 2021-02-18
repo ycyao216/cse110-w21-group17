@@ -1,4 +1,4 @@
-const {countdownElement,isLongBreak,altType} = require('./main');
+const {countdownElement,isLongBreak} = require('./main');
 
 let testobj1 = document.createElement("p");
 testobj1.innerHTML = "25:00";
@@ -33,13 +33,4 @@ test('pass 7', () => {
 
 test('pass 8', () => {
     expect(isLongBreak(8)).toBe(true);
-});
-
-// altType
-test('pass number representing pomdodoro', () => {
-    expect(altType(0)).toBe(1);
-});
-
-test('pass number representing break', () => {
-    expect(altType(1)).toBe(0);
 });
