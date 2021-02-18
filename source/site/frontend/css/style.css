@@ -13,6 +13,11 @@ body {
     "Segoe UI Symbol";
 }
 
+/* style links */
+a {
+
+}
+
 footer {
   position: fixed;
   display: inline-block;
@@ -28,6 +33,14 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#early-prompt {
+
+}
+
+#timer-label {
+
 }
 
 #timer-container {
