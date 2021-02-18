@@ -81,6 +81,8 @@ function countdownWrapper() {
  * the timer to the correct break/work cycle when "ok" is clicked.
  */
 function update_timer() {
+
+    //TODO: Add audio playing at end of break/work cycle
     if (timer_display.innerHTML === TIME_UP) {
         running = false;
         if (!at_break) {
