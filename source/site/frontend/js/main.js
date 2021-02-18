@@ -119,7 +119,7 @@ function update_timer() {
 }
 
 /** Direct copied from timer.js to temporarily avoid import troubles */
-//TODO: allow import from modules.
+// Turns out it's better to have all your js in one file so it is loaded at the same time
 
 // Written by: Liam O'Brien
 // interval for countdown
@@ -239,3 +239,10 @@ function stopEarlyButton(earlyPrompt) {
 function emergStopButton(timerElement) {
     timerElement.innerHTML = "00:00";
 }
+
+// for testing
+module.exports = {
+    countdownElement,
+    isLongBreak,
+    altType
+};

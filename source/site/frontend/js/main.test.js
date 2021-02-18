@@ -1,4 +1,4 @@
-const {countdownElement,isLongBreak,altType} = require('./timer');
+const {countdownElement,isLongBreak,altType} = require('./main');
 
 let testobj1 = document.createElement("p");
 testobj1.innerHTML = "25:00";
