@@ -7,7 +7,7 @@ let emerg_button = document.getElementById("emergency-stop-button");
 let overstudy_button = document.getElementById("overstudy-button");
 
 // The number of pomo cycles. used for long break
-let num_pomos = 1;
+let num_pomos = 0;
 // Whether is at break time
 let at_break = false;
 // Whether the timer is running
@@ -15,7 +15,7 @@ let running = false;
 
 
 /** Messages to display to the user */
-const WORK_TIME = "00:03";
+const WORK_TIME = "00:10";
 const SHORT_BREAK = "00:03";
 const LONG_BREAK = "00:04";
 const TIME_UP = "00:00";
@@ -28,39 +28,44 @@ const OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your
 start_button.addEventListener('click', startButton);
 emerg_button.addEventListener('click', emerg_stop);
 overstudy_button.addEventListener('click', over_study);
-toggle_buttons();
 
-/**
- * A helper function to hide/display stop buttons accordingly
- */
-function toggle_buttons() {
-    // only hide when timer is running, or at break
-    if (!running || at_break) {
-        emerg_button.style.display = "none";
-        overstudy_button.style.display = "none";
-    }
-    else {
-        emerg_button.style.display = "initial";
-        overstudy_button.style.display = "initial";
-    }
-}
+//init buttons
+emerg_button.style.display = "none";
+overstudy_button.style.display = "none";
 
 /**
  * Callback funciton for emergency stop button.
  */
 function emerg_stop() {
-    if (confirm(EMERG_STOP_WARNING)) {
+    if (confirm(EMERG_STOP_WARNING) && running) {
         timer_display.innerHTML = WORK_TIME;
         running = false;
         at_break = false;
         // everySecond is a variable in the "package"
         clearInterval(everySecond);
+        
+        //reset cycles
+        num_pomos = 0;
+
+        //buttons
+        start_button.style.display = "initial";
+
+        emerg_button.style.display = "none";
+        overstudy_button.style.display = "none";
+
+        //reset prompt
+        document.getElementById("early-prompt").innerHTML = "";
+
+        //reset label
+        document.getElementById("timer-label").innerHTML = "Waiting";
     }
 }
 
 function over_study() {
-    //TODO: add label to task
-    alert(OVERSTUDY_MSG);
+    if(document.getElementById("early-prompt").innerHTML === "") {
+        alert(OVERSTUDY_MSG);
+        document.getElementById("early-prompt").innerHTML = "Reflect on your current task!"
+    }
 }
 
 /**
@@ -69,7 +74,6 @@ function over_study() {
 function countdownWrapper() {
     countdownElement(timer_display);
     update_timer();
-    toggle_buttons();
 }
 
 /**
@@ -80,7 +84,9 @@ function update_timer() {
     if (timer_display.innerHTML === TIME_UP) {
         running = false;
         if (!at_break) {
+            //increment
             num_pomos += 1;
+            
             if (isLongBreak(num_pomos)) {
                 timer_display.innerHTML = TIME_UP;
                 // This delay is to make sure alert pause the process only after 
@@ -91,6 +97,9 @@ function update_timer() {
                 }, 0);
                 timer_display.innerHTML = LONG_BREAK;
                 at_break = true;
+
+                //change timer label to Long Break
+                document.getElementById("timer-label").innerHTML = "Long Break";
             }
             else {
                 timer_display.innerHTML = TIME_UP;
@@ -99,8 +108,11 @@ function update_timer() {
                 }, 0);
                 timer_display.innerHTML = SHORT_BREAK;
                 at_break = true;
+
+                //change timer label to Short Break
+                document.getElementById("timer-label").innerHTML = "Short Break";
             }
-            num_pomos = 0;
+
             // Automatically start the break timer.
             setTimeout(startButton, 1);
         }
@@ -110,6 +122,15 @@ function update_timer() {
             timer_display.innerHTML = WORK_TIME;
             at_break = false;
             // Timer is not automatically started before work.
+            start_button.style.display = "initial";
+            emerg_button.style.display = "none";
+            overstudy_button.style.display = "none";
+
+            //reset label
+            document.getElementById("timer-label").innerHTML = "Waiting";
+
+            //reset early label
+            document.getElementById("early-prompt").innerHTML = "";
         }
     }
     else {
@@ -176,22 +197,6 @@ function countdownElement(timerElement) {
     return text;
 }
 
-/* 
- * function altType(Number)
- *
- * param: type - a number (0 or 1) representing whether timer is on break or not
- * 0 = pomodoro
- * 1 = break
- */
-function altType(type) {
-    if (type) {
-        type = 0;
-    } else {
-        type = 1;
-    }
-    return type;
-}
-
 /*
  * function isLongBreak(Number)
  * 
@@ -214,35 +219,23 @@ function isLongBreak(numOfPomo) {
  * timer reaches 0. resetting of timer and breaks handled in driver.
  */
 function startButton(timerElement) {
-    // this.style.display = "none";
+    // hide button
+    start_button.style.display = "none";
+
+    emerg_button.style.display = "initial";
+    overstudy_button.style.display = "initial";
+
+    // set timer label
+    if(!at_break) {
+        document.getElementById("timer-label").innerHTML = "Work";
+    }
 
     everySecond = setInterval(countdownWrapper, [1000]);
 
 }
 
-/*
- * function stopEarlyButton()
- * 
- * param: HTMLelement of prompt to unhide (display style should be "none")
- * function to bring up the prompts when user finishes early. timer keeps going
- */
-function stopEarlyButton(earlyPrompt) {
-    earlyPrompt.style.display = "block";
-}
-
-/*
- * function emergStopButton()
- *
- * param: HTMLElement of timer to set to 00:00
- * function to instantly stop timer. should keep old # of cycles.
- */
-function emergStopButton(timerElement) {
-    timerElement.innerHTML = "00:00";
-}
-
 // for testing
-module.exports = {
+/*module.exports = {
     countdownElement,
-    isLongBreak,
-    altType
-};
+    isLongBreak
+};*/
