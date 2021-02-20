@@ -1,0 +1,83 @@
+.background-img {
+    background-image: url("media/web-background.png");
+    backdrop-filter: blur(6px);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    background: blueviolet;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 30px;
+    margin: 20vh auto;
+    width: 50vh;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.timer {
+    display: flex;
+    flex-direction: row;
+    font-size: 30em;
+
+}
+
+.buttons {
+
+}
+
+.current-task {
+
+}
+
+.sidebar {
+
+}
+
+
+
+
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0; 
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav .addTaskbtn {
+
+}
