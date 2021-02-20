@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-cd ../../
-node backend/httpserver/server.js
+cd ../../frontend
+node ../backend/httpserver/server.js
