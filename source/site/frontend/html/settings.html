@@ -64,7 +64,14 @@
               Timezone
             </div>
             <div class="option-control">
-              <input type='tel' name='time_1' class='ios-time-picker' />
+              <div class='ctrl'>
+                <div class='ctrl-button ctrl-button-decrement'>-</div>
+                <div class='ctrl-counter'>
+                  <input class='ctrl-counter-input' maxlength='10' type='text' value='0'>
+                  <div class='ctrl-counter-num'>0</div>
+                </div>
+                <div class='ctrl-button ctrl-button-increment'>+</div>
+              </div>
             </div>
           </div>
         </div>
@@ -91,7 +98,7 @@
               Larger Text
             </div>
             <div class="option-control">
-              <input class="tgl tgl-light" id="cb2" type="checkbox" /><label class="tgl-btn" for="cb2"></label>
+              <input class="tgl tgl-light" id="cb3" type="checkbox" /><label class="tgl-btn" for="cb3"></label>
             </div>
           </div>
         </div>
@@ -104,12 +111,21 @@
               Emergency Stop
             </div>
             <div class="option-control">
-              <input class="tgl tgl-light" id="emergencytoggle" type="checkbox" /><label class="tgl-btn" for="emergencytoggle"></label>
+              <input class="tgl tgl-light" id="emergencytoggle" type="checkbox" /><label class="tgl-btn"
+                for="emergencytoggle"></label>
             </div>
           </div>
           <div class="option-container">
             <div class="option-name">
               Duration of each session
+            </div>
+            <div class="option-control">
+              <input type='tel' name='time_3' class='ios-time-picker' />
+            </div>
+          </div>
+          <div class="option-container">
+            <div class="option-name">
+              Duration of each sprint
             </div>
             <div class="option-control">
               <input type='tel' name='time_1' class='ios-time-picker' />
@@ -119,6 +135,23 @@
       </div>
 
       <div class="tabcontent">
+        <div class="option-list">
+          <div class="option-container">
+            <div class="option-name">
+              Number of Tasks per Sprint
+            </div>
+            <div class="option-control">
+              <div class='ctrl'>
+                <div class='ctrl-button ctrl-button-decrement'>-</div>
+                <div class='ctrl-counter'>
+                  <input class='ctrl-counter-input' maxlength='10' type='text' value='0'>
+                  <div class='ctrl-counter-num'>0</div>
+                </div>
+                <div class='ctrl-button ctrl-button-increment'>+</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="tabcontent">
