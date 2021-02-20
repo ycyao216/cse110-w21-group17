@@ -1,5 +1,6 @@
 html {
-    background: url("/assets/images/web-background.png") no-repeat center center fixed;
+    /* background: url("/assets/images/web-background.png") no-repeat center center fixed; */
+    background-color: grey;
     background-size: cover;
   }
   

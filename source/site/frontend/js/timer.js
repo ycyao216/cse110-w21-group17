@@ -1,3 +1,9 @@
+fetch("/html/components/settings.html")
+    .then(stream => stream.text())
+    .then(text => define_settings(text));
+
+
+
 // add action handlers to the three buttons
 
 /** The HTML elements, see timer_index.html */
