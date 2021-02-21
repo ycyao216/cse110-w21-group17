@@ -225,7 +225,6 @@ class iOSTimePicker {
     }
 
     _setCurrentSlide = () => {
-        console.log(this.shadowroot);
         let currentHour = this.shadowroot.querySelector(`[data-hour="${this.value.hour}"]`);
         let currentMinute = this.shadowroot.querySelector(`[data-minute="${this.value.minute}"]`);
 

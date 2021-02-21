@@ -37,7 +37,3 @@ function define_settings(html) {
   }
   customElements.define('c-settings', CSettings);
 }
-
-function settings_close_button(document){
-  document.getElementById('c-settings').style.display = "none";
-}

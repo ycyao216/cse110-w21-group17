@@ -8,14 +8,17 @@
   width: 100%;
 }
 
-.side-bar {
+.side-bar {  
+  position:absolute;
+  top:50%;
+  left: 0%;
   margin: 0px;
   padding: 0%;
   background-color: rgb(88, 88, 88);
-  position: fixed;
+  /* position: fixed;
   height: 95%;
   width: 40%;
-  left: 100%;
+  left: 100%; */
 }
 
 #task {

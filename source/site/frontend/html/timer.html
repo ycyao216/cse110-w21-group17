@@ -12,7 +12,11 @@
 <body>
     <div class="background-img">
         <main>
-            <c-settings id="c-settings"></c-settings>
+            <c-settings id="c-settings" style="display: none"></c-settings>
+            <c-task-list id="c-task-list" style="display: none"></c-task-list>
+            <c-control-button onclick="current_state = state_transition(current_state, 'timer_open_settings')">Settings</c-control-button>
+            <c-control-button onclick="current_state = state_transition(current_state, 'timer_toggle_task_list')">Tasklist</c-control-button>
+
             <!-- <div class="sidebar">
                 <a href="#">Analysis</a>
                 <a href="#">Settings</a>
@@ -46,13 +50,14 @@
                     <p id="early-prompt"></p>
                     <p id="timer-label">Waiting</p>
                 </div>
-                <div id="timer-container">
-                    <p id="timer-string">00:10</p>
-                </div>
+                <c-timer-display></c-timer-display>
                 <div class="control-buttons">
-                    <button class="control" id="start-button">Start</button>
-                    <button class="control" id="emergency-stop-button">Emergency stop</button>
-                    <button class="control" id="overstudy-button">Overstudy</button>
+                    <!-- <button class="control" id="start-button">Start</button> -->
+                    <c-control-button id="start-button">Start</c-control-button>
+                    <c-control-button id="emergency-stop-button">Emergency stop</c-control-button>
+                    <c-control-button id="overstudy-button">Overstudy</c-control-button>
+                    <!-- <button class="control" id="emergency-stop-button">Emergency stop</button>
+                    <button class="control" id="overstudy-button">Overstudy</button> -->
                     <!-- <button class="finish">Finish</button> -->
                 </div>
                 <div class="task">
@@ -100,9 +105,23 @@
         <a href="https://github.com/ycyao216/cse110-w21-group17/wiki">Visit Team Tortellini@Github</a>
     </footer>
     <!-- moved the script import to after the site finsihed-->
+
+
+    <!-- State Machines -->
+    <script src="/js/state_machines/state_machine.js"></script>
+
+    <!-- Components -->
     <script src="/js/components/incdecinput.js"></script>
     <script src="/js/components/iostimepicker.js"></script>
+    <script src="/js/components/timer-display.js"></script>
+    <script src="/js/components/control-button.js"></script>
+    <script src="/js/components/task-list.js"></script>
     <script src="/js/components/settings.js"></script>
+
+
+    <!-- This Page -->
+    <script src="/js/state_machines/time_logic.js"></script>
+    <script src="/js/state_machines/timer_state_machine.js"></script>
     <script src="/js/timer.js"></script>
     <!-- <script src="/js/task-bar-visual.js"></script>
     <script src="/js/taskList.js"></script> -->

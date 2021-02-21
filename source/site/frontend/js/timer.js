@@ -1,7 +1,38 @@
+//// This Section Imports Requires Components
+
+// Settings Component
 fetch("/html/components/settings.html")
     .then(stream => stream.text())
     .then(text => define_settings(text));
 
+// Timer Display Component
+fetch("/html/components/timer-display.html")
+    .then(stream => stream.text())
+    .then(text => define_timer_display(text));
+
+// Control Button Component
+fetch("/html/components/control-button.html")
+    .then(stream => stream.text())
+    .then(text => define_control_button(text));
+
+// Task List Component
+fetch("/html/components/task-list.html")
+.then(stream => stream.text())
+.then(text => define_task_list(text));
+
+
+///// This Section Defines Actions Triggered By User
+function openSettings(){
+    // state_transition(current_state, 'timer_open_settings')
+}
+
+function openTaskList(){
+    document.getElementById("c-task-list").style.display = 'block';
+}
+
+
+///// This Section Initializes timer.html's state machine
+var current_state = timer_init;
 
 
 // add action handlers to the three buttons
