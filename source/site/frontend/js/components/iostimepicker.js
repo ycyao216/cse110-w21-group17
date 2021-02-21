@@ -225,8 +225,9 @@ class iOSTimePicker {
     }
 
     _setCurrentSlide = () => {
-        let currentHour = this.shadowroot.querySelector(`[data-hour="${this.value.hour}"]`);
-        let currentMinute = this.shadowroot.querySelector(`[data-minute="${this.value.minute}"]`);
+        console.log(document);
+        let currentHour = document.querySelector(`[data-hour="${this.value.hour}"]`);
+        let currentMinute = document.querySelector(`[data-minute="${this.value.minute}"]`);
 
         this.hourSlider.scrollTop = currentHour.offsetTop - 9;
         this.minSlider.scrollTop = currentMinute.offsetTop - 9;

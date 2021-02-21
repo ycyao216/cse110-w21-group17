@@ -31,8 +31,6 @@ function define_settings(html) {
       // for incdecinput control
       define_incdecinput(document);
 
-      // for iostimepicker
-      define_iostimepicker(document);
     }
   }
   customElements.define('c-settings', CSettings);

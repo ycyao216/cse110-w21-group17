@@ -20,14 +20,14 @@ function state_transition(to_state_string){
         return from_state
     }
 
-    // State Transition
-    window.current_state = to_state;
-    
     // run all functions_leave of from_state
     if (from_state !== null){
         from_state.functions_leave.forEach(f => f.call(this));
     }
 
+    // State Transition
+    window.current_state = to_state;
+    
     // run all functions_enter of to_state
     to_state.functions_enter.forEach(f => f.call(this));
     

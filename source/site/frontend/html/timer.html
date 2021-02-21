@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/css/timer.css" />
-    <!-- <link rel="stylesheet" href="/css/task-list.css"> -->
-    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tortellini Timer!</title>
   </head>
@@ -13,41 +11,18 @@
     <div class="background-img">
       <main>
         <c-settings id="c-settings" style="display: none"></c-settings>
-        <c-task-list id="c-task-list" style="display: none"></c-task-list>
-        <c-control-button
-          onclick="state_transition('timer_open_settings')"
+        <c-analysis id="c-analysis" style="display: none"></c-analysis>
+        <c-task-list id="c-task-list" style="display: initial"></c-task-list>
+        <c-control-button onclick="state_transition('timer_open_settings')"
           >Settings</c-control-button
         >
         <c-control-button
           onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
           >Tasklist</c-control-button
         >
-
-        <!-- <div class="sidebar">
-                <a href="#">Analysis</a>
-                <a href="#">Settings</a>
-            </div> -->
-
-        <!-- <div class="side-bar" id="task-list">
-                <!-- Reference taken: https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp
-                <h2 class="side-bar-header" id="task-list-header">Task list</h2>
-
-                <p style="color:white">Task name：</p>
-                <input id="taskNameInput" type="text">
-                <p style="color:white">Cycles needed：</p>
-                <input id="cyclesNumInput" type="number">
-
-                <div class="side-bar-container" id="task-container">
-                    <div class="side-bar-element" id="task">
-                        <p class="task-description" id="task-description">Example Task</p>
-                    </div>
-                    <div class="side-bar-element" id="pomo-counter">
-                        <p class="task-pomo-estimate" id="task-pomo-estimate">1</p>
-                    </div>
-                </div>
-                <button type="button" class="task-list-button" id="fold-button">Extend</button>
-                <button type="button" class="task-list-button" id="add-task-button" onclick="addTask()">+</button>
-            </div> -->
+        <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')"
+          >Analysis</c-control-button
+        >
 
         <div class="container">
           <div id="timer-labels">
@@ -57,47 +32,26 @@
           <c-timer-display id="timer-display"></c-timer-display>
           <div class="control-buttons">
             <!-- <button class="control" id="start-button">Start</button> -->
-            <c-control-button id="start-button" onclick="state_transition('timer_during_countdown')">Start</c-control-button>
-            <c-control-button id="emergency-stop-button" onclick="state_transition('timer_emergency_stop')"
+            <c-control-button
+              id="start-button"
+              onclick="state_transition('timer_during_countdown')"
+              >Start</c-control-button
+            >
+            <c-control-button
+              id="emergency-stop-button"
+              onclick="state_transition('timer_emergency_stop')"
               >Emergency stop</c-control-button
             >
-            <c-control-button id="overstudy-button" onclick="state_transition('timer_finished_early')">Overstudy</c-control-button>
-            <!-- <button class="control" id="emergency-stop-button">Emergency stop</button>
-                    <button class="control" id="overstudy-button">Overstudy</button> -->
-            <!-- <button class="finish">Finish</button> -->
+            <c-control-button
+              id="overstudy-button"
+              onclick="state_transition('timer_finished_early')"
+              >Overstudy</c-control-button
+            >
           </div>
           <div class="task">
             <span id="current-task">Example Task</span>
           </div>
         </div>
-
-        <!-- <div id="taskList" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeList()">&times;</a>
-                <a href="#">Task List</a>
-
-                <p style="color:white">Task name：</p>
-                <input id="taskNameInput" type="text">
-                <p style="color:white">Cycles needed：</p>
-                <input id="cyclesNumInput" type="number">
-
-                <button class="addtask" id="addtask" align="right" onclick="addTask()">Add new task</button>
-
-                <ul id="parentUl">
-                    <p align="left" style="color:white">Running：</p>
-                    <li id="running" style="color:white">
-                    </li>
-
-                    <p style="color:white">Pending：</p>
-                    <li id="pending" style="color:white">
-                    </li>
-
-                    <p style="color:white">Finished：</p>
-                    <li id="finished" style="color:white">
-                    </li>
-
-                </ul>
-
-            </div> -->
 
         <!-- should play when work and break cycles end
         <audio id="alarm-sound" src="/assets/audio/spongebob-screaming-alarm-placeholder.mp3"></audio> -->
@@ -115,10 +69,11 @@
 
     <!-- Components -->
     <script src="/js/components/incdecinput.js"></script>
-    <script src="/js/components/iostimepicker.js"></script>
+    <script src="/js/components/time-picker.js"></script>
     <script src="/js/components/timer-display.js"></script>
     <script src="/js/components/control-button.js"></script>
     <script src="/js/components/task-list.js"></script>
+    <script src="/js/components/analysis.js"></script>
     <script src="/js/components/settings.js"></script>
 
     <!-- This Page -->

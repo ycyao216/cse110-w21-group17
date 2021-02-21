@@ -10,6 +10,7 @@ timer_init = {
     'attatched_states': [],
     'next_states': {
         get timer_open_settings() { return timer_open_settings }, // triggered when user pressed the settings button
+        get timer_open_analysis() { return timer_open_analysis }, // triggered when user pressed the analysis button
         get timer_toggle_task_list() { return timer_toggle_task_list }, // triggered when user pressed the tasklist button
         get timer_during_countdown() { return timer_during_countdown }, // triggered when user pressed the start button
     },
@@ -38,6 +39,21 @@ timer_open_settings = {
     ],
 }
 
+// opening the analysis page
+timer_open_analysis = {
+    'attatched_states': [],
+    'next_states': {
+        get timer_init() { return timer_init },
+    },
+    'functions_enter': [
+        () => console.log('[timer_open_analysis]'),
+        () => { document.getElementById("c-analysis").style.display = 'block'; },
+    ],
+    'functions_leave': [
+        () => { document.getElementById("c-analysis").style.display = 'none'; },
+    ],
+}
+
 // opening the task list
 timer_toggle_task_list = {
     'attatched_states': [],
@@ -46,10 +62,10 @@ timer_toggle_task_list = {
     },
     'functions_enter': [
         () => console.log('[timer_toggle_task_list]'),
-        () => { document.getElementById("c-task-list").style.display = 'block'; },
+        () => { document.getElementById("c-task-list").enter_animate(); },
     ],
     'functions_leave': [
-        () => { document.getElementById("c-task-list").style.display = 'none'; },
+        () => { document.getElementById("c-task-list").leave_animate(); },
     ],
 }
 

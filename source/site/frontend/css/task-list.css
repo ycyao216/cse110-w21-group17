@@ -8,20 +8,19 @@
   width: 100%;
 }
 
-.side-bar {  
-  position:absolute;
-  top:50%;
-  left: 0%;
+.side-bar {
+  position: absolute;
   margin: 0px;
   padding: 0%;
   background-color: rgb(88, 88, 88);
-  /* position: fixed;
+  position: fixed;
   height: 95%;
   width: 40%;
-  left: 100%; */
+  left: 100%;
+  transition: left 0.5s;
 }
 
-#task {
+.task {
   text-align: center;
   margin: 1mm;
   border: 1mm;
@@ -31,7 +30,7 @@
   flex-grow: 6;
 }
 
-#pomo-counter {
+.pomo-counter {
   text-align: center;
   margin: 1mm;
   border: 1mm;
@@ -41,13 +40,61 @@
   flex-grow: 1;
 }
 
-.side-bar-container {
+.task-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 5%;
   margin: 5px;
+  transition: position 0.4s;
 }
+
+.task-input-container{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.task-input{
+  text-align:center;
+  margin:1em;
+  width: 80%;
+}
+
+.pomo-counter-input{
+  text-align:center;
+  margin:1em;
+  width: 80%;
+  
+}
+
+.task-input-btn-container{
+  display: flex;
+  flex-direction: row;
+  width:100%;
+}
+
+.task-confirm-btn{
+  width: 50%;
+  height:fit-content;
+  font-size: medium;
+}
+
+.task-cancel-btn{
+  width:50%;
+  height:fit-content;
+  font-size: medium;
+}
+
+#pending{
+  list-style: none;
+}
+
+#finished{
+  list-style: none;
+}
+
+
 
 #fold-button {
   margin: 0px;
@@ -78,3 +125,4 @@
   opacity: 100;
   background-color: white;
 }
+

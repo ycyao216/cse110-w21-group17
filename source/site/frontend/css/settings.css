@@ -115,6 +115,7 @@ body {
 
 .option-control {
   float: right;
+  width: 10em;
 }
 /* options */
 
@@ -160,6 +161,7 @@ body {
   border-radius: 2em;
   padding: 2px;
   transition: all 0.4s ease;
+  float: right;
 }
 .tgl-light + .tgl-btn:after {
   border-radius: 50%;
