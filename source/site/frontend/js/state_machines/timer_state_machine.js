@@ -73,7 +73,6 @@ timer_toggle_task_list = {
 timer_during_countdown = {
     'attatched_states': [],
     'next_states': {
-        get timer_init() { return timer_init },
         get timer_ringing() { return timer_ringing },
         get timer_emergency_stop() { return timer_emergency_stop },
     },
@@ -88,7 +87,6 @@ timer_during_countdown = {
         }); },
     ],
     'functions_leave': [
-        () => { document.getElementById("c-task-list").style.display = 'none'; },
     ],
 }
 
@@ -100,10 +98,8 @@ timer_emergency_stop = {
     },
     'functions_enter': [
         () => console.log('[timer_emergency_stop]'),
-        () => { document.getElementById("c-task-list").style.display = 'block'; },
     ],
     'functions_leave': [
-        () => { document.getElementById("c-task-list").style.display = 'none'; },
     ],
 }
 
@@ -114,10 +110,8 @@ timer_finished_early = {
     },
     'functions_enter': [
         () => console.log('[timer_finished_early]'),
-        () => { document.getElementById("c-task-list").style.display = 'block'; },
     ],
     'functions_leave': [
-        () => { document.getElementById("c-task-list").style.display = 'none'; },
     ],
 }
 
@@ -128,9 +122,7 @@ timer_ringing = {
     },
     'functions_enter': [
         () => console.log('[timer_ringing]'),
-        () => { document.getElementById("c-task-list").style.display = 'block'; },
     ],
     'functions_leave': [
-        () => { document.getElementById("c-task-list").style.display = 'none'; },
     ],
 }
