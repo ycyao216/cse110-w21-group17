@@ -82,9 +82,11 @@ timer_during_countdown = {
         () => { document.getElementById("emergency-stop-button").style.display = 'initial'; },
         () => { document.getElementById("overstudy-button").style.display = 'initial'; },
         () => { document.getElementById("timer-label").innerHTML = "Work"; },
-        () => { document.getElementById("timer-display").trigger_countdown(10, () => {
-            state_transition('timer_ringing');
-        }); },
+        () => {
+            document.getElementById("timer-display").trigger_countdown(10, () => {
+                state_transition('timer_ringing');
+            });
+        },
     ],
     'functions_leave': [
     ],
@@ -98,6 +100,9 @@ timer_emergency_stop = {
     },
     'functions_enter': [
         () => console.log('[timer_emergency_stop]'),
+        () => prompt("emergency_stop?") ?
+            document.getElementById("timer-display").trigger_emergency_stop() :
+            state_transition('timer_init'),
     ],
     'functions_leave': [
     ],
@@ -119,10 +124,43 @@ timer_ringing = {
     'attatched_states': [],
     'next_states': {
         get timer_init() { return timer_init },
+        get timer_break_countdown() { return timer_break_countdown },
     },
     'functions_enter': [
         () => console.log('[timer_ringing]'),
+        () => { document.getElementById("start-button").style.display = 'none'; },
+        () => { document.getElementById("emergency-stop-button").style.display = 'initial'; },
+        () => { document.getElementById("overstudy-button").style.display = 'none'; },
+        () => { document.getElementById("timer-label").innerHTML = "Ringing"; },
+        () => { document.getElementById("timer-display").ring(); },
+        () => { state_transition('timer_break_countdown'); }
     ],
     'functions_leave': [
     ],
 }
+
+timer_break_countdown = {
+    'attatched_states': [],
+    'next_states': {
+        get timer_init() { return timer_init },
+        get timer_during_countdown() { return timer_during_countdown },
+    },
+    'functions_enter': [
+        () => console.log('[timer_break_countdown]'),
+        () => { document.getElementById("start-button").style.display = 'none'; },
+        () => { document.getElementById("emergency-stop-button").style.display = 'initial'; },
+        () => { document.getElementById("overstudy-button").style.display = 'none'; },
+        () => { document.getElementById("timer-label").innerHTML = "Break"; },
+        () => { document.getElementById("timer-display").ring(); },
+        () => {
+            document.getElementById("timer-display").trigger_countdown(5, () => {
+                state_transition('timer_during_countdown');
+            });
+        }
+    ],
+    'functions_leave': [
+    ],
+}
+
+
+var num_pomos = 0;
