@@ -6,6 +6,14 @@ let timer_display = document.getElementById("timer-string");
 let emerg_button = document.getElementById("emergency-stop-button");
 let overstudy_button = document.getElementById("overstudy-button");
 
+// The modal elements
+let modal = document.getElementById("modal-popup");
+let modal_close_btn = document.getElementsByClassName("close")[0];
+let modal_text = document.getElementById("modal-text");
+let confirm_button = document.getElementById("confirm-button");
+let cancel_button = document.getElementById("cancel-button");
+
+
 // The number of pomo cycles. used for long break
 let num_pomos = 0;
 // Whether is at break time
@@ -22,22 +30,55 @@ const TIME_UP = "00:00";
 const TIME_UP_SHORT_MSG = "Pomo is done! Now take a short break";
 const TIME_UP_LONG_MSG = "You have done 4 pomos! Good job! Now take a long break!";
 const TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
-const EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose this sessions!"
+const EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose this session!"
 const OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
 
 start_button.addEventListener('click', startButton);
-emerg_button.addEventListener('click', emerg_stop);
+emerg_button.addEventListener('click', display_emerg_stop);
+confirm_button.addEventListener('click', emerg_stop);
 overstudy_button.addEventListener('click', over_study);
+// When 'X' is pressed, close modal
+modal_close_btn.addEventListener('click', close_modal);
+// When cancel is pressed, continue and close modal
+cancel_button.addEventListener('click', close_modal);
+// When the user clicks anywhere outside of the modal, close it
+window.addEventListener('click', function(e) {
+    if (e.target == modal) {
+        close_modal();
+    }
+})
 
 //init buttons
 emerg_button.style.display = "none";
 overstudy_button.style.display = "none";
+confirm_button.style.display = "none";
+cancel_button.style.display = "none";
 
 /**
- * Callback funciton for emergency stop button.
+ * Function to hide away modal
+ */
+function close_modal() {
+    modal.style.display = "none";
+    confirm_button.style.display = "none";
+    cancel_button.style.display = "none";
+}
+
+/**
+ * Callback function to display modal for emergency stop button.
+ */
+function display_emerg_stop() {
+    modal.style.display = "block";
+    modal_text.innerHTML = EMERG_STOP_WARNING;
+    confirm_button.style.display = "block";
+    cancel_button.style.display = "block";
+}
+
+/**
+ * Callback function for emergency stop button.
  */
 function emerg_stop() {
-    if (confirm(EMERG_STOP_WARNING) && running) {
+
+    if (running) {
         timer_display.innerHTML = WORK_TIME;
         running = false;
         at_break = false;
@@ -59,11 +100,16 @@ function emerg_stop() {
         //reset label
         document.getElementById("timer-label").innerHTML = "Waiting";
     }
+
+    modal.style.display = "none";
+    confirm_button.style.display = "none";
+    cancel_button.style.display = "none";
 }
 
 function over_study() {
     if(document.getElementById("early-prompt").innerHTML === "") {
-        alert(OVERSTUDY_MSG);
+        modal.style.display = "block";
+        modal_text.innerHTML = OVERSTUDY_MSG;
         document.getElementById("early-prompt").innerHTML = "Reflect on your current task!"
     }
 }
@@ -95,7 +141,8 @@ function update_timer() {
                 // HTML element updates. Oterwise timer pauses at 00:01;
                 // NOTE: not tested.
                 setTimeout(function () {
-                    alert(TIME_UP_LONG_MSG)
+                    modal.style.display = "block";
+                    modal_text.innerHTML = TIME_UP_LONG_MSG;
                 }, 0);
                 timer_display.innerHTML = LONG_BREAK;
                 at_break = true;
@@ -106,7 +153,8 @@ function update_timer() {
             else {
                 timer_display.innerHTML = TIME_UP;
                 setTimeout(function () {
-                    alert(TIME_UP_SHORT_MSG)
+                    modal.style.display = "block";
+                    modal_text.innerHTML = TIME_UP_SHORT_MSG;
                 }, 0);
                 timer_display.innerHTML = SHORT_BREAK;
                 at_break = true;
@@ -120,7 +168,10 @@ function update_timer() {
         }
         else {
             timer_display.innerHTML = TIME_UP;
-            setTimeout(function () { alert(TIME_UP_WORK_MSG) }, 0);
+            setTimeout(function () { 
+                modal.style.display = "block";
+                modal_text.innerHTML = TIME_UP_WORK_MSG;
+            }, 0);
             timer_display.innerHTML = WORK_TIME;
             at_break = false;
             // Timer is not automatically started before work.
