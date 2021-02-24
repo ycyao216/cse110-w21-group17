@@ -11,12 +11,6 @@ function define_modal(html) {
                 return document.querySelectorAll("." + name);
             }
 
-            // Use value in the custom tag to be the display text in the button
-            // document.getElementById('button').innerText = this.textContent
-
-            // Put you initialization code here
-            // some code
-
             // The modal elements
             this.modal = this.shadowRoot.getElementById("modal-popup");
             this.modal_text = this.shadowRoot.getElementById("modal-text");

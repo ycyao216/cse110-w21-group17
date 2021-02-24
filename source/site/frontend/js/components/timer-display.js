@@ -50,7 +50,7 @@ function define_timer_display(html) {
             // stop the counter
             if (remaining_ms < 0) {
                 var callback_f = this.countdown.callback_f;
-                this.clear_countdown();
+                this.reset_countdown();
                 callback_f();
                 return;
             }
@@ -62,23 +62,21 @@ function define_timer_display(html) {
         reset_countdown() {
             //reset to default value 
             // TODO: Take default value from settings
-            this.countdown.counter = 10;
 
-            // update timer_display
-            this.timer_display.innerHTML = new Date(this.countdown.counter * 1000).toISOString().substr(14, 5)
-        }
-
-        clear_countdown(){
             if (this.countdown !== null){
                 clearInterval(this.countdown.timer);
-                //this.countdown = null;
+                let counter = 10;
+
+                // update timer_display
+                this.timer_display.innerHTML = new Date(counter * 1000).toISOString().substr(14, 5)
+
+                this.countdown = null;
             }
         }
 
         trigger_emergency_stop(){
-            this.clear_countdown();
+            this.reset_countdown();
             num_pomos = 0;
-            this.timer_display.innerHTML = new Date(0 * 1000).toISOString().substr(14, 5)
         }
 
         ring(){
