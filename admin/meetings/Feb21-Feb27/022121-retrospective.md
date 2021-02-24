@@ -43,6 +43,7 @@ Agenda:
       ![Retirum result for tasks](https://cdn.discordapp.com/attachments/801928847279783946/813975780051648552/sprint1retrospective2.PNG)
      * Tasks assigned to people are too large that makes it hard to understand for others
      * Confusion about task summaries and github issues
+     * Lack of communication was considered as one of the major reason of the confusion
      * Tasks that aren't a high priority are being worked on while core features still need work done
    * Everyone Finishes Work
       ![Retirum result for finishing work](https://cdn.discordapp.com/attachments/801928847279783946/813975782899580978/sprint1retrospective3.PNG)
@@ -55,7 +56,7 @@ Action Plan:
    * If you have something to say, try and reach out someone or the whole team so that other people can be informed 
    * Have seperate meetings amongst the developers to talk specifically about development
 2. Tasks
-   * Assigning smaller tasks to people to reduce confusion and increase understanding of tasks among the team
+   * Assigning smaller tasks with more details, since past tasks were too general and lead to a need for constant communication to clear up interpretations differences and overlapping work
    * Reassigning people to tasks that have a higher priority 
   
 End Time: 8:00PM
