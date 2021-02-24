@@ -47,7 +47,8 @@ function define_modal(html) {
             this.modal_close_btn.style.display = "none";
             this.confirm_button.style.display = "none";
             this.cancel_button.style.display = "none";
-            
+
+            this.func_confirm_button.call(this);
         }
 
         onclick_cancel_button = () => {
@@ -56,6 +57,7 @@ function define_modal(html) {
             this.confirm_button.style.display = "none";
             this.cancel_button.style.display = "none";
             
+            this.func_cancel_button.call(this);
         }
 
         display_alert = (text_to_show) => {

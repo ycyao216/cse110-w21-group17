@@ -104,30 +104,39 @@ timer_emergency_stop = {
     'functions_enter': [
         () => console.log('[timer_emergency_stop]'),
         () => {
-            if(confirm(EMERG_STOP_WARNING)) {
-            document.getElementById("timer-display").trigger_emergency_stop();
-            document.getElementById("timer-display").trigger_countdown(10, null);
-            state_transition('timer_init');
-            }},
+            document.getElementById('c-modal').display_confirm(
+                EMERG_STOP_WARNING,
+                () => {
+                    document.getElementById("timer-display").trigger_emergency_stop();
+                    state_transition('timer_init');
+                },
+                () => { }
+            )
+        }
+        // if(confirm(EMERG_STOP_WARNING)) {
+        // document.getElementById("timer-display").trigger_emergency_stop();
+        // document.getElementById("timer-display").trigger_countdown(10, null);
+        // state_transition('timer_init');
+        // }},
     ],
     'functions_leave': [
     ],
 }
 
-timer_finished_early = {
-    'attatched_states': [],
-    'next_states': {
-        get timer_init() { return timer_init },
-        get timer_ringing() { return timer_ringing },
-        get timer_emergency_stop() { return timer_emergency_stop },
-    },
-    'functions_enter': [
-        () => console.log('[timer_finished_early]'),
-        () => { document.getElementById("early-prompt").style.display = 'initial'; },
-    ],
-    'functions_leave': [
-    ],
-}
+// timer_finished_early = {
+//     'attatched_states': [],
+//     'next_states': {
+//         get timer_init() { return timer_init },
+//         get timer_ringing() { return timer_ringing },
+//         get timer_emergency_stop() { return timer_emergency_stop },
+//     },
+//     'functions_enter': [
+//         () => console.log('[timer_finished_early]'),
+//         () => { document.getElementById("early-prompt").style.display = 'initial'; },
+//     ],
+//     'functions_leave': [
+//     ],
+// }
 
 timer_ringing = {
     'attatched_states': [],
@@ -163,7 +172,7 @@ timer_break_countdown = {
         () => { document.getElementById("overstudy-button").style.display = 'none'; },
         () => {
             // TODO: Get long/short break values from settings page
-            if(document.getElementById("timer-display").isLongBreak()) {
+            if (document.getElementById("timer-display").isLongBreak()) {
                 document.getElementById("timer-display").trigger_countdown(8, () => {
                     state_transition('timer_during_countdown');
                 });

@@ -78,6 +78,7 @@ function define_timer_display(html) {
         trigger_emergency_stop(){
             this.clear_countdown();
             num_pomos = 0;
+            this.timer_display.innerHTML = new Date(0 * 1000).toISOString().substr(14, 5)
         }
 
         ring(){
