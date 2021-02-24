@@ -13,66 +13,26 @@
 
 <body>
     <div class="background-img">
-        <main>
-            <div class="sidebar">
-                <a href="#">N/A</a>
-                <a href="#">N/A</a>
-                <a href="#">N/A</a>
+        <div class="sidebar">
+            <a href="#">N/A</a>
+            <a href="#">N/A</a>
+            <a href="#">N/A</a>       
+        </div>
+    <main class="main-page">
+        <div class="container">
+            <div class="timer">
+                <span id="minutes">25</span>
+                <span class="separator">:</span>
+                <span id="seconds">00</span>
             </div>
-            <div class="container">
-                <div class="timer">
-                    <span id="minutes">25</span>
-                    <span class="separator">:</span>
-                    <span id="seconds">00</span>
-                </div>
-            </div>
-            <div class="buttons">
-                <button class="start">Start</button>
-                <button class="finish">Finish</button>
-            </div>
-            <div class="task">
-                <span id="current-task">Task</span>
-            </div>
-
-
-            <div class="buttons">
-                <button class="taskList" id="openTaskList" onclick="openList()">Task List</button>
-            </div>
-
-            <div id="taskList" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeList()">&times;</a>
-                <a href="#">Task List</a>
-
-                <p style="color:white">Task name：</p>
-                <input id="taskNameInput" type="text">
-                <p style="color:white">Cycles needed：</p>
-                <input id="cyclesNumInput" type="number">
-
-                <button class="addtask" id="addtask" align="right" onclick="addTask()">Add new task</button>
-
-                <ul id="parentUl">
-                    <p align="left" style="color:white">Running：</p>
-                    <li id="running" style="color:white">
-                    </li>
-
-                    <p style="color:white">Pending：</p>
-                    <li id="pending" style="color:white">
-                    </li>
-
-                    <p style="color:white">Finished：</p>
-                    <li id="finished" style="color:white">
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-    </div>
-
-
-
-
+        </div>
+        <div class="buttons">
+            <button id="start">Start</button>
+            <button id="finish">Finish</button>
+        </div>
+        <div class="task">
+            <span id="current-task">Task</span>
+        </div>
     </main>
     </div>
     <footer>
