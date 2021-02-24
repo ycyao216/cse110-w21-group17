@@ -31,33 +31,32 @@ function define_timer_display(html) {
         trigger_countdown(seconds, callback_f) {
             if(callback_f !== null) {
                 this.countdown = {
-                    'timer': setInterval(() => this.update_countdown(), [seconds * 100]),
-                    'counter': seconds,
+                    'endTime': Date.now() + seconds * 1000,
+                    'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
                     get callback_f() {return callback_f}
                 }
             } else {
                 this.countdown = {
+                    'endTime': Date.now() + seconds * 100,
                     'timer': this.reset_countdown(),
-                    'counter': seconds,
                     get callback_f() {return callback_f}
                 }
             }
         }
 
         update_countdown() {
-            // update counter
-            this.countdown.counter--;
-
-            // update timer_display
-            this.timer_display.innerHTML = new Date(this.countdown.counter * 1000).toISOString().substr(14, 5)
+            let remaining_ms = this.countdown.endTime - Date.now();
 
             // stop the counter
-            if (this.countdown.counter == 0) {
+            if (remaining_ms < 0) {
                 var callback_f = this.countdown.callback_f;
                 this.clear_countdown();
                 callback_f();
+                return;
             }
 
+            // update timer_display
+            this.timer_display.innerHTML = new Date(Math.ceil(remaining_ms)).toISOString().substr(14, 5)
         }
 
         reset_countdown() {
