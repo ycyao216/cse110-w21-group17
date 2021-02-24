@@ -1,13 +1,18 @@
 <link rel="stylesheet" href="/css/task-list.css" />
 <div class="side-bar" id="side-bar">
-  <!-- Reference taken: https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp-->
   <h2 class="side-bar-header" id="task-list-header">Task list</h2>
-  <h3 class="side-bar-division" id="pending-list">Pending Tasks</h3>
 
+  <h3>Running Task:</h3>
+  <ul class="side-bar-division" id="running">
+
+  </ul>
+  <h3>Pending Tasks:</h3>
   <ul class="side-bar-division" id="pending">
-      <li>
-          <c-task-item></c-task-item>
-      </li>
+
+  </ul>
+  <h3>Finished Tasks:</h3>
+  <ul class='side-bar-division' id='finished'>
+
   </ul>
   <ul class="side-bar-division" id="finished"></ul>
 
@@ -15,5 +20,5 @@
   <button type="button" id="fold-button" onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">
     Extend
   </button>
-  <button type="button" id="add-task-button" onclick="add_task_to_pending(this)">+</button>
+  <button type="button" id="add-task-button">+</button>
 </div>
