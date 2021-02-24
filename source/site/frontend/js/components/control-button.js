@@ -1,3 +1,4 @@
+// TODO Ready For Testing
 function define_control_button(html) {
     class CControlButton extends HTMLElement {
         constructor() {

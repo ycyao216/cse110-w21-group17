@@ -9,7 +9,7 @@ var example_state = {
     'functions_leave': [],
 }
 
-
+// TODO Ready For Testing
 // State Utils
 function state_transition(to_state_string){
     from_state = window.current_state;
