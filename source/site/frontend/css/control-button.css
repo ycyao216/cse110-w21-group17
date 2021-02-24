@@ -1,4 +1,4 @@
-button {
+/* button {
   border: 2px solid black;
   margin: 20px 0px 20px;
   padding: 0px 12px;
@@ -9,4 +9,18 @@ button {
   font-weight: bold;
   width: 200px;
   background-color: rgba(230, 230, 230, 0.5);
+} */
+
+
+button {
+  background: cyan;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 30px;
+  margin: 5vh auto;
+  width: 20vh;
+  height: 8vh;
+  display: inline-block;
+  justify-content: center;
+  font-size: 2em;
 }

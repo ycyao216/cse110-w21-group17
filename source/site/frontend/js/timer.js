@@ -22,6 +22,11 @@ fetch("/html/components/time-picker.html")
     .then(stream => stream.text())
     .then(text => define_time_picker(text));
 
+// Modal Component
+fetch("/html/components/modal.html")
+    .then(stream => stream.text())
+    .then(text => define_modal(text));
+
 // Task List Component
 fetch("/html/components/task-list.html")
     .then(stream => stream.text())

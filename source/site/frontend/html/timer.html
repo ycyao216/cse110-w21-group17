@@ -10,6 +10,7 @@
   <body>
     <div class="background-img">
       <main>
+        <c-modal id="c-modal"></c-modal>
         <c-settings id="c-settings" style="display: none"></c-settings>
         <c-analysis id="c-analysis" style="display: none"></c-analysis>
         <c-task-list id="c-task-list" style="display: initial"></c-task-list>
@@ -20,13 +21,25 @@
           onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
           >Tasklist</c-control-button
         >
-        <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')"
+        <c-control-button
+          onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')"
           >Analysis</c-control-button
+        >
+        <c-control-button
+          onclick="document.getElementById('c-modal').display_alert('test alert')"
+          >alert</c-control-button
+        >
+        <c-control-button
+          onclick="document.getElementById('c-modal').display_confirm('test confirmation', () => {}, () => {})"
+          >confirm</c-control-button
         >
 
         <div class="container">
           <div id="timer-labels">
-            <p id="early-prompt">Great job! Don't start the next task yet, reflect on your current task!</p>
+            <p id="early-prompt">
+              Great job! Don't start the next task yet, reflect on your current
+              task!
+            </p>
             <p id="timer-label">Waiting</p>
           </div>
           <c-timer-display id="timer-display"></c-timer-display>
@@ -34,16 +47,19 @@
             <!-- <button class="control" id="start-button">Start</button> -->
             <c-control-button
               id="start-button"
+              class="start"
               onclick="state_transition('timer_during_countdown')"
               >Start</c-control-button
             >
             <c-control-button
               id="emergency-stop-button"
+              class="finish"
               onclick="state_transition('timer_emergency_stop')"
               >Emergency stop</c-control-button
             >
             <c-control-button
               id="overstudy-button"
+              class="finish"
               onclick="state_transition('timer_finished_early')"
               >Overstudy</c-control-button
             >
@@ -72,6 +88,7 @@
     <script src="/js/components/time-picker.js"></script>
     <script src="/js/components/timer-display.js"></script>
     <script src="/js/components/control-button.js"></script>
+    <script src="/js/components/modal.js"></script>
     <script src="/js/components/task-list.js"></script>
     <script src="/js/components/analysis.js"></script>
     <script src="/js/components/settings.js"></script>
