@@ -6,9 +6,10 @@ const TIME_UP = "00:00";
 const TIME_UP_SHORT_MSG = "Pomo is done! Now take a short break";
 const TIME_UP_LONG_MSG = "You have done 4 pomos! Good job! Now take a long break!";
 const TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
-const EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose this sessions!"
+const EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
 const OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
 
+var num_pomos = 0;
 
 function define_timer_display(html) {
     class CTimerDisplay extends HTMLElement {
@@ -28,10 +29,18 @@ function define_timer_display(html) {
         }
 
         trigger_countdown(seconds, callback_f) {
-            this.countdown = {
-                'timer': setInterval(() => this.update_countdown(), [seconds * 100]),
-                'counter': seconds,
-                get callback_f() {return callback_f}
+            if(callback_f !== null) {
+                this.countdown = {
+                    'timer': setInterval(() => this.update_countdown(), [seconds * 100]),
+                    'counter': seconds,
+                    get callback_f() {return callback_f}
+                }
+            } else {
+                this.countdown = {
+                    'timer': this.reset_countdown(),
+                    'counter': seconds,
+                    get callback_f() {return callback_f}
+                }
             }
         }
 
@@ -51,10 +60,19 @@ function define_timer_display(html) {
 
         }
 
+        reset_countdown() {
+            //reset to default value 
+            // TODO: Take default value from settings
+            this.countdown.counter = 10;
+
+            // update timer_display
+            this.timer_display.innerHTML = new Date(this.countdown.counter * 1000).toISOString().substr(14, 5)
+        }
+
         clear_countdown(){
             if (this.countdown !== null){
                 clearInterval(this.countdown.timer);
-                this.countdown = null;
+                //this.countdown = null;
             }
         }
 
@@ -66,6 +84,14 @@ function define_timer_display(html) {
         ring(){
             this.alarm_sound.volume = 0.2;
             console.log("The Timer is RINGING!");
+        }
+
+        incr_pomo(){
+            num_pomos++;
+        }
+
+        isLongBreak() {
+            return ((num_pomos % 4) == 0)
         }
 
 

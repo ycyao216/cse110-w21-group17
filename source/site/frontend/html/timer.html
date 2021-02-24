@@ -26,7 +26,7 @@
 
         <div class="container">
           <div id="timer-labels">
-            <p id="early-prompt"></p>
+            <p id="early-prompt">Great job! Don't start the next task yet, reflect on your current task!</p>
             <p id="timer-label">Waiting</p>
           </div>
           <c-timer-display id="timer-display"></c-timer-display>
@@ -44,7 +44,7 @@
             >
             <c-control-button
               id="overstudy-button"
-              onclick="alert(OVERSTUDY_MSG)"
+              onclick="state_transition('timer_finished_early')"
               >Overstudy</c-control-button
             >
           </div>

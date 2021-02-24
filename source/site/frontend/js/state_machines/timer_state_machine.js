@@ -19,6 +19,7 @@ timer_init = {
         () => { document.getElementById("start-button").style.display = 'initial'; },
         () => { document.getElementById("emergency-stop-button").style.display = 'none'; },
         () => { document.getElementById("overstudy-button").style.display = 'none'; },
+        () => { document.getElementById("early-prompt").style.display = 'none'; },
         () => { document.getElementById("timer-label").innerHTML = "Waiting"; },
     ],
     'functions_leave': [],
@@ -75,6 +76,7 @@ timer_during_countdown = {
     'next_states': {
         get timer_ringing() { return timer_ringing },
         get timer_emergency_stop() { return timer_emergency_stop },
+        get timer_finished_early() { return timer_finished_early },
     },
     'functions_enter': [
         () => console.log('[timer_during_countdown]'),
@@ -89,6 +91,7 @@ timer_during_countdown = {
         },
     ],
     'functions_leave': [
+        () => { document.getElementById("timer-display").incr_pomo(); },
     ],
 }
 
@@ -100,9 +103,12 @@ timer_emergency_stop = {
     },
     'functions_enter': [
         () => console.log('[timer_emergency_stop]'),
-        () => prompt("emergency_stop?") ?
-            document.getElementById("timer-display").trigger_emergency_stop() :
-            state_transition('timer_init'),
+        () => {
+            if(confirm(EMERG_STOP_WARNING)) {
+            document.getElementById("timer-display").trigger_emergency_stop();
+            document.getElementById("timer-display").trigger_countdown(10, null);
+            state_transition('timer_init');
+            }},
     ],
     'functions_leave': [
     ],
@@ -112,9 +118,12 @@ timer_finished_early = {
     'attatched_states': [],
     'next_states': {
         get timer_init() { return timer_init },
+        get timer_ringing() { return timer_ringing },
+        get timer_emergency_stop() { return timer_emergency_stop },
     },
     'functions_enter': [
         () => console.log('[timer_finished_early]'),
+        () => { document.getElementById("early-prompt").style.display = 'initial'; },
     ],
     'functions_leave': [
     ],
@@ -131,6 +140,7 @@ timer_ringing = {
         () => { document.getElementById("start-button").style.display = 'none'; },
         () => { document.getElementById("emergency-stop-button").style.display = 'initial'; },
         () => { document.getElementById("overstudy-button").style.display = 'none'; },
+        () => { document.getElementById("early-prompt").style.display = 'none'; },
         () => { document.getElementById("timer-label").innerHTML = "Ringing"; },
         () => { document.getElementById("timer-display").ring(); },
         () => { state_transition('timer_break_countdown'); }
@@ -144,23 +154,29 @@ timer_break_countdown = {
     'next_states': {
         get timer_init() { return timer_init },
         get timer_during_countdown() { return timer_during_countdown },
+        get timer_emergency_stop() { return timer_emergency_stop },
     },
     'functions_enter': [
         () => console.log('[timer_break_countdown]'),
         () => { document.getElementById("start-button").style.display = 'none'; },
         () => { document.getElementById("emergency-stop-button").style.display = 'initial'; },
         () => { document.getElementById("overstudy-button").style.display = 'none'; },
-        () => { document.getElementById("timer-label").innerHTML = "Break"; },
-        () => { document.getElementById("timer-display").ring(); },
         () => {
-            document.getElementById("timer-display").trigger_countdown(5, () => {
-                state_transition('timer_during_countdown');
-            });
+            // TODO: Get long/short break values from settings page
+            if(document.getElementById("timer-display").isLongBreak()) {
+                document.getElementById("timer-display").trigger_countdown(8, () => {
+                    state_transition('timer_during_countdown');
+                });
+                document.getElementById("timer-label").innerHTML = "Long Break";
+            } else {
+                document.getElementById("timer-display").trigger_countdown(5, () => {
+                    state_transition('timer_during_countdown');
+                });
+                document.getElementById("timer-label").innerHTML = "Short Break";
+            }
         }
     ],
     'functions_leave': [
+        () => { document.getElementById("timer-display").ring(); }
     ],
 }
-
-
-var num_pomos = 0;
