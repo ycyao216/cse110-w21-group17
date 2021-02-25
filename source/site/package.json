@@ -33,6 +33,7 @@
     "html-validate": "*",
     "stylelint": "*",
     "stylelint-config-standard": "*",
-    "jsdoc": "*"
+    "jsdoc": "*",
+    "babel-eslint": "*"
   }
 }

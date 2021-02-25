@@ -2,7 +2,9 @@ function define_modal(html) {
     class CModal extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
@@ -50,7 +52,7 @@ function define_modal(html) {
             this.modal_close_btn.style.display = "none";
             this.confirm_button.style.display = "none";
             this.cancel_button.style.display = "none";
-            
+
             this.func_cancel_button.call(this);
         }
 

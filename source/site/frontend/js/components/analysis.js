@@ -2,7 +2,9 @@ function define_analysis(html) {
     class CAnalysis extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;

@@ -15,7 +15,9 @@ function define_timer_display(html) {
     class CTimerDisplay extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
@@ -29,17 +31,21 @@ function define_timer_display(html) {
         }
 
         trigger_countdown(seconds, callback_f) {
-            if(callback_f !== null) {
+            if (callback_f !== null) {
                 this.countdown = {
                     'endTime': Date.now() + seconds * 1000,
                     'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
-                    get callback_f() {return callback_f}
+                    get callback_f() {
+                        return callback_f
+                    }
                 }
             } else {
                 this.countdown = {
                     'endTime': Date.now() + seconds * 100,
                     'timer': this.reset_countdown(),
-                    get callback_f() {return callback_f}
+                    get callback_f() {
+                        return callback_f
+                    }
                 }
             }
         }
@@ -63,7 +69,7 @@ function define_timer_display(html) {
             //reset to default value 
             // TODO: Take default value from settings
 
-            if (this.countdown !== null){
+            if (this.countdown !== null) {
                 clearInterval(this.countdown.timer);
                 let counter = 10;
 
@@ -74,17 +80,17 @@ function define_timer_display(html) {
             }
         }
 
-        trigger_emergency_stop(){
+        trigger_emergency_stop() {
             this.reset_countdown();
             num_pomos = 0;
         }
 
-        ring(){
+        ring() {
             this.alarm_sound.volume = 0.2;
             console.log("The Timer is RINGING!");
         }
 
-        incr_pomo(){
+        incr_pomo() {
             num_pomos++;
         }
 
