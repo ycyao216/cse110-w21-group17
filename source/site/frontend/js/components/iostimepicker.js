@@ -68,7 +68,10 @@ class iOSTimePicker {
             minute = time[1];
         }
 
-        return { hour, minute };
+        return {
+            hour,
+            minute
+        };
     }
 
     // Create TimePicker HTML structor
@@ -260,7 +263,9 @@ class iOSTimePicker {
         let segment = index >= selector.length ? selector.length - 1 : index;
 
         elem.scrollTo({
-            left: 0, top: segment * 30, behavior: 'smooth'
+            left: 0,
+            top: segment * 30,
+            behavior: 'smooth'
         });
 
         if (this.value[type] !== selector[segment].innerText) {

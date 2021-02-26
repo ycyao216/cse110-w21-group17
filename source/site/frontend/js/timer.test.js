@@ -1,4 +1,7 @@
-const {countdownElement,isLongBreak} = require('./main');
+const {
+    countdownElement,
+    isLongBreak
+} = require('./main');
 
 let testobj1 = document.createElement("p");
 testobj1.innerHTML = "25:00";

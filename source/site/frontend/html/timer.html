@@ -1,82 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/css/timer.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tortellini Timer!</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="background-img">
-      <main>
-        <c-modal id="c-modal"></c-modal>
-        <c-settings id="c-settings" style="display: none"></c-settings>
-        <c-analysis id="c-analysis" style="display: none"></c-analysis>
-        <c-task-list id="c-task-list" style="display: initial"></c-task-list>
-        <c-control-button onclick="state_transition('timer_open_settings')"
-          >Settings</c-control-button
-        >
-        <c-control-button
-          onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
-          >Tasklist</c-control-button
-        >
-        <c-control-button
-          onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')"
-          >Analysis</c-control-button
-        >
-        <c-control-button
-          onclick="document.getElementById('c-modal').display_alert('test alert')"
-          >alert</c-control-button
-        >
-        <c-control-button
-          onclick="document.getElementById('c-modal').display_confirm('test confirmation', () => {}, () => {})"
-          >confirm</c-control-button
-        >
+        <main>
+            <c-modal id="c-modal"></c-modal>
+            <c-settings id="c-settings" style="display: none"></c-settings>
+            <c-analysis id="c-analysis" style="display: none"></c-analysis>
+            <c-task-list id="c-task-list" style="display: initial"></c-task-list>
+            <c-control-button onclick="state_transition('timer_open_settings')">Settings</c-control-button>
+            <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">Tasklist</c-control-button>
+            <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')">Analysis</c-control-button>
+            <c-control-button onclick="document.getElementById('c-modal').display_alert('test alert')">Alert</c-control-button>
+            <c-control-button onclick="document.getElementById('c-modal').display_confirm('test confirmation', () => {}, () => {})">Confirm</c-control-button>
 
-        <div class="container">
-          <div id="timer-labels">
-            <p id="early-prompt">
-              Great job! Don't start the next task yet, reflect on your current
-              task!
-            </p>
-            <p id="timer-label">Waiting</p>
-          </div>
-          <c-timer-display id="timer-display"></c-timer-display>
-          <div class="control-buttons">
-            <!-- <button class="control" id="start-button">Start</button> -->
-            <c-control-button
-              id="start-button"
-              class="start"
-              onclick="state_transition('timer_during_countdown')"
-              >Start</c-control-button
-            >
-            <c-control-button
-              id="emergency-stop-button"
-              class="finish"
-              onclick="state_transition('timer_emergency_stop')"
-              >Emergency stop</c-control-button
-            >
-            <c-control-button
-              id="overstudy-button"
-              class="finish"
-              onclick="state_transition('timer_finished_early')"
-              >Overstudy</c-control-button
-            >
-          </div>
-          <div class="task">
-            <span id="current-task">Example Task</span>
-          </div>
-        </div>
+            <div class="container">
+                <div id="timer-labels">
+                    <p id="early-prompt">
+                        Great job! Don't start the next task yet, reflect on your current
+                        task!
+                    </p>
+                    <p id="timer-label">Waiting</p>
+                </div>
+                <c-timer-display id="timer-display"></c-timer-display>
+                <div class="control-buttons">
+                    <!-- <button class="control" id="start-button">Start</button> -->
+                    <c-control-button id="start-button" class="start" onclick="state_transition('timer_during_countdown')">Start</c-control-button>
+                    <c-control-button id="emergency-stop-button" class="finish" onclick="state_transition('timer_emergency_stop')">Emergency stop</c-control-button>
+                    <c-control-button id="overstudy-button" class="finish" onclick="document.getElementById('c-modal').display_alert(OVERSTUDY_MSG)">Overstudy</c-control-button>
+                </div>
+                <div class="task">
+                    <span id="current-task">Example Task</span>
+                </div>
+            </div>
 
-        <!-- should play when work and break cycles end
+            <!-- should play when work and break cycles end
         <audio id="alarm-sound" src="/assets/audio/spongebob-screaming-alarm-placeholder.mp3"></audio> -->
-      </main>
+        </main>
     </div>
     <footer>
-      <a href="https://github.com/ycyao216/cse110-w21-group17/wiki"
-        >Visit Team Tortellini@Github</a
-      >
+        <a href="https://github.com/ycyao216/cse110-w21-group17/wiki">Visit Team Tortellini@Github</a>
     </footer>
     <!-- moved the script import to after the site finsihed-->
 
@@ -94,10 +64,10 @@
     <script src="/js/components/settings.js"></script>
 
     <!-- This Page -->
-    <script src="/js/state_machines/timing_logic.js"></script>
     <script src="/js/state_machines/timer_state_machine.js"></script>
     <script src="/js/timer.js"></script>
     <!-- <script src="/js/task-bar-visual.js"></script>
     <script src="/js/taskList.js"></script> -->
-  </body>
+</body>
+
 </html>

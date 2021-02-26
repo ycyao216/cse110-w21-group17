@@ -15,7 +15,9 @@ function define_timer_display(html) {
     class CTimerDisplay extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
@@ -29,17 +31,21 @@ function define_timer_display(html) {
         }
 
         trigger_countdown(seconds, callback_f) {
-            if(callback_f !== null) {
+            if (callback_f !== null) {
                 this.countdown = {
                     'endTime': Date.now() + seconds * 1000,
                     'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
-                    get callback_f() {return callback_f}
+                    get callback_f() {
+                        return callback_f
+                    }
                 }
             } else {
                 this.countdown = {
                     'endTime': Date.now() + seconds * 100,
                     'timer': this.reset_countdown(),
-                    get callback_f() {return callback_f}
+                    get callback_f() {
+                        return callback_f
+                    }
                 }
             }
         }
@@ -50,7 +56,7 @@ function define_timer_display(html) {
             // stop the counter
             if (remaining_ms < 0) {
                 var callback_f = this.countdown.callback_f;
-                this.clear_countdown();
+                this.reset_countdown();
                 callback_f();
                 return;
             }
@@ -62,30 +68,29 @@ function define_timer_display(html) {
         reset_countdown() {
             //reset to default value 
             // TODO: Take default value from settings
-            this.countdown.counter = 10;
 
-            // update timer_display
-            this.timer_display.innerHTML = new Date(this.countdown.counter * 1000).toISOString().substr(14, 5)
-        }
-
-        clear_countdown(){
-            if (this.countdown !== null){
+            if (this.countdown !== null) {
                 clearInterval(this.countdown.timer);
-                //this.countdown = null;
+                let counter = 10;
+
+                // update timer_display
+                this.timer_display.innerHTML = new Date(counter * 1000).toISOString().substr(14, 5)
+
+                this.countdown = null;
             }
         }
 
-        trigger_emergency_stop(){
-            this.clear_countdown();
+        trigger_emergency_stop() {
+            this.reset_countdown();
             num_pomos = 0;
         }
 
-        ring(){
+        ring() {
             this.alarm_sound.volume = 0.2;
             console.log("The Timer is RINGING!");
         }
 
-        incr_pomo(){
+        incr_pomo() {
             num_pomos++;
         }
 

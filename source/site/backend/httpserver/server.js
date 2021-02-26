@@ -6,7 +6,7 @@ console.log(process.cwd()); // Should start at frontend folder
 
 var root_dir = process.cwd();
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.sendFile('html/timer.html', {
         root: "./"
     });

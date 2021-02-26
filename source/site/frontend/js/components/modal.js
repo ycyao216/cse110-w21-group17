@@ -2,7 +2,9 @@ function define_modal(html) {
     class CModal extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
@@ -10,12 +12,6 @@ function define_modal(html) {
             function _class(name) {
                 return document.querySelectorAll("." + name);
             }
-
-            // Use value in the custom tag to be the display text in the button
-            // document.getElementById('button').innerText = this.textContent
-
-            // Put you initialization code here
-            // some code
 
             // The modal elements
             this.modal = this.shadowRoot.getElementById("modal-popup");
@@ -47,7 +43,8 @@ function define_modal(html) {
             this.modal_close_btn.style.display = "none";
             this.confirm_button.style.display = "none";
             this.cancel_button.style.display = "none";
-            
+
+            this.func_confirm_button.call(this);
         }
 
         onclick_cancel_button = () => {
@@ -55,7 +52,8 @@ function define_modal(html) {
             this.modal_close_btn.style.display = "none";
             this.confirm_button.style.display = "none";
             this.cancel_button.style.display = "none";
-            
+
+            this.func_cancel_button.call(this);
         }
 
         display_alert = (text_to_show) => {

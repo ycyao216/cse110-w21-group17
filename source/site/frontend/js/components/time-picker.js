@@ -2,7 +2,9 @@ function define_time_picker(html) {
     class CTimepicker extends HTMLElement {
         constructor() {
             super();
-            var shadow = this.attachShadow({ mode: 'open' });
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
@@ -18,7 +20,7 @@ function define_time_picker(html) {
     customElements.define('c-time-picker', CTimepicker);
 }
 
-const IonRangeSlider = function (element, initOptions = {}) {
+const IonRangeSlider = function(element, initOptions = {}) {
     let input = element;
     let options = initOptions;
     let calc_count = 0;
@@ -330,7 +332,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     const disable_html =
         '<span class="irs-disable-mask"></span>';
 
-    const init = function (is_update) {
+    const init = function(is_update) {
         no_diapason = false;
         coords.p_step = convertToPercent(options.step, true);
 
@@ -361,7 +363,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Appends slider template to a DOM
      */
-    const append = function () {
+    const append = function() {
         const container_html = '<span class="irs irs--' + options.skin + ' ' + options.extra_classes + '"></span>';
         cache.input.insertAdjacentHTML('beforebegin', container_html);
         cache.input.setAttribute("readonly", "true");
@@ -431,7 +433,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Determine which handler has a priority (works only for double slider type)
      */
-    const setTopHandler = function () {
+    const setTopHandler = function() {
         const min = options.min,
             max = options.max,
             from = options.from,
@@ -449,7 +451,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param target {String}
      */
-    const changeLevel = function (target) {
+    const changeLevel = function(target) {
         switch (target) {
             case "single":
                 coords.p_gap = toFixed(coords.p_pointer - coords.p_single_fake);
@@ -477,7 +479,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Then slider is disabled -> append extra layer with opacity
      */
-    const appendDisableMask = function () {
+    const appendDisableMask = function() {
         cache.cont.insertAdjacentHTML('beforeend', disable_html);
         cache.cont.classList.add("irs-disabled");
     };
@@ -485,7 +487,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Then slider is not disabled -> remove disable mask
      */
-    const removeDisableMask = function () {
+    const removeDisableMask = function() {
         cache.cont.classList.remove(".irs-disable-mask");
         cache.cont.classList.remove("irs-disabled");
     };
@@ -493,7 +495,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Remove slider instance and unbind all events
      */
-    const remove = function () {
+    const remove = function() {
         cache.cont.remove();
         cache.cont = null;
 
@@ -515,7 +517,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * bind all slider events
      */
-    const bindEvents = function () {
+    const bindEvents = function() {
         if (no_diapason) {
             return;
         }
@@ -525,37 +527,65 @@ const IonRangeSlider = function (element, initOptions = {}) {
         cache.win.addEventListener('touchend', pointerUp.bind(this));
         cache.win.addEventListener('mouseup', pointerUp.bind(this));
 
-        cache.line.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
+        cache.line.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+            passive: true
+        });
         cache.line.addEventListener('mousedown', pointerClick.bind(this, 'click'));
         cache.line.addEventListener('focus', pointerFocus.bind(this));
 
         if (options.drag_interval && options.type === "double") {
-            cache.bar.addEventListener('touchstart', pointerDown.bind(this, 'both'), { passive: true });
+            cache.bar.addEventListener('touchstart', pointerDown.bind(this, 'both'), {
+                passive: true
+            });
             cache.bar.addEventListener('mousedown', pointerDown.bind(this, 'both'));
         } else {
-            cache.bar.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
+            cache.bar.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+                passive: true
+            });
             cache.bar.addEventListener('mousedown', pointerClick.bind(this, 'click'));
         }
 
         if (options.type === "single") {
-            cache.single.addEventListener('touchstart', pointerDown.bind(this, 'single'), { passive: true });
-            cache.s_single.addEventListener('touchstart', pointerDown.bind(this, 'single'), { passive: true });
-            cache.shad_single.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
+            cache.single.addEventListener('touchstart', pointerDown.bind(this, 'single'), {
+                passive: true
+            });
+            cache.s_single.addEventListener('touchstart', pointerDown.bind(this, 'single'), {
+                passive: true
+            });
+            cache.shad_single.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+                passive: true
+            });
 
             cache.single.addEventListener('mousedown', pointerDown.bind(this, 'single'));
             cache.s_single.addEventListener('mousedown', pointerDown.bind(this, 'single'));
             cache.edge.addEventListener('mousedown', pointerClick.bind(this, 'click'));
-            cache.shad_single.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
+            cache.shad_single.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+                passive: true
+            });
         } else {
-            cache.single.addEventListener('touchstart', pointerDown.bind(this, null), { passive: true });
+            cache.single.addEventListener('touchstart', pointerDown.bind(this, null), {
+                passive: true
+            });
             cache.single.addEventListener('mousedown', pointerDown.bind(this, null));
 
-            cache.from.addEventListener('touchstart', pointerDown.bind(this, 'from'), { passive: true });
-            cache.s_from.addEventListener('touchstart', pointerDown.bind(this, 'from'), { passive: true });
-            cache.to.addEventListener('touchstart', pointerDown.bind(this, 'to'), { passive: true });
-            cache.s_to.addEventListener('touchstart', pointerDown.bind(this, 'to'), { passive: true });
-            cache.shad_from.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
-            cache.shad_to.addEventListener('touchstart', pointerClick.bind(this, 'click'), { passive: true });
+            cache.from.addEventListener('touchstart', pointerDown.bind(this, 'from'), {
+                passive: true
+            });
+            cache.s_from.addEventListener('touchstart', pointerDown.bind(this, 'from'), {
+                passive: true
+            });
+            cache.to.addEventListener('touchstart', pointerDown.bind(this, 'to'), {
+                passive: true
+            });
+            cache.s_to.addEventListener('touchstart', pointerDown.bind(this, 'to'), {
+                passive: true
+            });
+            cache.shad_from.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+                passive: true
+            });
+            cache.shad_to.addEventListener('touchstart', pointerClick.bind(this, 'click'), {
+                passive: true
+            });
 
             cache.from.addEventListener('mousedown', pointerDown.bind(this, 'from'));
             cache.s_from.addEventListener('mousedown', pointerDown.bind(this, 'from'));
@@ -575,7 +605,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param e {Object} event object
      */
-    const pointerFocus = function (e) {
+    const pointerFocus = function(e) {
         if (!target) {
             let x, $handle;
 
@@ -587,7 +617,10 @@ const IonRangeSlider = function (element, initOptions = {}) {
 
             x = $handle.getBoundingClientRect().left;
             x += ($handle.getBoundingClientRect().width / 2) - 1;
-            pointerClick("single", { preventDefault: function () { }, pageX: x });
+            pointerClick("single", {
+                preventDefault: function() {},
+                pageX: x
+            });
         } else {
             cache.line.focus();
         }
@@ -598,7 +631,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param e {Object} event object
      */
-    const pointerMove = function (e) {
+    const pointerMove = function(e) {
         if (!dragging) {
             return;
         }
@@ -614,7 +647,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param e {Object} event object
      */
-    const pointerUp = function (e) {
+    const pointerUp = function(e) {
         if (is_active) {
             is_active = false;
         } else {
@@ -646,7 +679,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param destination {String|null}
      * @param e {Object} event object
      */
-    const pointerDown = function (destination, e) {
+    const pointerDown = function(destination, e) {
         e.preventDefault();
         const x = e.pageX || e.originalEvent.touches && e.originalEvent.touches[0].pageX; // TODO
         if (e.button === 2) {
@@ -684,7 +717,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param destination {String}
      * @param e {Object} event object
      */
-    const pointerClick = function (destination, e) {
+    const pointerClick = function(destination, e) {
         e.preventDefault();
         const x = e.pageX || e.originalEvent.touches && e.originalEvent.touches[0].pageX; // TODO
         if (e.button === 2) {
@@ -710,7 +743,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param e {Object} event object
      * @returns {boolean|undefined}
      */
-    const key = function (destination, e) {
+    const key = function(destination, e) {
         if (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) {
             return;
         }
@@ -739,7 +772,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param right {boolean} direction to move
      */
-    const moveByKey = function (right) {
+    const moveByKey = function(right) {
         let p = coords.p_pointer;
         const p_step = options.step / ((options.max - options.min) / 100);
 
@@ -754,7 +787,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * Set visibility and content
      * of Min and Max labels
      */
-    const setMinMax = function () {
+    const setMinMax = function() {
         if (!options) {
             return;
         }
@@ -787,7 +820,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * Then dragging interval, prevent interval collapsing
      * using min_interval option
      */
-    const setTempMinInterval = function () {
+    const setTempMinInterval = function() {
         const interval = result.to - result.from;
 
         if (old_min_interval === null) {
@@ -797,7 +830,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         options.min_interval = interval;
     };
 
-    const restoreOriginalMinInterval = function () {
+    const restoreOriginalMinInterval = function() {
         if (old_min_interval !== null) {
             options.min_interval = old_min_interval;
             old_min_interval = null;
@@ -812,7 +845,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      *
      * @param update {boolean=}
      */
-    const calc = function (update) {
+    const calc = function(update) {
         if (!options) {
             return;
         }
@@ -1011,7 +1044,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * calculates pointer X in percent
      */
-    const calcPointerPercent = function () {
+    const calcPointerPercent = function() {
         if (!coords.w_rs) {
             coords.p_pointer = 0;
             return;
@@ -1027,17 +1060,17 @@ const IonRangeSlider = function (element, initOptions = {}) {
     };
 
     // TODO refactor next 2 functions
-    const convertToRealPercent = function (fake) {
+    const convertToRealPercent = function(fake) {
         const full = 100 - coords.p_handle;
         return fake / full * 100;
     };
 
-    const convertToFakePercent = function (real) {
+    const convertToFakePercent = function(real) {
         const full = 100 - coords.p_handle;
         return real / 100 * full;
     };
 
-    const getHandleX = function () {
+    const getHandleX = function() {
         const max = 100 - coords.p_handle;
         let x = toFixed(coords.p_pointer - coords.p_gap);
 
@@ -1050,7 +1083,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return x;
     };
 
-    const calcHandlePercent = function () {
+    const calcHandlePercent = function() {
         if (options.type === "single") {
             coords.w_handle = cache.s_single.offsetWidth;
         } else {
@@ -1066,7 +1099,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param real_x {Number}
      * @returns {String}
      */
-    const chooseHandle = function (real_x) {
+    const chooseHandle = function(real_x) {
         if (options.type === "single") {
             return "single";
         } else {
@@ -1082,7 +1115,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Measure Min and Max labels width in percent
      */
-    const calcMinMax = function () {
+    const calcMinMax = function() {
         if (!coords.w_rs) {
             return;
         }
@@ -1094,7 +1127,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Measure labels width and X in percent
      */
-    const calcLabels = function () {
+    const calcLabels = function() {
         if (!coords.w_rs || options.hide_from_to) {
             return;
         }
@@ -1133,7 +1166,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * Main function called in request animation frame
      * to update everything
      */
-    const updateScene = function () {
+    const updateScene = function() {
         if (raf_id) {
             cancelAnimationFrame(raf_id);
             raf_id = null;
@@ -1158,7 +1191,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Draw handles
      */
-    const drawHandles = function () {
+    const drawHandles = function() {
         coords.w_rs = cache.rs.offsetWidth;
         if (!coords.w_rs) {
             return;
@@ -1253,7 +1286,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * measure labels collisions
      * collapse close labels
      */
-    const drawLabels = function () {
+    const drawLabels = function() {
         if (!options) {
             return;
         }
@@ -1374,7 +1407,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Draw shadow intervals
      */
-    const drawShadow = function () {
+    const drawShadow = function() {
         const o = options,
             c = cache,
 
@@ -1437,7 +1470,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     /**
      * Write values to input element
      */
-    const writeToInput = function () {
+    const writeToInput = function() {
         if (options.type === "single") {
             if (options.values.length) {
                 cache.input.setAttribute("value", result.from_value);
@@ -1458,7 +1491,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
 
     // Callbacks
 
-    const callOnStart = function () {
+    const callOnStart = function() {
         writeToInput();
 
         if (options.onStart && typeof options.onStart === "function") {
@@ -1469,7 +1502,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
             }
         }
     };
-    const callOnChange = function () {
+    const callOnChange = function() {
         writeToInput();
 
         if (options.onChange && typeof options.onChange === "function") {
@@ -1480,7 +1513,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
             }
         }
     };
-    const callOnFinish = function () {
+    const callOnFinish = function() {
         writeToInput();
 
         if (options.onFinish && typeof options.onFinish === "function") {
@@ -1491,7 +1524,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
             }
         }
     };
-    const callOnUpdate = function () {
+    const callOnUpdate = function() {
         writeToInput();
 
         if (options.onUpdate && typeof options.onUpdate === "function") {
@@ -1505,7 +1538,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
 
     // Service methods
 
-    const toggleInput = function () {
+    const toggleInput = function() {
         cache.input.classList.toggle("irs-hidden-input");
 
         if (has_tab_index) {
@@ -1524,7 +1557,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param no_min {boolean=} don't use min value
      * @returns {Number} X in percent
      */
-    const convertToPercent = function (value, no_min) {
+    const convertToPercent = function(value, no_min) {
         let diapason = options.max - options.min,
             one_percent = diapason / 100,
             val, percent;
@@ -1551,7 +1584,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param percent {Number} X in percent
      * @returns {Number} X in real
      */
-    const convertToValue = function (percent) {
+    const convertToValue = function(percent) {
         let min = options.min,
             max = options.max,
             min_decimals = min.toString().split(".")[1],
@@ -1620,7 +1653,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
      * @param percent {Number}
      * @returns percent {Number} rounded
      */
-    const calcWithStep = function (percent) {
+    const calcWithStep = function(percent) {
         let rounded = Math.round(percent / coords.p_step) * coords.p_step;
 
         if (rounded > 100) {
@@ -1633,8 +1666,9 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return toFixed(rounded);
     };
 
-    const checkMinInterval = function (p_current, p_next, type) {
-        let o = options, current, next;
+    const checkMinInterval = function(p_current, p_next, type) {
+        let o = options,
+            current, next;
 
         if (!o.min_interval) {
             return p_current;
@@ -1656,8 +1690,9 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return convertToPercent(current);
     };
 
-    const checkMaxInterval = function (p_current, p_next, type) {
-        let o = options, current, next;
+    const checkMaxInterval = function(p_current, p_next, type) {
+        let o = options,
+            current, next;
 
         if (!o.max_interval) {
             return p_current;
@@ -1679,7 +1714,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return convertToPercent(current);
     };
 
-    const checkDiapason = function (p_num, min, max) {
+    const checkDiapason = function(p_num, min, max) {
         let num = convertToValue(p_num);
 
         typeof min !== 'number' ? min = options.min : min;
@@ -1691,12 +1726,12 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return convertToPercent(num);
     };
 
-    const toFixed = function (num) {
+    const toFixed = function(num) {
         num = num.toFixed(20);
         return +num;
     };
 
-    const _prettify = function (num) {
+    const _prettify = function(num) {
         if (!options.prettify_enabled) {
             return num;
         }
@@ -1708,11 +1743,11 @@ const IonRangeSlider = function (element, initOptions = {}) {
         }
     };
 
-    const prettify = function (num) {
+    const prettify = function(num) {
         return num.toString().replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + options.prettify_separator);
     };
 
-    const checkEdges = function (left, width) {
+    const checkEdges = function(left, width) {
         if (!options.force_edges) return toFixed(left);
 
         left < 0 ? left = 0 : left > 100 - width ? left = 100 - width : left;
@@ -1720,7 +1755,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return toFixed(left);
     };
 
-    const validate = function () {
+    const validate = function() {
         let o = options,
             r = result,
             v = o.values,
@@ -1840,7 +1875,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         }
     };
 
-    const decorate = function (num, original) {
+    const decorate = function(num, original) {
         let decorated = "",
             o = options;
 
@@ -1871,7 +1906,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         return decorated;
     };
 
-    const updateFrom = function () {
+    const updateFrom = function() {
         result.from = options.from;
         result.from_percent = convertToPercent(result.from);
         result.from_pretty = _prettify(result.from);
@@ -1880,7 +1915,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         }
     };
 
-    const updateTo = function () {
+    const updateTo = function() {
         result.to = options.to;
         result.to_percent = convertToPercent(result.to);
         result.to_pretty = _prettify(result.to);
@@ -1889,7 +1924,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         }
     };
 
-    const updateResult = function () {
+    const updateResult = function() {
         result.min = options.min;
         result.max = options.max;
         updateFrom();
@@ -1898,7 +1933,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
 
     // Grid
 
-    const appendGrid = function () {
+    const appendGrid = function() {
         if (!options.grid) {
             return;
         }
@@ -1982,7 +2017,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         cacheGridLabels();
     };
 
-    const cacheGridLabels = function () {
+    const cacheGridLabels = function() {
         for (let i = 0; i < coords.big_num; i++) {
             cache.grid_labels.push(cache.grid.querySelector(".js-grid-text-" + i));
         }
@@ -1990,8 +2025,9 @@ const IonRangeSlider = function (element, initOptions = {}) {
         calcGridLabels();
     };
 
-    const calcGridLabels = function () {
-        const start = [], finish = [],
+    const calcGridLabels = function() {
+        const start = [],
+            finish = [],
             num = coords.big_num;
         for (let i = 0; i < num; i++) {
             coords.big_w[i] = cache.grid_labels[i].offsetWidth;
@@ -2031,7 +2067,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
 
     // Collisions Calc Beta
     // TODO: Refactor then have plenty of time
-    const calcGridCollision = function (step, start, finish) {
+    const calcGridCollision = function(step, start, finish) {
         const num = coords.big_num;
 
         for (let i = 0; i < num; i += step) {
@@ -2049,7 +2085,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         }
     };
 
-    const calcGridMargin = function () {
+    const calcGridMargin = function() {
         if (!options.grid_margin) {
             return;
         }
@@ -2072,7 +2108,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
     };
 
     // Public methods
-    const update = function (newOptions) {
+    const update = function(newOptions) {
         if (!input) {
             return;
         }
@@ -2093,7 +2129,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         init(true);
     };
 
-    const reset = function () {
+    const reset = function() {
         if (!input) {
             return;
         }
@@ -2102,7 +2138,7 @@ const IonRangeSlider = function (element, initOptions = {}) {
         update();
     };
 
-    const destroy = function () {
+    const destroy = function() {
         if (!input) {
             return;
         }
@@ -2116,16 +2152,16 @@ const IonRangeSlider = function (element, initOptions = {}) {
     }
 
     return {
-        update: function (options) {
+        update: function(options) {
             update(options);
         },
-        reset: function () {
+        reset: function() {
             reset();
         },
-        destroy: function () {
+        destroy: function() {
             destroy();
         },
-        init: function () {
+        init: function() {
             validate();
             init();
 
