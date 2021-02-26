@@ -101,4 +101,5 @@ function define_timer_display(html) {
 
     }
     customElements.define('c-timer-display', CTimerDisplay);
+    return CTimerDisplay;
 }

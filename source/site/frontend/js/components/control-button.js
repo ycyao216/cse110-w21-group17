@@ -19,4 +19,5 @@ function define_control_button(html) {
         }
     }
     customElements.define('c-control-button', CControlButton);
+    return CControlButton;
 }

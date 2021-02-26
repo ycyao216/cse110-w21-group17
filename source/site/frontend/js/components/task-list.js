@@ -70,9 +70,8 @@ function define_task_list(html) {
         }
     }
 
-    customElements.define("c-task-item", Task);
-    customElements.define("c-task-item-input", Task_input);
     customElements.define("c-task-list", CTaskList);
+    return CTaskList;
 }
 
 /* the Task component that displays a task */
