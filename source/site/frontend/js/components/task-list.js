@@ -1,5 +1,15 @@
+// These two arrays are used to recored the information of running and pending
 const task_description_arr = [];
 const task_estimation_arr = [];
+
+const task_finished_des = [];
+const task_finished_est = [];
+
+let current_task_description = "";
+let current_task_estimation = "";
+
+let edited_task_description = "";
+let edited_index = 0;
 
 function define_task_list(html) {
     class CTaskList extends HTMLElement {
@@ -31,32 +41,86 @@ function define_task_list(html) {
             /**
              * Move this task to differnt categories based on different conditions
              *
-             * @param {int} category - the senarios for moving tasks, 0 for from pending 
+             * @param {int} category - the senarios for moving tasks, 0 for from pending
              * to running, 1 for from running to finished
              */
             //NOTE: temporary. will change with seperation of data and display
             function move_task(category) {
                 let pending_tasks = document.getElementById(pending_id);
                 let running_task = document.getElementById(running_id);
+                change_information(category);
                 if (category === 0) {
                     // add second node of pending list, since white spaces count as nodes
+                    console.log(pending_tasks.childNodes[1].value);
                     document
                         .getElementById(running_id)
                         .appendChild(pending_tasks.childNodes[1]);
-                    pending_tasks.removeChild(pending_tasks.childNodes[1]);
-                } else if (category === 1) {
-                    if (running_task.length > 1) {
+
+                    //pending_tasks.removeChild(pending_tasks.childNodes[1]);
+                }
+                else if (category === 1) {
+                    if (running_task.childNodes.length > 0) {
                         document
                             .getElementById(finished_id)
                             .appendChild(running_task.childNodes[1]);
-                        running_task.removeChild(running_task.childNodes[1]);
+                        //running_task.removeChild(running_task.childNodes[1]);
                     }
                 }
+            }
+
+            /**
+             * Rupdate the information of the current running task
+             * return them to the timer
+             * @return {array} the first string is task_name,the second is task_estimate
+             */
+            function update_current_task(){
+              if(task_description_arr.length == 0){
+                return null;
+              }
+              current_task_description = task_description_arr[0];
+              current_task_estimation = task_estimation_arr[0];
+              var temp = [];
+              temp.push(current_task_description);
+              temp.push(current_task_estimation);
+            }
+
+            /**
+             * Change the information at <p> about current tast
+             * @param {int} category - the senarios for moving tasks, 0 for from pending
+             * to running, 1 for from running to finished
+             */
+            function change_information(category){
+              var infor = document.getElementById("curr_task_information");
+              if(category === 0){
+                update_current_task();
+                var temp = "current task is: " + current_task_description + ", cycles needed: " + current_task_estimation;
+                infor.innerHTML = temp;
+              }
+              else{
+                // recorded information of finished task
+                task_finished_des.push(current_task_description);
+                task_finished_est.push(current_task_estimation);
+                // recover the information of current task
+                current_task_estimation = "";
+                current_task_description = "";
+                // delete information from two arrays
+                task_finished_des.splice(0,1);
+                task_finished_est.splice(0,1);
+
+                //TODO
+                // get the the actual number of cycles and record them.
+
+                infor.innerHTML = "There is no task in running.";
+              }
+
             }
 
             document
                 .getElementById("add-task-button")
                 .addEventListener("click", add_task_to_pending);
+
+          document.getElementById("testMoving0").addEventListener("click", function(){move_task(0)});
+          document.getElementById("testMoving1").addEventListener("click", function(){move_task(1)});
         }
 
         enter_animate() {
@@ -130,6 +194,12 @@ class Task extends HTMLElement {
         function cancel_task(self) {
             let parent = self.parentNode;
             parent.removeChild(self);
+            // find the index of the canceled task in two arrays
+            let index = task_description_arr.indexOf(task_name);
+            // remove the information of canceled task from two arrays
+            task_description_arr.splice(index, 1);
+            task_estimation_arr.splice(index, 1);
+
         }
 
         /**
@@ -139,6 +209,10 @@ class Task extends HTMLElement {
          * @param {*} self - reference to the object to be editted
          */
         function edit_task(self) {
+            // record the information of edited task, those information will be
+            // used to update two arrays
+            edited_task_description = self.task_name;
+            edited_index = task_description_arr.indexOf(edited_task_description);
             let parent = self.parentNode;
             parent.insertBefore(new Task_input(), self);
             cancel_task(self);
@@ -201,9 +275,9 @@ class Task_input extends HTMLElement {
         root.appendChild(styling);
 
         /**
-         * Helper function that adds a task at the position of the task input box 
+         * Helper function that adds a task at the position of the task input box
          * when the confirm button is clicked.
-         * 
+         *
          * @param {*} self The reference to the task input box which the task
          * display is going to replace.
          */
@@ -213,7 +287,7 @@ class Task_input extends HTMLElement {
             let task_pomo_num = Number(task_pomo_est);
             let parent = self.parentNode;
             // if the user did not enter the task name
-            if (task_desc == null) {
+            if (task_desc == "") {
                 alert("Please input a task name");
                 return;
             }
@@ -224,11 +298,63 @@ class Task_input extends HTMLElement {
                 return;
             }
 
+            // if the user add the repeated task
+            if (task_description_arr.indexOf(task_desc) != -1) {
+                alert("This task has aleady been added to the task list");
+                return;
+            }
+
+            // if the function was called by edit_task(self)
+            if (edited_task_description != ""){
+              if (task_pomo_num > 4) {
+                  // recommaend splitting up into more task
+                  var r = confirm(
+                      "The task takes too many cycles. Do you want to split it into more tasks?"
+                  );
+                  if (r == true) {
+                      // calculate how many new sub tasks should be needed.
+                      var breakNum = task_pomo_num / 4;
+                      var rem = task_pomo_num % 4;
+                      var i = 1;
+
+                      for (i; i <= breakNum; i += 1) {
+                          var tempName = task_desc + " Part " + i;
+                          // record information of sub tasks to the global array
+                          task_description_arr.splice(edited_index + i - 1, 0, tempName);
+                          task_estimation_arr.splice(edited_index + i - 1, 0, 4);
+                          // add the i th sub task to the list
+                          parent.insertBefore(new Task(tempName, 4), self);
+                      }
+
+                      // handels the last task and assign remaining cycles to it
+                      if (rem != 0) {
+                          tempName = task_desc + " Part " + i;
+                          task_description_arr.splice(edited_index + i - 1, 0, tempName);
+                          task_estimation_arr.splice(edited_index + i - 1, 0, rem);
+                          parent.insertBefore(new Task(tempName, rem), self);
+                      }
+                  }
+              }
+
+              else{
+                // pushed the information to arrays at the correct index
+                task_description_arr.splice(edited_index, 0, task_desc);
+                task_estimation_arr.splice(edited_index, 0, task_pomo_num);
+                parent.insertBefore(new Task(task_desc, task_pomo_est), self);
+              }
+               // Remove this task-input component
+               parent.removeChild(self);
+               edited_task_description = "";
+               return;
+            }
+
             // if the task takes too many cycles, advice the user to break up the task
             if (task_pomo_num <= 4) {
                 // use insertbefore to allow creation of tasks at the original
                 // position of the task input boxes.
                 parent.insertBefore(new Task(task_desc, task_pomo_est), self);
+                task_description_arr.push(task_desc);
+                task_estimation_arr.push(task_pomo_est);
             }
 
             // if the task takes too many cycles, advice the user to break up the task
@@ -263,6 +389,7 @@ class Task_input extends HTMLElement {
             }
             // Remove this task-input component
             parent.removeChild(self);
+            edited_task_description = "";
         }
 
         /**
@@ -273,6 +400,8 @@ class Task_input extends HTMLElement {
             let parent = self.parentNode;
             parent.removeChild(self);
         }
+
+
 
         confirm_btn.addEventListener("click", () => confirm_task(this));
         cancel_btn.addEventListener("click", () => cancel_task(this));
