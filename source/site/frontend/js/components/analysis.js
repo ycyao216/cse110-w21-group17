@@ -18,4 +18,5 @@ function define_analysis(html) {
         }
     }
     customElements.define('c-analysis', CAnalysis);
+    return CAnalysis;
 }

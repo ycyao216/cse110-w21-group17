@@ -78,4 +78,10 @@ function define_modal(html) {
 
     }
     customElements.define('c-modal', CModal);
+    return CModal;
 }
+
+// for testing
+module.exports = {
+    define_modal
+};
