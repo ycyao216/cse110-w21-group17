@@ -13,14 +13,16 @@
 
 
 button {
-  background: cyan;
+  background: #a2adc3;
   box-sizing: border-box;
   border: 2px solid black;
+  opacity: .75;
   border-radius: 30px;
   margin: 5vh auto;
-  width: 20vh;
-  height: 8vh;
-  display: inline-block;
-  justify-content: center;
-  font-size: 2em;
+  width: 15vh;
+  height: 5vh;
+  display: center;
+  align-content: center;
+  justify-content: space-evenly;
+  font-size: 3vh;
 }

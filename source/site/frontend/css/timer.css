@@ -1,6 +1,6 @@
 html {
-  /* background: url("/assets/images/web-background.png") no-repeat center center fixed; */
-  background-color: grey;
+  background: url("/assets/images/web-background.png") no-repeat center center fixed;
+  background-color: #4a707a;
   background-size: cover;
 }
 
@@ -32,10 +32,19 @@ footer {
 }
 
 #early-prompt {
+
 }
 
 #timer-label {
+  text-align: center;
+  font-size: 30px;
+  color: whitesmoke;
 }
+
+.control-buttons {
+  display: inline;
+}
+
 .task {
   border: 2px solid black;
   margin: 40px 0px 20px;
