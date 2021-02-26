@@ -18,7 +18,6 @@ button {
   opacity: .75;
   border-radius: 30px;
   margin: 5vh auto;
-<<<<<<< HEAD
   width: 15vh;
   height: 5vh;
   display: center;
@@ -26,11 +25,3 @@ button {
   justify-content: space-evenly;
   font-size: 3vh;
 }
-=======
-  width: 20vh;
-  height: 8vh;
-  display: inline-block;
-  justify-content: center;
-  font-size: 2em;
-}
->>>>>>> b97cb112539d266ca3919858429b3821dbe1f789
