@@ -17,11 +17,13 @@ button {
   border: 2px solid black;
   opacity: .75;
   border-radius: 30px;
-  margin: 5vh auto;
+  margin: 5vh .5vh 5vh .5vh;
   width: 15vh;
   height: 5vh;
-  display: center;
-  align-content: center;
-  justify-content: space-evenly;
   font-size: 3vh;
+}
+
+button:hover {
+  background: #cbd1dd;
+  opacity: .5;
 }
