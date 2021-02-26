@@ -36,4 +36,5 @@ function define_settings(html) {
         }
     }
     customElements.define('c-settings', CSettings);
+    return CSettings;
 }

@@ -94,7 +94,7 @@ function define_incdecinput(parent) {
                     _this.render();
                 });
         };
-    }
+    };
 
     // init
     var controls = new ctrls();
