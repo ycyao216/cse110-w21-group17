@@ -1,5 +1,5 @@
 // TODO Ready For Testing
-function define_incdecinput(parent) {
+export function define_incdecinput(parent) {
     'use strict';
     let document = parent;
 

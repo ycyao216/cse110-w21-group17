@@ -1,4 +1,4 @@
-function define_control_button(html) {
+export function define_control_button(html) {
     class CControlButton extends HTMLElement {
         constructor() {
             super();
@@ -23,7 +23,7 @@ function define_control_button(html) {
 }
 
 
-function pop_task_element(ele) {
+export function pop_task_element(ele) {
     let document = ele.getRootNode();
     // Do whatever you like with the document(which is the shadow root\)
 }

@@ -1,4 +1,4 @@
-function define_analysis(html) {
+export function define_analysis(html) {
     class CAnalysis extends HTMLElement {
         constructor() {
             super();

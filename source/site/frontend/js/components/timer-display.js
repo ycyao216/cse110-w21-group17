@@ -1,17 +1,6 @@
 /** Messages to display to the user */
-const WORK_TIME = "00:10";
-const SHORT_BREAK = "00:03";
-const LONG_BREAK = "00:04";
-const TIME_UP = "00:00";
-const TIME_UP_SHORT_MSG = "Pomo is done! Now take a short break";
-const TIME_UP_LONG_MSG = "You have done 4 pomos! Good job! Now take a long break!";
-const TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
-const EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
-const OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
 
-var num_pomos = 0;
-
-function define_timer_display(html) {
+export function define_timer_display(html) {
     class CTimerDisplay extends HTMLElement {
         constructor() {
             super();

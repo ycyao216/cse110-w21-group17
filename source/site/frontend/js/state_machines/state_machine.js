@@ -11,10 +11,11 @@ var example_state = {
 
 // TODO Ready For Testing
 // State Utils
-function state_transition(to_state_string) {
-    from_state = window.current_state;
+export function state_transition(to_state_string) {
+    let from_state = window.current_state;
     // Obtain next state
-    to_state = from_state.next_states[to_state_string]
+    let to_state = from_state.next_states[to_state_string]
+    
     if (to_state == null) {
         console.error('invalid state trainsition detected!!');
         return from_state
@@ -34,7 +35,7 @@ function state_transition(to_state_string) {
     return to_state;
 }
 
-function force_state(to_state) {
+export function force_state(to_state) {
     window.current_state = to_state;
     to_state.functions_enter.forEach(f => f.call(this));
     return to_state;

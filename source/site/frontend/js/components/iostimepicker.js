@@ -18,7 +18,7 @@ function define_iostimepicker(parent) {
     });
 }
 
-class iOSTimePicker {
+export class iOSTimePicker {
     constructor(elem, options, shadowroot) {
         this.parent = elem.parentNode;
         this.shadowroot = shadowroot;

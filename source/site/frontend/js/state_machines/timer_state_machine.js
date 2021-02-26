@@ -1,9 +1,13 @@
 // Top Level State Machine For Timer.html 
 
-var timer_init;
-var timer_open_settings;
-var timer_toggle_task_list;
-var timer_ringing;
+export var timer_init;
+export var timer_open_settings;
+export var timer_toggle_task_list;
+export var timer_ringing;
+export var timer_open_analysis;
+export var timer_during_countdown;
+export var timer_break_countdown;
+export var timer_emergency_stop;
 
 // init page when user enters website
 timer_init = {
