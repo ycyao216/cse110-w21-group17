@@ -1,4 +1,4 @@
-function define_time_picker(html) {
+export function define_time_picker(html) {
     class CTimepicker extends HTMLElement {
         constructor() {
             super();

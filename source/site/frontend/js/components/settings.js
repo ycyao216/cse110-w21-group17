@@ -1,4 +1,6 @@
-function define_settings(html) {
+import { define_incdecinput } from './incdecinput.js';
+
+export function define_settings(html) {
     class CSettings extends HTMLElement {
         constructor() {
             super();

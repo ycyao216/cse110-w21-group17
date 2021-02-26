@@ -1,10 +1,8 @@
-const {
-    define_modal
-} = require('./modal');
-var fs = require('fs');
+import { define_modal } from './modal';
+import { readFileSync } from 'fs';
 
 // read component html
-var text = fs.readFileSync("frontend/html/components/modal.html", 'utf8');
+var text = readFileSync("frontend/html/components/modal.html", 'utf8');
 
 // component class
 let CModal = define_modal(text)
