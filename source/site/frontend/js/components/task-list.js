@@ -1,3 +1,18 @@
+// These two arrays are used to recored the information of running and pending
+const task_description_arr = [];
+const task_estimation_arr = [];
+
+const task_finished_des = [];
+const task_finished_est = [];
+
+let current_task_description = "";
+let current_task_estimation = "";
+
+let edited_task_description = "";
+let edited_index = 0;
+
+import {Task_data, Task_list_data} from './task-list-data.js';
+
 export function define_task_list(html) {
     class CTaskList extends HTMLElement {
         constructor() {
@@ -5,6 +20,7 @@ export function define_task_list(html) {
             const pending_id = "pending";
             const running_id = "running";
             const finished_id = "finished";
+            this.task_list = new Task_list_data();
 
             var shadow = this.attachShadow({
                 mode: "open"
@@ -22,37 +38,7 @@ export function define_task_list(html) {
              */
             function add_task_to_pending() {
                 let task_list = document.getElementById("pending");
-                task_list.appendChild(new Task_input());
-            }
-
-            /**
-             * Move this task to differnt categories based on different conditions
-             *
-             * @param {int} category - the senarios for moving tasks, 0 for from pending
-             * to running, 1 for from running to finished
-             */
-            //NOTE: temporary. will change with seperation of data and display
-            function move_task(category) {
-                let pending_tasks = document.getElementById(pending_id);
-                let running_task = document.getElementById(running_id);
-                change_information(category);
-                if (category === 0) {
-                    // add second node of pending list, since white spaces count as nodes
-                    console.log(pending_tasks.childNodes[1].value);
-                    document
-                        .getElementById(running_id)
-                        .appendChild(pending_tasks.childNodes[1]);
-
-                    //pending_tasks.removeChild(pending_tasks.childNodes[1]);
-                }
-                else if (category === 1) {
-                    if (running_task.childNodes.length > 0) {
-                        document
-                            .getElementById(finished_id)
-                            .appendChild(running_task.childNodes[1]);
-                        //running_task.removeChild(running_task.childNodes[1]);
-                    }
-                }
+                task_list.insertBefore(new Task_input(),document.getElementById('add-task-button'));
             }
 
             /**
@@ -106,8 +92,8 @@ export function define_task_list(html) {
                 .getElementById("add-task-button")
                 .addEventListener("click", add_task_to_pending);
 
-            document.getElementById("testMoving0").addEventListener("click", function () { move_task(0) });
-            document.getElementById("testMoving1").addEventListener("click", function () { move_task(1) });
+            document.getElementById("testMoving0").addEventListener("click", function () { change_information(0) });
+            document.getElementById("testMoving1").addEventListener("click", function () { change_information(1) });
         }
 
         enter_animate() {
@@ -133,10 +119,13 @@ export function define_task_list(html) {
             //TODO: Seperate data store with data display
             this.task_name = task_name;
             this.estimated_pomo = estimated_pomo;
+            this.editing = false;
+            let pomo_done = 0;
+            let actual_pomo = 0;
             // styling component
             let styling = document.createElement("link");
             styling.setAttribute("rel", "stylesheet");
-            styling.setAttribute("href", "/css/task-list.css");
+            styling.setAttribute("href", "/css/task-item.css");
             // shadow dom root
             let root = this.attachShadow({
                 mode: "open"
@@ -150,6 +139,16 @@ export function define_task_list(html) {
             // time estimation component
             let task_estimate = document.createElement("p");
             task_estimate.setAttribute("class", "pomo-counter");
+            //
+            let task_desc_in = document.createElement("input");
+            task_desc_in.setAttribute("class", "task");
+            task_desc_in.setAttribute("type", "text");
+            task_desc_in.style.display = 'none';
+            // input for task pomo estimation, treat input as string
+            let task_estimate_in = document.createElement("input");
+            task_estimate_in.setAttribute("type", "number");
+            task_estimate_in.setAttribute("class", "pomo-counter");
+            task_estimate_in.style.display ='none';
             // Cancel button that removes a task
             let task_cancel_btn = document.createElement("button");
             task_cancel_btn.innerHTML = "x";
@@ -158,16 +157,31 @@ export function define_task_list(html) {
             let task_edit_btn = document.createElement("button");
             task_edit_btn.innerHTML = "e";
             task_edit_btn.setAttribute("class", "pomo-edit-btn");
+
+            let up_button = document.createElement("button");
+            up_button.innerHTML = "^";
+            up_button.setAttribute("class", "order-btn");
+
+            let down_button = document.createElement("button");
+            down_button.innerHTML = "v";
+            down_button.setAttribute("class", "order-btn");
+
+            let order_button_container = document.createElement('div');
+            order_button_container.setAttribute('class','order-btn-container');
             // Setup display
             task_desc.innerHTML = this.task_name;
             task_estimate.innerHTML = this.estimated_pomo;
 
+            root.appendChild(styling);
             task_container.appendChild(task_desc);
             task_container.appendChild(task_estimate);
+            task_container.appendChild(task_desc_in);
+            task_container.appendChild(task_estimate_in);
             task_container.appendChild(task_cancel_btn);
-            task_container.appendChild(task_edit_btn);
+            order_button_container.appendChild(up_button);
+            order_button_container.appendChild(down_button);
+            task_container.append(order_button_container);
             root.appendChild(task_container);
-            root.appendChild(styling);
 
             /**
              * This funciton removes a component. Should be only used for removing
@@ -183,7 +197,6 @@ export function define_task_list(html) {
                 // remove the information of canceled task from two arrays
                 task_description_arr.splice(index, 1);
                 task_estimation_arr.splice(index, 1);
-
             }
 
             /**
@@ -202,8 +215,34 @@ export function define_task_list(html) {
                 cancel_task(self);
             }
 
+            function finish_task(){
+                actual_pomo = pomo_done;
+
+            }
+
+            /**
+             * Move the current task up or down the task list 
+             * @param {*} self Reference to the current task
+             * @param {*} direction Direction of movement: 0 for up, 1 for down
+             */
+            function move(self,direction){
+                let parent = self.parentNode;
+                if (direction === 0){
+                    if (self.previousSibling !== 'H3'){
+                        parent.insertBefore(self,self.previousSibling);
+                    }
+                }
+                else if (direction === 1){
+                    if (self.nextElementSibling !== null){
+                        parent.insertBefore(self.nextElementSibling,self);
+                    }
+                }
+            }
+
             task_cancel_btn.addEventListener("click", (_) => cancel_task(this));
             task_edit_btn.addEventListener("click", (_) => edit_task(this));
+            up_button.addEventListener('click',() => move(this,0));
+            down_button.addEventListener('click',() => move(this,1));
         }
     }
 
@@ -218,42 +257,40 @@ export function define_task_list(html) {
             // styling component
             let styling = document.createElement("link");
             styling.setAttribute("rel", "stylesheet");
-            styling.setAttribute("href", "/css/task-list.css");
+            styling.setAttribute("href", "/css/task-item.css");
             // shadow dom root
             let root = this.attachShadow({
                 mode: "open"
             });
             // outter container for input boxes and buttons
             let task_input_container = document.createElement("div");
-            task_input_container.setAttribute("class", "task-input-container");
+            task_input_container.setAttribute("class", "task-container");
             // input for task description
             let task_desc_in = document.createElement("input");
-            task_desc_in.setAttribute("class", "task-input");
+            task_desc_in.setAttribute("class", "task");
             task_desc_in.setAttribute("type", "text");
             // input for task pomo estimation, treat input as string
             let task_estimate_in = document.createElement("input");
             task_estimate_in.setAttribute("type", "number");
-            task_estimate_in.setAttribute("class", "pomo-counter-input");
+            task_estimate_in.setAttribute("class", "pomo-counter");
             // confirm button that addes a task when clicked
             let confirm_btn = document.createElement("button");
-            confirm_btn.setAttribute("class", "task-confirm-btn");
+            confirm_btn.setAttribute("class", "pomo-edit-btn");
             // Hard coded for now
             confirm_btn.innerHTML = "Confirm";
             // cancel button that stops task creation
             let cancel_btn = document.createElement("button");
-            cancel_btn.setAttribute("class", "task-cancel-btn");
+            cancel_btn.setAttribute("class", "pomo-cancel-btn");
             // Hard coded for now
             cancel_btn.innerHTML = "Cancel";
             // container for the two buttons
             let confirm_btn_container = document.createElement("div");
             confirm_btn_container.setAttribute("class", "task-input-btn-container");
 
-            confirm_btn_container.appendChild(confirm_btn);
-            confirm_btn_container.appendChild(cancel_btn);
-
             task_input_container.appendChild(task_desc_in);
             task_input_container.appendChild(task_estimate_in);
-            task_input_container.appendChild(confirm_btn_container);
+            task_input_container.appendChild(confirm_btn);
+            task_input_container.appendChild(cancel_btn);
 
             root.appendChild(task_input_container);
             root.appendChild(styling);
