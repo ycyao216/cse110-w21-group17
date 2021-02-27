@@ -20,7 +20,8 @@ export function define_task_list(html) {
             const pending_id = "pending";
             const running_id = "running";
             const finished_id = "finished";
-            this.task_list = new Task_list_data();
+
+            let current_task = null;
 
             var shadow = this.attachShadow({
                 mode: "open"
@@ -42,11 +43,27 @@ export function define_task_list(html) {
             }
 
             /**
-             * Rupdate the information of the current running task
-             * return them to the timer
+             * Update the information of the task list when the timer finishes
+             * return the information of the next current task.
              * @return {array} the first string is task_name,the second is task_estimate
              */
             function update_current_task() {
+                let first_pending = document.getElementById('pending').childNodes[0];
+                while (first_pending.nodeType === 3){
+                    first_pending = first_pending.nextSibling;
+                }
+
+                if (current_task !== null){
+                    document.getElementById('running').removeChild(current_task);
+                    document.getElementById('finished').appendChild(current_task);
+                }
+                current_task = null;
+                if (first_pending.nodeName !== 'BUTTON'){
+                    current_task = first_pending;
+                    document.getElementById('running').appendChild(current_task);
+                }
+
+                
                 if (task_description_arr.length == 0) {
                     return null;
                 }
@@ -55,7 +72,9 @@ export function define_task_list(html) {
                 var temp = [];
                 temp.push(current_task_description);
                 temp.push(current_task_estimation);
+                return temp;
             }
+
 
             /**
              * Change the information at <p> about current tast
@@ -92,7 +111,7 @@ export function define_task_list(html) {
                 .getElementById("add-task-button")
                 .addEventListener("click", add_task_to_pending);
 
-            document.getElementById("testMoving0").addEventListener("click", function () { change_information(0) });
+            document.getElementById("testMoving0").addEventListener("click", function () { update_current_task() });
             document.getElementById("testMoving1").addEventListener("click", function () { change_information(1) });
         }
 
