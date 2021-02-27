@@ -49,14 +49,18 @@ export function define_task_list(html) {
              */
             function update_current_task() {
                 let first_pending = document.getElementById('pending').childNodes[0];
+                // while loop to ignore the empty textNodes 
                 while (first_pending.nodeType === 3){
                     first_pending = first_pending.nextSibling;
                 }
 
                 if (current_task !== null){
                     document.getElementById('running').removeChild(current_task);
+                    //NOTE: Currently not functional
+                    current_task.finish_task(3);
                     document.getElementById('finished').appendChild(current_task);
                 }
+                // Set current_task to null to prevent empty pending list
                 current_task = null;
                 if (first_pending.nodeName !== 'BUTTON'){
                     current_task = first_pending;
@@ -138,9 +142,7 @@ export function define_task_list(html) {
             //TODO: Seperate data store with data display
             this.task_name = task_name;
             this.estimated_pomo = estimated_pomo;
-            this.editing = false;
-            let pomo_done = 0;
-            let actual_pomo = 0;
+            this.actual_pomo = 0;
             // styling component
             let styling = document.createElement("link");
             styling.setAttribute("rel", "stylesheet");
@@ -158,16 +160,6 @@ export function define_task_list(html) {
             // time estimation component
             let task_estimate = document.createElement("p");
             task_estimate.setAttribute("class", "pomo-counter");
-            //
-            let task_desc_in = document.createElement("input");
-            task_desc_in.setAttribute("class", "task");
-            task_desc_in.setAttribute("type", "text");
-            task_desc_in.style.display = 'none';
-            // input for task pomo estimation, treat input as string
-            let task_estimate_in = document.createElement("input");
-            task_estimate_in.setAttribute("type", "number");
-            task_estimate_in.setAttribute("class", "pomo-counter");
-            task_estimate_in.style.display ='none';
             // Cancel button that removes a task
             let task_cancel_btn = document.createElement("button");
             task_cancel_btn.innerHTML = "x";
@@ -176,16 +168,20 @@ export function define_task_list(html) {
             let task_edit_btn = document.createElement("button");
             task_edit_btn.innerHTML = "e";
             task_edit_btn.setAttribute("class", "pomo-edit-btn");
-
+            // Button to move a task up
             let up_button = document.createElement("button");
             up_button.innerHTML = "^";
             up_button.setAttribute("class", "order-btn");
-
+            //Button to move a task down
             let down_button = document.createElement("button");
             down_button.innerHTML = "v";
             down_button.setAttribute("class", "order-btn");
+            // Display of actual pomodoro sessions. Not displayed by default
+            let actaul_pomo = document.createElement('p');
+            actaul_pomo.setAttribute('class','pomo-counter');
+            actaul_pomo.style.display = 'none';
 
-            let order_button_container = document.createElement('div');
+            var order_button_container = document.createElement('div');
             order_button_container.setAttribute('class','order-btn-container');
             // Setup display
             task_desc.innerHTML = this.task_name;
@@ -194,11 +190,11 @@ export function define_task_list(html) {
             root.appendChild(styling);
             task_container.appendChild(task_desc);
             task_container.appendChild(task_estimate);
-            task_container.appendChild(task_desc_in);
-            task_container.appendChild(task_estimate_in);
-            task_container.appendChild(task_cancel_btn);
+            order_button_container.appendChild(task_cancel_btn);
+            order_button_container.appendChild(task_edit_btn);
             order_button_container.appendChild(up_button);
             order_button_container.appendChild(down_button);
+            order_button_container.appendChild(actaul_pomo);
             task_container.append(order_button_container);
             root.appendChild(task_container);
 
@@ -234,11 +230,6 @@ export function define_task_list(html) {
                 cancel_task(self);
             }
 
-            function finish_task(){
-                actual_pomo = pomo_done;
-
-            }
-
             /**
              * Move the current task up or down the task list 
              * @param {*} self Reference to the current task
@@ -257,12 +248,29 @@ export function define_task_list(html) {
                     }
                 }
             }
+            
+            /**
+             * Toggle the display of the task to be (naem,est,actual). Also
+             * assign the display value of actual pomodoro sessions.
+             * @param {*} finish_pomo The number of actual pomodoro sessions
+             * taken by this task.
+             */
+            //TODO: fix the undefined instance variables
+            var finish_task = function(finish_pomo){
+                // set all the other buttons to not display
+                for (let children in order_button_container.childNodes){
+                    children.style.display = 'none';
+                }
+                // set the actual pomodoro display.
+                actual_pomo.style.display = 'initial';
+                actual_pomo.innerHTML = finish_pomo;
+            }
 
             task_cancel_btn.addEventListener("click", (_) => cancel_task(this));
             task_edit_btn.addEventListener("click", (_) => edit_task(this));
             up_button.addEventListener('click',() => move(this,0));
             down_button.addEventListener('click',() => move(this,1));
-        }
+        };
     }
 
     /**
