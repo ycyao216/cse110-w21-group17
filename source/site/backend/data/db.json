@@ -1,7 +1,12 @@
 {
-    "user": [],
-    "last_state":{
-        
+    "userid":{
+        "testuser@gmail.com": "1e250968-7a1b-11eb-9439-0242ac130002"
+    },
+    "userdata": {
+        "1e250968-7a1b-11eb-9439-0242ac130002":{
+            "last_login": "",
+            "last_state": "timer_init",
+            "task_list": {}
+        }
     }
-
 }
