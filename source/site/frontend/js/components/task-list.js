@@ -39,7 +39,7 @@ export function define_task_list(html) {
              */
             function add_task_to_pending() {
                 let task_list = document.getElementById(pending_id);
-                task_list.insertBefore(new Task_input(window.task_list.length),document.getElementById('add-task-button'));
+                task_list.insertBefore(new Task_input(window.task_list.length,null),document.getElementById('add-task-button'));
             }
 
             /**
@@ -144,9 +144,10 @@ export function define_task_list(html) {
             this.task_name = data.desc;
             this.estimated_pomo = data.est;
             this.actual_pomo = 0;
+            this.uid = data.UID;
+            this.list_index = data.index;
             // styling component
             let styling = document.createElement("link");
-            this.uid = data.UID;
             //styling element
             styling.setAttribute("rel", "stylesheet");
             styling.setAttribute("href", "/css/task-item.css");
@@ -209,14 +210,15 @@ export function define_task_list(html) {
              *
              * @param {*} self the  reference to a Task object to be removed
              */
-            function cancel_task(self) {
+            function remove_task(self) {
                 let parent = self.parentNode;
                 parent.removeChild(self);
-                // find the index of the canceled task in two arrays
-                let index = task_description_arr.indexOf(task_name);
-                // remove the information of canceled task from two arrays
-                task_description_arr.splice(index, 1);
-                task_estimation_arr.splice(index, 1);
+                window.task_list.remove(data.UID);
+                // // find the index of the canceled task in two arrays
+                // let index = task_description_arr.indexOf(task_name);
+                // // remove the information of canceled task from two arrays
+                // task_description_arr.splice(index, 1);
+                // task_estimation_arr.splice(index, 1);
             }
 
             /**
@@ -228,11 +230,9 @@ export function define_task_list(html) {
             function edit_task(self) {
                 // record the information of edited task, those information will be
                 // used to update two arrays
-                edited_task_description = self.task_name;
-                edited_index = task_description_arr.indexOf(edited_task_description);
                 let parent = self.parentNode;
-                parent.insertBefore(new Task_input(), self);
-                cancel_task(self);
+                parent.insertBefore(new Task_input(data.index, data, true), self);
+                remove_task(self);
             }
 
             /**
@@ -254,7 +254,7 @@ export function define_task_list(html) {
                 }
             }
             
-            task_cancel_btn.addEventListener("click", (_) => cancel_task(this));
+            task_cancel_btn.addEventListener("click", (_) => remove_task(this));
             task_edit_btn.addEventListener("click", (_) => edit_task(this));
             up_button.addEventListener('click',() => move(this,0));
             down_button.addEventListener('click',() => move(this,1));
@@ -282,7 +282,7 @@ export function define_task_list(html) {
      * The task input prompt that allows the user to input for the task
      */
     class Task_input extends HTMLElement {
-        constructor(index) {
+        constructor(index,caller,editing) {
             super();
             let task_description = "";
             let task_pomo_estimation = "";
@@ -366,7 +366,7 @@ export function define_task_list(html) {
                         for (var i = 1; i <= breakNum; i += 1) {
                             var tempName = task_desc + " Part " + i;
                             // add the i th sub task to the list
-                            let new_task_data = new Task_data(tempName,4);
+                            let new_task_data = new Task_data(tempName,4,insert_index+i-1);
                             let new_task = new Task(new_task_data);
                             // record information of sub tasks to the global array
                             window.task_list.insert_pending(insert_index+i-1,new_task_data); 
@@ -376,7 +376,7 @@ export function define_task_list(html) {
                         // handels the last task and assign remaining cycles to it
                         if (rem != 0) {
                             tempName = task_desc + " Part " + i;
-                            let new_task_data = new Task_data(tempName,rem);
+                            let new_task_data = new Task_data(tempName,rem,insert_index+i-1);
                             let new_task = new Task(new_task_data);
                             // record information of sub tasks to the global array
                             window.task_list.insert_pending(insert_index+i-1,new_task_data); 
@@ -387,7 +387,7 @@ export function define_task_list(html) {
 
                 else if(task_pomo_num <= 4) {
                     // pushed the information to arrays at the correct index
-                    let new_task_data = new Task_data(task_desc,task_pomo_est);
+                    let new_task_data = new Task_data(task_desc,task_pomo_est,insert_index);
                     let new_task = new Task(new_task_data);
                     // record information of sub tasks to the global array
                     window.task_list.insert_pending(insert_index,new_task_data); 
@@ -446,10 +446,15 @@ export function define_task_list(html) {
              */
             function cancel_task(self) {
                 let parent = self.parentNode;
+                if (editing){
+                    let new_task = new Task(caller);
+                    // record information of sub tasks to the global array
+                    caller.list_index += 1;
+                    window.task_list.insert_pending(insert_index,caller); 
+                    parent.insertBefore(new_task,self);
+                }
                 parent.removeChild(self);
             }
-
-
 
             confirm_btn.addEventListener("click", () => confirm_task(this));
             cancel_btn.addEventListener("click", () => cancel_task(this));

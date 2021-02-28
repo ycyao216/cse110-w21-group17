@@ -1,13 +1,13 @@
 export class Task_data {
-    constructor(description, pomo_estimation) {
+    constructor(description, pomo_estimation,list_index) {
+        this.uid = create_uid(10);
         this.description = description;
         this.pomo_estimation = Number(pomo_estimation);
         this.actual_pomo = 0;
         this.finished = false;
         this.running = false;
         this.current_cycle = 0;
-        this.list_index = null;
-        this.uid = create_uid(10);
+        this.list_index = list_index;
 
         function create_uid(length){
             return Math.trunc(Math.random()*Math.pow(10,length));
@@ -94,6 +94,27 @@ export class Task_list_data {
         return this.pending_tasks.length;
     }
 
+    find(UID){
+        for (let tasks of this.pending_tasks){
+            if (tasks.UID === UID){
+                return tasks;
+            }
+        }
+        return null;
+    }
+
+    remove(UID){
+        let index = this.find(UID).list_index;
+        for (let i = index; i < this.pending_tasks.length; i++){
+            this.pending_tasks[i].list_index -= 1;
+        }
+        this.pending_tasks.splice(index,1,);
+        console.log(UID);
+        console.log(index);
+        console.log(this.pending_tasks);
+
+    }
+
     pop_pending_to_current(){
         if (this.pending_tasks.length > 0){
             this.current_task = this.pending_tasks[0];
@@ -102,6 +123,9 @@ export class Task_list_data {
     }
 
     insert_pending(index,task){
+        for (let i = index; i < this.pending_tasks.length; i++){
+            this.pending_tasks[i].list_index += 1;
+        }
         this.pending_tasks.splice(index,0,task);
         console.log(this.pending_tasks);
     }
