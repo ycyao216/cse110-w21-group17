@@ -177,11 +177,13 @@ export function define_task_list(html) {
             down_button.innerHTML = "v";
             down_button.setAttribute("class", "order-btn");
             // Display of actual pomodoro sessions. Not displayed by default
-            let actaul_pomo = document.createElement('p');
-            actaul_pomo.setAttribute('class','pomo-counter');
-            actaul_pomo.style.display = 'none';
+            let actual_pomo = document.createElement('p');
+            this.actual_pomo_ref = actual_pomo;
+            actual_pomo.setAttribute('class','pomo-counter');
+            actual_pomo.style.display = 'none';
 
-            var order_button_container = document.createElement('div');
+            let order_button_container = document.createElement('div');
+            this.obc_ref = order_button_container;
             order_button_container.setAttribute('class','order-btn-container');
             // Setup display
             task_desc.innerHTML = this.task_name;
@@ -194,7 +196,7 @@ export function define_task_list(html) {
             order_button_container.appendChild(task_edit_btn);
             order_button_container.appendChild(up_button);
             order_button_container.appendChild(down_button);
-            order_button_container.appendChild(actaul_pomo);
+            order_button_container.appendChild(actual_pomo);
             task_container.append(order_button_container);
             root.appendChild(task_container);
 
@@ -249,28 +251,29 @@ export function define_task_list(html) {
                 }
             }
             
-            /**
-             * Toggle the display of the task to be (naem,est,actual). Also
-             * assign the display value of actual pomodoro sessions.
-             * @param {*} finish_pomo The number of actual pomodoro sessions
-             * taken by this task.
-             */
-            //TODO: fix the undefined instance variables
-            var finish_task = function(finish_pomo){
-                // set all the other buttons to not display
-                for (let children in order_button_container.childNodes){
-                    children.style.display = 'none';
-                }
-                // set the actual pomodoro display.
-                actual_pomo.style.display = 'initial';
-                actual_pomo.innerHTML = finish_pomo;
-            }
-
             task_cancel_btn.addEventListener("click", (_) => cancel_task(this));
             task_edit_btn.addEventListener("click", (_) => edit_task(this));
             up_button.addEventListener('click',() => move(this,0));
             down_button.addEventListener('click',() => move(this,1));
         };
+
+        /**
+         * Toggle the display of the task to be (naem,est,actual). Also
+         * assign the display value of actual pomodoro sessions.
+         * @param {*} finish_pomo The number of actual pomodoro sessions
+         * taken by this task.
+         */
+        //TODO: fix the undefined instance variables
+        finish_task(finish_pomo){
+            // set all the other buttons to not display
+            console.log(this.obc_ref.childNodes);
+            for (let children of this.obc_ref.childNodes){
+                children.style.display = 'none';
+            }
+            // set the actual pomodoro display.
+            this.actual_pomo_ref.style.display = 'initial';
+            this.actual_pomo_ref.innerHTML = finish_pomo;
+        }
     }
 
     /**
