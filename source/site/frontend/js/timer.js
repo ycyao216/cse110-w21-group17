@@ -28,6 +28,7 @@ window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on you
 
 //// for timer
 window.num_pomos = 0;
+window.last_time_set = 0;
 
 // Task-list data 
 window.task_list = new Task_list_data();

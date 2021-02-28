@@ -20,6 +20,12 @@ export function define_timer_display(html) {
         }
 
         trigger_countdown(seconds, callback_f) {
+            // save last time for resetting
+            // Work seconds should be the max possible time
+            // TODO: When setting up settings, make Work > Long Break > Short Break
+            if(seconds > last_time_set)
+                last_time_set = seconds;
+
             if (callback_f !== null) {
                 this.countdown = {
                     'endTime': Date.now() + seconds * 1000,
@@ -40,7 +46,8 @@ export function define_timer_display(html) {
         }
 
         update_countdown() {
-            let remaining_ms = this.countdown.endTime - Date.now();
+            // add 1,000 to start at desired time instead of 1 under
+            let remaining_ms = this.countdown.endTime - Date.now() + 1000;
 
             // stop the counter
             if (remaining_ms < 0) {
@@ -60,10 +67,7 @@ export function define_timer_display(html) {
 
             if (this.countdown !== null) {
                 clearInterval(this.countdown.timer);
-                let counter = 10;
-
-                // update timer_display
-                this.timer_display.innerHTML = new Date(counter * 1000).toISOString().substr(14, 5)
+                let counter = last_time_set;
 
                 this.countdown = null;
             }
@@ -71,7 +75,18 @@ export function define_timer_display(html) {
 
         trigger_emergency_stop() {
             this.reset_countdown();
+
+            // update timer_display
+            this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5)
+
             num_pomos = 0;
+        }
+
+        trigger_finish_early() {
+            if(document.getElementById('early-prompt').style.display === 'none') {
+                document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
+                document.getElementById('early-prompt').style.display = 'initial';
+            }
         }
 
         ring() {
