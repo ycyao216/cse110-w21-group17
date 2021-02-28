@@ -81,3 +81,9 @@ footer {
 #current-task {
   display: inline-block;
 }
+
+
+#c-settings{
+  position: absolute;
+  z-index: 1;
+}
