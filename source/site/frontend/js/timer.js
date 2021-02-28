@@ -5,10 +5,10 @@ import { define_control_button } from './components/control-button.js';
 import { define_time_picker } from './components/time-picker.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
+import {Task_data, Task_list_data} from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
 import { force_state, state_transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
-
 // set global variables
 
 //// state machine
@@ -28,6 +28,10 @@ window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on you
 
 //// for timer
 window.num_pomos = 0;
+
+// Task-list data 
+window.task_list = new Task_list_data();
+window.current_task = null;
 
 //// for task-list
 // These two arrays are used to recored the information of running and pending
