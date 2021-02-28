@@ -11,7 +11,7 @@ let current_task_estimation = "";
 let edited_task_description = "";
 let edited_index = 0;
 
-import {Task_data, Task_list_data} from './task-list-data.js';
+import { Task_data, Task_list_data } from './task-list-data.js';
 
 export function define_task_list(html) {
     class CTaskList extends HTMLElement {
@@ -39,7 +39,7 @@ export function define_task_list(html) {
              */
             function add_task_to_pending() {
                 let task_list = document.getElementById(pending_id);
-                task_list.insertBefore(new Task_input(window.task_list.length,null),document.getElementById('add-task-button'));
+                task_list.insertBefore(new Task_input(window.task_list.length, null), document.getElementById('add-task-button'));
             }
 
             /**
@@ -50,11 +50,11 @@ export function define_task_list(html) {
             function update_current_task_display() {
                 let first_pending = document.getElementById(pending_id).childNodes[0];
                 // while loop to ignore the empty textNodes 
-                while (first_pending.nodeType === 3){
+                while (first_pending.nodeType === 3) {
                     first_pending = first_pending.nextSibling;
                 }
 
-                if (current_task_display !== null){
+                if (current_task_display !== null) {
                     document.getElementById(running_id).removeChild(current_task_display);
                     //NOTE: Currently not functional
                     current_task_display.finish_task(3);
@@ -62,14 +62,14 @@ export function define_task_list(html) {
                 }
                 // Set current_task to null to prevent empty pending list
                 current_task_display = null;
-                if (first_pending.nodeName !== 'BUTTON'){
+                if (first_pending.nodeName !== 'BUTTON') {
                     current_task_display = first_pending;
                     document.getElementById(running_id).appendChild(current_task_display);
                 }
             }
 
 
-            function update_current_task(){   
+            function update_current_task() {
                 if (task_description_arr.length == 0) {
                     return null;
                 }
@@ -183,12 +183,12 @@ export function define_task_list(html) {
             // Display of actual pomodoro sessions. Not displayed by default
             let actual_pomo = document.createElement('p');
             this.actual_pomo_ref = actual_pomo;
-            actual_pomo.setAttribute('class','pomo-counter');
+            actual_pomo.setAttribute('class', 'pomo-counter');
             actual_pomo.style.display = 'none';
 
             let order_button_container = document.createElement('div');
             this.obc_ref = order_button_container;
-            order_button_container.setAttribute('class','order-btn-container');
+            order_button_container.setAttribute('class', 'order-btn-container');
             // Setup display
             task_desc.innerHTML = this.task_name;
             task_estimate.innerHTML = this.estimated_pomo;
@@ -240,24 +240,24 @@ export function define_task_list(html) {
              * @param {*} self Reference to the current task
              * @param {*} direction Direction of movement: 0 for up, 1 for down
              */
-            function move(self,direction){
+            function move(self, direction) {
                 let parent = self.parentNode;
-                if (direction === 0){
-                    if (self.previousSibling !== 'H3'){
-                        parent.insertBefore(self,self.previousSibling);
+                if (direction === 0) {
+                    if (self.previousSibling !== 'H3') {
+                        parent.insertBefore(self, self.previousSibling);
                     }
                 }
-                else if (direction === 1){
-                    if (self.nextElementSibling !== null){
-                        parent.insertBefore(self.nextElementSibling,self);
+                else if (direction === 1) {
+                    if (self.nextElementSibling !== null) {
+                        parent.insertBefore(self.nextElementSibling, self);
                     }
                 }
             }
-            
+
             task_cancel_btn.addEventListener("click", (_) => remove_task(this));
             task_edit_btn.addEventListener("click", (_) => edit_task(this));
-            up_button.addEventListener('click',() => move(this,0));
-            down_button.addEventListener('click',() => move(this,1));
+            up_button.addEventListener('click', () => move(this, 0));
+            down_button.addEventListener('click', () => move(this, 1));
         };
 
         /**
@@ -266,10 +266,10 @@ export function define_task_list(html) {
          * @param {*} finish_pomo The number of actual pomodoro sessions
          * taken by this task.
          */
-        finish_task(finish_pomo){
+        finish_task(finish_pomo) {
             // set all the other buttons to not display
             console.log(this.obc_ref.childNodes);
-            for (let children of this.obc_ref.childNodes){
+            for (let children of this.obc_ref.childNodes) {
                 children.style.display = 'none';
             }
             // set the actual pomodoro display.
@@ -282,7 +282,7 @@ export function define_task_list(html) {
      * The task input prompt that allows the user to input for the task
      */
     class Task_input extends HTMLElement {
-        constructor(index,caller,editing) {
+        constructor(index, caller, editing) {
             super();
             let task_description = "";
             let task_pomo_estimation = "";
@@ -366,78 +366,37 @@ export function define_task_list(html) {
                         for (var i = 1; i <= breakNum; i += 1) {
                             var tempName = task_desc + " Part " + i;
                             // add the i th sub task to the list
-                            let new_task_data = new Task_data(tempName,4,insert_index+i-1);
+                            let new_task_data = new Task_data(tempName, 4, insert_index + i - 1);
                             let new_task = new Task(new_task_data);
                             // record information of sub tasks to the global array
-                            window.task_list.insert_pending(insert_index+i-1,new_task_data); 
+                            window.task_list.insert_pending(insert_index + i - 1, new_task_data);
                             parent.insertBefore(new_task, self);
                         }
 
                         // handels the last task and assign remaining cycles to it
                         if (rem != 0) {
                             tempName = task_desc + " Part " + i;
-                            let new_task_data = new Task_data(tempName,rem,insert_index+i-1);
+                            let new_task_data = new Task_data(tempName, rem, insert_index + i - 1);
                             let new_task = new Task(new_task_data);
                             // record information of sub tasks to the global array
-                            window.task_list.insert_pending(insert_index+i-1,new_task_data); 
-                            parent.insertBefore(new_task,self);
+                            window.task_list.insert_pending(insert_index + i - 1, new_task_data);
+                            parent.insertBefore(new_task, self);
                         }
                     }
                 }
 
-                else if(task_pomo_num <= 4) {
+                else if (task_pomo_num <= 4) {
                     // pushed the information to arrays at the correct index
-                    let new_task_data = new Task_data(task_desc,task_pomo_est,insert_index);
+                    let new_task_data = new Task_data(task_desc, task_pomo_est, insert_index);
                     let new_task = new Task(new_task_data);
                     // record information of sub tasks to the global array
-                    window.task_list.insert_pending(insert_index,new_task_data); 
-                    parent.insertBefore(new_task,self);
+                    window.task_list.insert_pending(insert_index, new_task_data);
+                    parent.insertBefore(new_task, self);
                 }
                 // Remove this task-input component
                 parent.removeChild(self);
                 edited_task_description = "";
                 return;
-                
-
-                // // if the task takes too many cycles, advice the user to break up the task
-                // if (task_pomo_num <= 4) {
-                //     // use insertbefore to allow creation of tasks at the original
-                //     // position of the task input boxes.
-                //     parent.insertBefore(new Task(task_desc, task_pomo_est), self);
-                //     task_description_arr.push(task_desc);
-                //     task_estimation_arr.push(task_pomo_est);
-                // }
-
-                // // if the task takes too many cycles, advice the user to break up the task
-                // else if (task_pomo_num > 4) {
-                //     // recommaend splitting up into more task
-                //     if (r == true) {
-                //         // calculate how many new sub tasks should be needed.
-                //         var breakNum = task_pomo_num / 4;
-                //         var rem = task_pomo_num % 4;
-                //         var i = 1;
-
-                //         for (i; i <= breakNum; i += 1) {
-                //             var tempName = task_desc + " Part " + i;
-                //             // record information of sub tasks to the global array
-                //             task_description_arr.push(tempName);
-                //             task_estimation_arr.push(4);
-                //             // add the i th sub task to the list
-                //             parent.insertBefore(new Task(tempName, 4), self);
-                //         }
-
-                //         // handels the last task and assign remaining cycles to it
-                //         if (rem != 0) {
-                //             tempName = task_desc + " Part " + i;
-                //             task_description_arr.push(tempName);
-                //             task_estimation_arr.push(rem);
-                //             parent.insertBefore(new Task(tempName, rem), self);
-                //         }
-                //     }
-                // }
-                // // Remove this task-input component
-                // parent.removeChild(self);
-                // edited_task_description = "";
             }
 
             /**
@@ -446,12 +405,12 @@ export function define_task_list(html) {
              */
             function cancel_task(self) {
                 let parent = self.parentNode;
-                if (editing){
+                if (editing) {
                     let new_task = new Task(caller);
                     // record information of sub tasks to the global array
                     caller.list_index += 1;
-                    window.task_list.insert_pending(insert_index,caller); 
-                    parent.insertBefore(new_task,self);
+                    window.task_list.insert_pending(insert_index, caller);
+                    parent.insertBefore(new_task, self);
                 }
                 parent.removeChild(self);
             }

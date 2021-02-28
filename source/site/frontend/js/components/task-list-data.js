@@ -1,5 +1,5 @@
 export class Task_data {
-    constructor(description, pomo_estimation,list_index) {
+    constructor(description, pomo_estimation, list_index) {
         this.uid = create_uid(10);
         this.description = description;
         this.pomo_estimation = Number(pomo_estimation);
@@ -9,71 +9,71 @@ export class Task_data {
         this.current_cycle = 0;
         this.list_index = list_index;
 
-        function create_uid(length){
-            return Math.trunc(Math.random()*Math.pow(10,length));
+        function create_uid(length) {
+            return Math.trunc(Math.random() * Math.pow(10, length));
         }
     }
 
-    get UID(){
+    get UID() {
         return this.uid;
     }
 
-    get desc(){
+    get desc() {
         return this.description;
     }
 
-    get index(){
+    get index() {
         return this.list_index;
     }
 
-    get est(){
+    get est() {
         return this.pomo_estimation;
     }
 
-    get UID(){
+    get UID() {
         return this.uid;
     }
 
-    get finish_status(){
+    get finish_status() {
         return this.finished;
     }
 
-    get running_status(){
+    get running_status() {
         return this.running;
     }
 
-    get cycles(){
+    get cycles() {
         return this.current_cycle;
     }
 
-    get actual_cycles(){
-        if (this.finished){
+    get actual_cycles() {
+        if (this.finished) {
             return this.actual_pomo;
         }
-        else{
+        else {
             return null;
         }
     }
 
-    finish(){
+    finish() {
         this.finish = true;
         this.actual_pomo = this.current_cycle;
     }
 
-    run(){
+    run() {
         this.running = true;
     }
 
-    pause(){
+    pause() {
         this.running = false;
     }
 
-    increament_cycle(){
+    increament_cycle() {
         this.current_cycle += 1;
     }
 
-    set_task_info(new_desc,new_estimate){
-        if (this.finished === false){
+    set_task_info(new_desc, new_estimate) {
+        if (this.finished === false) {
             this.description = new_desc;
             this.pomo_estimation = new_estimate;
         }
@@ -90,60 +90,60 @@ export class Task_list_data {
     }
 
     //@override 
-    get length(){
+    get length() {
         return this.pending_tasks.length;
     }
 
-    find(UID){
-        for (let tasks of this.pending_tasks){
-            if (tasks.UID === UID){
+    find(UID) {
+        for (let tasks of this.pending_tasks) {
+            if (tasks.UID === UID) {
                 return tasks;
             }
         }
         return null;
     }
 
-    remove(UID){
+    remove(UID) {
         let index = this.find(UID).list_index;
-        for (let i = index; i < this.pending_tasks.length; i++){
+        for (let i = index; i < this.pending_tasks.length; i++) {
             this.pending_tasks[i].list_index -= 1;
         }
-        this.pending_tasks.splice(index,1,);
+        this.pending_tasks.splice(index, 1,);
         console.log(UID);
         console.log(index);
         console.log(this.pending_tasks);
 
     }
 
-    pop_pending_to_current(){
-        if (this.pending_tasks.length > 0){
+    pop_pending_to_current() {
+        if (this.pending_tasks.length > 0) {
             this.current_task = this.pending_tasks[0];
             this.pending_tasks.shift();
         }
     }
 
-    insert_pending(index,task){
-        for (let i = index; i < this.pending_tasks.length; i++){
+    insert_pending(index, task) {
+        for (let i = index; i < this.pending_tasks.length; i++) {
             this.pending_tasks[i].list_index += 1;
         }
-        this.pending_tasks.splice(index,0,task);
+        this.pending_tasks.splice(index, 0, task);
         console.log(this.pending_tasks);
     }
 
-    finish_current(){
+    finish_current() {
         this.pop_pending_to_current();
         this.finished_tasks.push(this.current_task);
     }
 
-    get_current(){
+    get_current() {
         return this.current_task();
     }
 
-    set_pending(index,task){
-        this.pending_tasks.splice(index,0,task);
+    set_pending(index, task) {
+        this.pending_tasks.splice(index, 0, task);
     }
 
-    append_task(task){
+    append_task(task) {
         this.pending_tasks.push(task);
     }
 
