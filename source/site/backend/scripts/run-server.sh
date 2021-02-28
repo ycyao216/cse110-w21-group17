@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
-cd ../../frontend
-node ../backend/httpserver/server.js
+# THIS FILE IS MEANT TO RUN FROM CURRENT FOLDER
+cd ../../
+node ./backend/httpserver/server.js

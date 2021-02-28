@@ -1,10 +1,19 @@
+// serve website
 const express = require('express');
 const app = express();
-const port = 3000;
+const httpport = 3000;
 
-console.log(process.cwd()); // Should start at frontend folder
+// serve database
+const jsonServer = require('json-server')
+const jsonport = 5000;
+const server = jsonServer.create()
+const router = jsonServer.router('backend/data/db.json')
+const middlewares = jsonServer.defaults()
 
-var root_dir = process.cwd();
+console.log(process.cwd()); // Should start at site folder
+
+// serve website
+var root_dir = process.cwd() + "/frontend";
 
 app.get('/', function(req, res) {
     res.sendFile('html/timer.html', {
@@ -14,4 +23,13 @@ app.get('/', function(req, res) {
 
 app.use('/', express.static(root_dir));
 
-app.listen(port, () => console.log(`listening on port ${port}!`));
+app.listen(httpport, () => console.log(`http server running on port ${httpport}!`));
+
+
+
+// serve database
+server.use(middlewares)
+server.use(router)
+server.listen(jsonport, () => {
+  console.log(`json server running on port ${jsonport}!`)
+})
