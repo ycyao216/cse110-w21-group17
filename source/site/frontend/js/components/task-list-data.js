@@ -95,10 +95,12 @@ export class Task_data {
     /**
      * Set the task to finish, and update the actual pomodoro cycles spent with
      * the timer cycles spent so far.
+     * @returns {number} The actual pomodoro cycle number of the task;
      */
     finish() {
         this.finish = true;
         this.actual_pomo = this.current_cycle;
+        return this.actual_pomo;
     }
 
     /**
@@ -135,6 +137,14 @@ export class Task_list_data {
     }
 
     /**
+     * @type {mixed} Get the current task if exist. If null, current task is not
+     * set.
+     */
+    get current(){
+        return this.current_task;
+    }
+
+    /**
      * Get the length of the pending task list
      * @return {number} The length of the pending task list
      */
@@ -165,46 +175,80 @@ export class Task_list_data {
         let task = this.find(UID).list_index;
         if (task !== null) {
             let index = task.list_index;
+            // Decrement index of later tasks
             for (let i = index; i < this.pending_tasks.length; i++) {
                 this.pending_tasks[i].list_index -= 1;
             }
             this.pending_tasks.splice(index, 1,);
-            console.log(UID);
-            console.log(index);
-            console.log(this.pending_tasks);
         }
     }
 
-    pop_pending_to_current() {
-        if (this.pending_tasks.length > 0) {
-            this.current_task = this.pending_tasks[0];
-            this.pending_tasks.shift();
-        }
-    }
-
+    /**
+     * Insert a task at a position of pending list
+     * @param {number} index The index of pending list where the task is going
+     * to be inserted
+     * @param {Task_data} task The task data to be added
+     */
     insert_pending(index, task) {
+        // Increament the index of later tasks
         for (let i = index; i < this.pending_tasks.length; i++) {
             this.pending_tasks[i].list_index += 1;
         }
         this.pending_tasks.splice(index, 0, task);
-        console.log(this.pending_tasks);
     }
 
-    finish_current() {
-        this.pop_pending_to_current();
-        this.finished_tasks.push(this.current_task);
+    
+    /**
+     * Operations done to the task list when the current task is finished.
+     * Move the current task, if there is one, to finish. Set its finish
+     * status to true, and set its actual pomodoro session number data 
+     * @returns {mixed}The actual cycle number of the current task. If there is
+     * no current task, return null.
+     */
+    upon_task_finish() {
+        // Order of operation does matter!!
+        if (this.current_task != null){
+            let actual=this.current_task.finish();
+            this.finished_tasks.push(this.current_task);
+            this.current_task = null;
+            return actual;
+        }
+        return null;
     }
 
-    get_current() {
-        return this.current_task();
+    /**
+     * Operations done to the task list when a cycle is finished
+     * Increment the pomo counter of the current task. If the task is finished,
+     * go to the task finish procedure. 
+     * @return {mixed} The actual cycle number of the current task. If there is
+     * no current task, return null.
+     */
+    upon_cycle_finish() {
+        if (this.current_task !== null){
+            this.current_task.increament_cycle();
+            if (this.current_task.current_cycle >= this.current_task.pomo_estimation){
+                return this.upon_task_finish();
+            }
+        }
+        return null;
     }
 
-    set_pending(index, task) {
-        this.pending_tasks.splice(index, 0, task);
+    /**
+     * Operations done to the task list when the timer starts
+     * Pop the first pending task and add to the current task. Does nothing when
+     * taking a break.
+     * @param {boolean} is_woring Whether the timer is in working mode.
+     * @return {boolean} Relays the timer cycle type.
+     */
+    upon_cycle_start(is_working){
+        if (is_working){
+            if (this.pending_tasks.length > 0) {
+                this.pending_tasks[0].running = true;
+                // Overwrite the existing current task.
+                this.current_task = this.pending_tasks[0];
+                this.pending_tasks.shift();
+            }
+        }
+        return is_working;
     }
-
-    append_task(task) {
-        this.pending_tasks.push(task);
-    }
-
 }

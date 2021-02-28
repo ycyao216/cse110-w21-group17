@@ -1,16 +1,3 @@
-// These two arrays are used to recored the information of running and pending
-const task_description_arr = [];
-const task_estimation_arr = [];
-
-const task_finished_des = [];
-const task_finished_est = [];
-
-let current_task_description = "";
-let current_task_estimation = "";
-
-let edited_task_description = "";
-let edited_index = 0;
-
 import { Task_data, Task_list_data } from './task-list-data.js';
 
 export function define_task_list(html) {
@@ -36,6 +23,7 @@ export function define_task_list(html) {
 
             /**
              * Add a task to pending when initially created by the task list
+             * Also changes the task list data accordingly.
              */
             function add_task_to_pending() {
                 let task_list = document.getElementById(pending_id);
@@ -43,80 +31,121 @@ export function define_task_list(html) {
             }
 
             /**
-             * Update the information of the task list when the timer finishes
-             * return the information of the next current task.
-             * @return {array} the first string is task_name,the second is task_estimate
+             * Renders the task list when a cycle finishes.
+             * Move the curret task from running to finished. 
+             * Does noting to empty pending.
              */
-            function update_current_task_display() {
-                let first_pending = document.getElementById(pending_id).childNodes[0];
-                // while loop to ignore the empty textNodes 
-                while (first_pending.nodeType === 3) {
-                    first_pending = first_pending.nextSibling;
+            function upon_cycle_finish_render() {
+                // Update task list data accordingly.
+                let num_cycles = window.task_list.upon_cycle_finish();
+                if (num_cycles !== null){
+                    if (current_task_display !== null) {
+                        current_task_display.finish_task_render(num_cycles);
+                        document.getElementById(running_id).removeChild(current_task_display);
+                        document.getElementById(finished_id).appendChild(current_task_display);
+                    }
+                    current_task_display = null;
                 }
+                test_current_task_display();
 
-                if (current_task_display !== null) {
-                    document.getElementById(running_id).removeChild(current_task_display);
-                    //NOTE: Currently not functional
-                    current_task_display.finish_task(3);
-                    document.getElementById(finished_id).appendChild(current_task_display);
-                }
-                // Set current_task to null to prevent empty pending list
-                current_task_display = null;
-                if (first_pending.nodeName !== 'BUTTON') {
-                    current_task_display = first_pending;
-                    document.getElementById(running_id).appendChild(current_task_display);
-                }
             }
 
-
-            function update_current_task() {
-                if (task_description_arr.length == 0) {
-                    return null;
+            /**
+             * Renders the task list when a cycle starts. Does nothing when
+             * on break
+             * Push the first task from pending to runninig. Does nothing when
+             * pending is empty.
+             */
+            function upon_cycle_start_render(){
+                /**
+                 * @todo Link this to actaul timer cycle type. 
+                 */
+                let is_working = window.task_list.upon_cycle_start(true);
+                if (is_working){
+                    let first_pending = document.getElementById(pending_id).childNodes[0];
+                    // while loop to ignore the empty textNodes 
+                    while (first_pending.nodeType === 3) {
+                        first_pending = first_pending.nextSibling;
+                    }
+                    // Set current_task to null to prevent error on empty 
+                    // pending list
+                    current_task_display = null;
+                    if (window.task_list.current_task !== null) {
+                        current_task_display = first_pending;
+                        document.getElementById(running_id).appendChild(current_task_display);
+                    }
                 }
-                current_task_description = task_description_arr[0];
-                current_task_estimation = task_estimation_arr[0];
-                var temp = [];
-                temp.push(current_task_description);
-                temp.push(current_task_estimation);
-                return temp;
+                test_current_task_display();
             }
+
+            /**
+             * @note FOR TESTING PURPOSE ONLY
+             * Update the current task infomration displayed on task list for 
+             * testing
+             */
+            function test_current_task_display(){
+                let task_display = document.getElementById('curr_task_information');
+                if (window.task_list.current_task !== null){
+                    let stringified = "Task: " + window.task_list.current_task.desc 
+                                        + " || Status: " + window.task_list.current_task.cycles 
+                                        + " / " + window.task_list.current_task.est;
+                    task_display.innerHTML=stringified;
+                }
+                else {
+                    task_display.innerHTML = "No task running";
+                }
+            }
+            /**
+            //  * Push the fist task from penidng to running, and the task from 
+            //  */
+            // function update_current_task_data() {
+            //     if (task_description_arr.length == 0) {
+            //         return null;
+            //     }
+            //     current_task_description = task_description_arr[0];
+            //     current_task_estimation = task_estimation_arr[0];
+            //     var temp = [];
+            //     temp.push(current_task_description);
+            //     temp.push(current_task_estimation);
+            //     return temp;
+            // }
             /**
              * Change the information at <p> about current tast
              * @param {int} category - the senarios for moving tasks, 0 for from pending
              * to running, 1 for from running to finished
              */
-            function change_information(category) {
-                var infor = document.getElementById("curr_task_information");
-                if (category === 0) {
-                    update_current_task();
-                    var temp = "current task is: " + current_task_description + ", cycles needed: " + current_task_estimation;
-                    infor.innerHTML = temp;
-                }
-                else {
-                    // recorded information of finished task
-                    task_finished_des.push(current_task_description);
-                    task_finished_est.push(current_task_estimation);
-                    // recover the information of current task
-                    current_task_estimation = "";
-                    current_task_description = "";
-                    // delete information from two arrays
-                    task_finished_des.splice(0, 1);
-                    task_finished_est.splice(0, 1);
+            // function change_information(category) {
+            //     var infor = document.getElementById("curr_task_information");
+            //     if (category === 0) {
+            //         update_current_task();
+            //         var temp = "current task is: " + current_task_description + ", cycles needed: " + current_task_estimation;
+            //         infor.innerHTML = temp;
+            //     }
+            //     else {
+            //         // recorded information of finished task
+            //         task_finished_des.push(current_task_description);
+            //         task_finished_est.push(current_task_estimation);
+            //         // recover the information of current task
+            //         current_task_estimation = "";
+            //         current_task_description = "";
+            //         // delete information from two arrays
+            //         task_finished_des.splice(0, 1);
+            //         task_finished_est.splice(0, 1);
 
-                    //TODO
-                    // get the the actual number of cycles and record them.
+            //         //TODO
+            //         // get the the actual number of cycles and record them.
 
-                    infor.innerHTML = "There is no task in running.";
-                }
-
-            }
+            //         infor.innerHTML = "There is no task in running.";
+            //     }
+            // }
 
             document
                 .getElementById("add-task-button")
                 .addEventListener("click", add_task_to_pending);
 
-            document.getElementById("testMoving0").addEventListener("click", function () { update_current_task_display() });
-            document.getElementById("testMoving1").addEventListener("click", function () { change_information(1) });
+            document.getElementById("test-btn-0").addEventListener("click", function () { upon_cycle_start_render() });
+            document.getElementById("test-btn-1").addEventListener("click", function () { upon_cycle_finish_render() });
+
         }
 
         enter_animate() {
@@ -266,7 +295,7 @@ export function define_task_list(html) {
          * @param {*} finish_pomo The number of actual pomodoro sessions
          * taken by this task.
          */
-        finish_task(finish_pomo) {
+        finish_task_render(finish_pomo) {
             // set all the other buttons to not display
             console.log(this.obc_ref.childNodes);
             for (let children of this.obc_ref.childNodes) {
@@ -395,7 +424,6 @@ export function define_task_list(html) {
                 }
                 // Remove this task-input component
                 parent.removeChild(self);
-                edited_task_description = "";
                 return;
             }
 
