@@ -34,21 +34,6 @@ window.last_time_set = 0;
 window.task_list = new Task_list_data();
 window.current_task = null;
 
-//// for task-list
-// These two arrays are used to recored the information of running and pending
-window.task_description_arr = [];
-window.task_estimation_arr = [];
-
-window.task_finished_des = [];
-window.task_finished_est = [];
-
-window.current_task_description = "";
-window.current_task_estimation = "";
-
-window.edited_task_description = "";
-window.edited_index = 0;
-
-
 // This Section Imports Requires Components
 // Settings Component
 fetch("/html/components/settings.html")
