@@ -1,23 +1,39 @@
 #task-list-header {
-  color: white;
+  color: rgb(0, 0, 0);
   text-align: center;
+  /* border-radius: 5px; */
   margin: 0;
   border: 0;
-  padding: 0;
-  background-color: black;
+  padding: 10px;
+  /* background-color: black; */
   width: 100%;
 }
 
+h3 {
+  margin-left: 2%;
+  margin-block-start: 1%;
+}
+
 .side-bar {
+  display: flex;
+  flex-direction: column;
   position: absolute;
+  z-index: 1;
   margin: 0;
   padding: 0%;
-  background-color: rgb(88, 88, 88);
-  position: fixed;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
   height: 95%;
   width: 40%;
   left: 100%;
   transition: left 0.5s;
+}
+
+.task-list-separator {
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 .task {
@@ -134,7 +150,8 @@
 }
 
 #add-task-button {
-  width: 100%;
+  align-self: center;
+  width: 80%;
   height: 5%;
   position: relative;
   left: 0;
