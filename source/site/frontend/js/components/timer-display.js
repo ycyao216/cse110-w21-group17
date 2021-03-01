@@ -26,21 +26,11 @@ export function define_timer_display(html) {
             if(seconds > last_time_set)
                 last_time_set = seconds;
 
-            if (callback_f !== null) {
-                this.countdown = {
-                    'endTime': Date.now() + seconds * 1000,
-                    'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
-                    get callback_f() {
-                        return callback_f
-                    }
-                }
-            } else {
-                this.countdown = {
-                    'endTime': Date.now() + seconds * 100,
-                    'timer': this.reset_countdown(),
-                    get callback_f() {
-                        return callback_f
-                    }
+            this.countdown = {
+                'endTime': Date.now() + seconds * 1000,
+                'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
+                get callback_f() {
+                    return callback_f
                 }
             }
         }

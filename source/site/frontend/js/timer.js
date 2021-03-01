@@ -30,11 +30,11 @@ window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on you
 window.num_pomos = 0;
 window.last_time_set = 0;
 
-// Task-list data 
+//// Task-list data 
 window.task_list = new Task_list_data();
 window.current_task = null;
 
-// This Section Imports Requires Components
+// This Section Imports Required Components
 // Settings Component
 fetch("/html/components/settings.html")
     .then(stream => stream.text())
