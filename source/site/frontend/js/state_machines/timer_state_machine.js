@@ -268,17 +268,28 @@ timer_break_countdown = {
                     state_transition('timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Long Break";
+                //event
+                let timer_long_break = new Event('timer_long_break');
+                document.dispatchEvent(timer_long_break);
             } else {
                 document.getElementById("timer-display").trigger_countdown(5, () => {
                     state_transition('timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Short Break";
+                //event
+                let timer_short_break = new Event('timer_short_break');
+                document.dispatchEvent(timer_short_break);
             }
         }
     ],
     'functions_leave': [
         () => {
             document.getElementById("timer-display").ring();
+        },
+        () => {
+            //event
+            let timer_cycle_complete = new Event('timer_cycle_complete');
+            document.dispatchEvent(timer_cycle_complete);
         }
     ],
 }

@@ -72,6 +72,15 @@ export function define_timer_display(html) {
                 this.countdown = null;
             }
         }
+        
+        trigger_start() {
+            //event
+            let timer_started = new Event('timer_start');
+            document.dispatchEvent(timer_started);
+
+            state_transition('timer_during_countdown');
+
+        }
 
         trigger_emergency_stop() {
             this.reset_countdown();
@@ -104,6 +113,24 @@ export function define_timer_display(html) {
 
 
     }
+
+    // testing events
+    document.addEventListener('timer_start', function (e) {
+        console.log('timer event started!');
+    });
+
+    document.addEventListener('timer_short_break', function (e) {
+        console.log('timer short break started!');
+    });
+
+    document.addEventListener('timer_long_break', function (e) {
+        console.log('timer long break started!');
+    });
+
+    document.addEventListener('timer_cycle_complete', function (e) {
+        console.log('timer cycle completed!');
+    });
+
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;
 }
