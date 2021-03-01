@@ -11,8 +11,7 @@ var example_state = {
 
 // TODO Ready For Testing
 // State Utils
-export function state_transition(to_state_string) {
-    let from_state = window.current_state;
+export function transition(from_state, to_state_string) {
     // Obtain next state
     let to_state = from_state.next_states[to_state_string]
     
@@ -36,7 +35,6 @@ export function state_transition(to_state_string) {
 }
 
 export function force_state(to_state) {
-    window.current_state = to_state;
     to_state.functions_enter.forEach(f => f.call(this));
     return to_state;
 }

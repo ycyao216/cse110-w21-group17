@@ -16,9 +16,9 @@
             <c-analysis id="c-analysis" style="display: none"></c-analysis>
             <c-task-list id="c-task-list" style="display: initial"></c-task-list>
             <div class="top-bar-buttons">
-                <c-control-button onclick="state_transition('timer_open_settings')">Settings</c-control-button>
-                <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">Tasklist</c-control-button>
-                <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')">Analysis</c-control-button>
+                <c-control-button onclick="window.current_state = transition(window.current_state, 'timer_open_settings')">Settings</c-control-button>
+                <c-control-button onclick="window.current_state = transition(window.current_state, timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">Tasklist</c-control-button>
+                <c-control-button onclick="window.current_state = transition(window.current_state, timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')">Analysis</c-control-button>
                 <c-control-button onclick="document.getElementById('c-modal').display_alert('test alert')">Alert</c-control-button>
                 <c-control-button onclick="document.getElementById('c-modal').display_confirm('test confirmation', () => {}, () => {})">Confirm</c-control-button>
             </div>
@@ -34,8 +34,8 @@
                 <c-timer-display id="timer-display"></c-timer-display>
                 <div class="control-buttons">
                     <!-- <button class="control" id="start-button">Start</button> -->
-                    <c-control-button id="start-button" class="start" onclick="state_transition('timer_during_countdown')">Start</c-control-button>
-                    <c-control-button id="emergency-stop-button" class="finish" onclick="state_transition('timer_emergency_stop')">Emergency Stop</c-control-button>
+                    <c-control-button id="start-button" class="start" onclick="window.current_state = transition(window.current_state, 'timer_during_countdown')">Start</c-control-button>
+                    <c-control-button id="emergency-stop-button" class="finish" onclick="window.current_state = transition(window.current_state, 'timer_emergency_stop')">Emergency Stop</c-control-button>
                     <c-control-button id="overstudy-button" class="finish" onclick="document.getElementById('timer-display').trigger_finish_early()">Finished Early</c-control-button>
                 </div>
                 <div class="task">

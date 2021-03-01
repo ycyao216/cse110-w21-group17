@@ -140,7 +140,7 @@ timer_during_countdown = {
         },
         () => {
             document.getElementById("timer-display").trigger_countdown(10, () => {
-                state_transition('timer_ringing');
+                window.current_state = transition(window.current_state, 'timer_ringing');
             });
         },
     ],
@@ -168,7 +168,7 @@ timer_emergency_stop = {
                 EMERG_STOP_WARNING,
                 () => {
                     document.getElementById("timer-display").trigger_emergency_stop();
-                    state_transition('timer_init');
+                    window.current_state = transition(window.current_state, 'timer_init');
                 },
                 () => {}
             )
@@ -208,7 +208,7 @@ timer_ringing = {
             document.getElementById("timer-display").ring();
         },
         () => {
-            state_transition('timer_break_countdown');
+            window.current_state = transition(window.current_state, 'timer_break_countdown');
         }
     ],
     'functions_leave': [],
@@ -242,12 +242,12 @@ timer_break_countdown = {
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
                 document.getElementById("timer-display").trigger_countdown(8, () => {
-                    state_transition('timer_during_countdown');
+                    window.current_state = transition(window.current_state, 'timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Long Break";
             } else {
                 document.getElementById("timer-display").trigger_countdown(5, () => {
-                    state_transition('timer_during_countdown');
+                    window.current_state = transition(window.current_state, 'timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Short Break";
             }

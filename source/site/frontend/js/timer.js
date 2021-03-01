@@ -7,13 +7,12 @@ import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
 import { Task_data, Task_list_data } from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
-import { force_state, state_transition } from './state_machines/state_machine.js';
+import { force_state, transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
 // set global variables
 
 //// state machine
-window.state_transition = state_transition;
-window.timer_init = timer_init;
+window.transition = transition;
 
 //// messages
 window.WORK_TIME = "00:10";
@@ -92,4 +91,4 @@ function displayNotification() {
 
 displayNotification();
 ///// This Section Initializes timer.html's state machine
-force_state(timer_init);
+window.current_state = force_state(timer_init);
