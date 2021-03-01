@@ -120,9 +120,9 @@ timer_during_countdown = {
         get timer_emergency_stop() {
             return timer_emergency_stop
         },
-        get timer_finished_early() {
+        /*get timer_finished_early() {
             return timer_finished_early
-        },
+        },*/
     },
     'functions_enter': [
         () => console.log('[timer_during_countdown]'),
@@ -159,6 +159,9 @@ timer_emergency_stop = {
         },
         get timer_during_countdown() {
             return timer_during_countdown
+        },
+        get timer_ringing() {
+            return timer_ringing
         },
     },
     'functions_enter': [
