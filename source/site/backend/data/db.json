@@ -27,7 +27,8 @@
           "login_timestamp": "",
           "timer_state": "timer_init",
           "task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-          "accumulated_cycles": 0
+          "accumulated_cycles": 0,
+          "online": true
         }
       ],
       "settings": {

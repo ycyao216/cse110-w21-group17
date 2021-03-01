@@ -11,7 +11,6 @@ export var timer_emergency_stop;
 
 // init page when user enters website
 timer_init = {
-    'attatched_states': [],
     'next_states': {
         get timer_open_settings() {
             return timer_open_settings
@@ -49,7 +48,6 @@ timer_init = {
 
 // opening the settings page
 timer_open_settings = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init
@@ -70,7 +68,6 @@ timer_open_settings = {
 
 // opening the analysis page
 timer_open_analysis = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init
@@ -91,7 +88,6 @@ timer_open_analysis = {
 
 // opening the task list
 timer_toggle_task_list = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init
@@ -112,7 +108,6 @@ timer_toggle_task_list = {
 
 // pomo timer states
 timer_during_countdown = {
-    'attatched_states': [],
     'next_states': {
         get timer_ringing() {
             return timer_ringing
@@ -152,7 +147,6 @@ timer_during_countdown = {
 }
 
 timer_emergency_stop = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init
@@ -178,7 +172,6 @@ timer_emergency_stop = {
 }
 
 timer_ringing = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init
@@ -215,7 +208,6 @@ timer_ringing = {
 }
 
 timer_break_countdown = {
-    'attatched_states': [],
     'next_states': {
         get timer_init() {
             return timer_init

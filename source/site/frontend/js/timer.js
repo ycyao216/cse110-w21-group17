@@ -1,4 +1,5 @@
 // import modules
+import { postData } from './utils.js';
 import { define_settings } from './components/settings.js';
 import { define_timer_display } from './components/timer-display.js';
 import { define_control_button } from './components/control-button.js';
@@ -13,6 +14,7 @@ import { timer_init } from './state_machines/timer_state_machine.js';
 
 //// state machine
 window.transition = transition;
+window.timer_init = timer_init;
 
 //// messages
 window.WORK_TIME = "00:10";
@@ -72,7 +74,7 @@ fetch("/html/components/analysis.html")
 
 ///// This function registers the service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/js/service-worker.js').then(function () {
+    navigator.serviceWorker.register('/service-worker.js').then(function () {
         console.log('Service worker registered!');
     });
 }
@@ -90,5 +92,18 @@ function displayNotification() {
 }
 
 displayNotification();
-///// This Section Initializes timer.html's state machine
-window.current_state = force_state(timer_init);
+
+//// This Section fetches user data from the server and start state machine
+postData('/fetchuserdata', {
+    "token": "1e250968-7a1b-11eb-9439-0242ac130002",
+    "title": "title"
+})
+    .then(data => {
+        console.log(data);
+        // data ready
+        window.current_state = force_state(timer_init);
+        window.user_data = data
+    }) // JSON from `response.json()` call
+    .catch(error => { console.error(error); })
+
+

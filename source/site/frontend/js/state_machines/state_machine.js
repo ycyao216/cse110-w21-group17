@@ -1,7 +1,6 @@
 // Example State Data Structure
 var example_state = {
     'name': 'timer_init',
-    'attatched_states': [],
     'next_states': {
 
     },
