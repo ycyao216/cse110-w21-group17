@@ -9,10 +9,10 @@ export function define_settings(html) {
             });
             shadow.innerHTML = html;
 
-            let document = this.shadowRoot;
 
+            let self = this;
             function _class(name) {
-                return document.querySelectorAll("." + name);
+                return self.shadowRoot.querySelectorAll("." + name);
             }
 
             let tabPanes = _class("tab-header")[0].getElementsByTagName("div");
@@ -33,7 +33,7 @@ export function define_settings(html) {
             }
 
             // for incdecinput control
-            define_incdecinput(document);
+            define_incdecinput(this.shadowRoot);
 
         }
     }
