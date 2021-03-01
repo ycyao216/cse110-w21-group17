@@ -73,25 +73,33 @@ fetch("/html/components/analysis.html")
 
 
 ///// This function registers the service worker
+navigator.serviceWorker.title = "ffff";
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function () {
         console.log('Service worker registered!');
     });
+
+
+    // navigator.serviceWorker.addEventListener('message', event => {
+    //     // event is a MessageEvent object
+    //     console.log(`The service worker sent me a message: ${event.data}`);
+    //   });
 }
 
 Notification.requestPermission(function (status) {
     console.log('Notification permission status:', status);
 });
 
-function displayNotification() {
-    if (Notification.permission == 'granted') {
-        navigator.serviceWorker.getRegistration().then(function (reg) {
-            reg.showNotification('Hello world!');
-        });
-    }
-}
+// function displayNotification() {
+//     if (Notification.permission == 'granted') {
+//         navigator.serviceWorker.getRegistration().then(function (reg) {
+//             reg.showNotification('Hello world!');
+//         });
+//     }
+// }
 
-displayNotification();
+// displayNotification();
+console.log(navigator.serviceWorker.controller);
 
 //// This Section fetches user data from the server and start state machine
 postData('/fetchuserdata', {
@@ -101,8 +109,15 @@ postData('/fetchuserdata', {
     .then(data => {
         console.log(data);
         // data ready
-        window.current_state = force_state(timer_init);
-        window.user_data = data
+        window.user_data = JSON.parse(localStorage.getItem('user_data')); //data
+        window.current_state = timer_init;
+        if (window.user_data["user_log"].length > 0){
+            let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
+            window.current_state = transition(window.current_state, previous_state);
+        }else{
+            window.current_state = force_state(timer_init);
+        }
+        localStorage.setItem('user_data', JSON.stringify(window.user_data));
     }) // JSON from `response.json()` call
     .catch(error => { console.error(error); })
 

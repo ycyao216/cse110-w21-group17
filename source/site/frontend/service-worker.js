@@ -79,7 +79,7 @@ self.addEventListener('fetch', function (event) {
 });
 
 self.addEventListener('activate', function (event) {
-  var cacheWhitelist = ['example'];
+  var cacheWhitelist = [];
   event.waitUntil(
     caches.keys().then(function (cacheNames) {
       return Promise.all(
@@ -93,18 +93,15 @@ self.addEventListener('activate', function (event) {
   );
 });
 
-// self.addEventListener('fetch', (e) => {
-//     console.log('ddd');
-//     e.respondWith(
-//         caches.match(e.request).then((r) => {
-//             console.log('[Service Worker] Fetching resource: ' + e.request.url);
-//             return r || fetch(e.request).then((response) => {
-//                 return caches.open(cacheName).then((cache) => {
-//                     console.log('[Service Worker] Caching new resource: ' + e.request.url);
-//                     cache.put(e.request, response.clone());
-//                     return response;
-//                 });
-//             });
-//         })
-//     );
-// });
+// push notification
+addEventListener('message', event => {
+  // event is an ExtendableMessageEvent object
+  console.log(`The client sent me a message: ${event.data}`);
+  const title = event.data["title"];
+  const options = {
+    body: event.data["message"],
+    icon: 'images/icon.png',
+    badge: 'assets/images/web-background.png'
+  };
+  self.registration.showNotification(title, options);
+});

@@ -12,6 +12,9 @@ export var timer_emergency_stop;
 // init page when user enters website
 timer_init = {
     'next_states': {
+        get timer_init() {
+            return timer_init
+        }, // for recover state purposes
         get timer_open_settings() {
             return timer_open_settings
         }, // triggered when user pressed the settings button
@@ -28,18 +31,15 @@ timer_init = {
     'functions_enter': [
         () => console.log("[timer_init]"),
         () => {
+            window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_init";
+            localStorage.setItem('user_data', JSON.stringify(window.user_data));
+        },
+        // View
+        () => {
             document.getElementById("start-button").style.display = 'initial';
-        },
-        () => {
             document.getElementById("emergency-stop-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("overstudy-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("early-prompt").style.display = 'none';
-        },
-        () => {
             document.getElementById("timer-label").innerHTML = "Waiting";
         },
     ],
@@ -55,6 +55,10 @@ timer_open_settings = {
     },
     'functions_enter': [
         () => console.log('[timer_open_settings]'),
+        () => {
+            window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_open_settings";
+            localStorage.setItem('user_data', JSON.stringify(window.user_data));
+        },
         () => {
             document.getElementById("c-settings").style.display = 'block';
         },
@@ -122,6 +126,9 @@ timer_during_countdown = {
     'functions_enter': [
         () => console.log('[timer_during_countdown]'),
         () => {
+            window.user_data
+        },
+        () => {
             document.getElementById("start-button").style.display = 'none';
         },
         () => {
@@ -164,7 +171,7 @@ timer_emergency_stop = {
                     document.getElementById("timer-display").trigger_emergency_stop();
                     window.current_state = transition(window.current_state, 'timer_init');
                 },
-                () => {}
+                () => { }
             )
         }
     ],
@@ -221,6 +228,14 @@ timer_break_countdown = {
     },
     'functions_enter': [
         () => console.log('[timer_break_countdown]'),
+        () => {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.active.postMessage({
+                    'title': 'take a break',
+                    'message': 'take a break'
+                });
+            });
+        },
         () => {
             document.getElementById("start-button").style.display = 'none';
         },
