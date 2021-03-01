@@ -4,15 +4,32 @@
   },
   "userdata": {
     "1e250968-7a1b-11eb-9439-0242ac130002": {
-      "last_login": "",
-      "last_timer_state": "timer_init",
-      "last_countdown_state": "timer_init",
-      "task_list_data": {
-          ""
-          "current_task": "",
-          "pending_tasks": [],
-          "finished_tasks": []
-      },
+      "task_list_data": [
+        {
+          "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
+          "description": "task 1",
+          "pomo_estimation": 4,
+          "actual_pomo": 0,
+          "state": "pending",
+          "next_task": "97bf356c-3910-45f5-950e-34acc6319b83"
+        },
+        {
+          "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+          "description": "task 2",
+          "pomo_estimation": 2,
+          "actual_pomo": 0,
+          "state": "pending",
+          "next_task": null
+        }
+      ],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": "timer_init",
+          "task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+          "accumulated_cycles": 0
+        }
+      ],
       "settings": {
         "short_break_sec": 3,
         "short_break_cycles": 1,
@@ -22,10 +39,3 @@
     }
   }
 }
-
-description
-pomo_estimation
-actual_pomo
-finished
-running
-current_cycle

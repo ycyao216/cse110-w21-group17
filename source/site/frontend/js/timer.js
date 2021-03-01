@@ -5,7 +5,7 @@ import { define_control_button } from './components/control-button.js';
 import { define_time_picker } from './components/time-picker.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
-import {Task_data, Task_list_data} from './components/task-list-data.js';
+import { Task_data, Task_list_data } from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
 import { force_state, state_transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
@@ -70,5 +70,26 @@ fetch("/html/components/analysis.html")
     .then(stream => stream.text())
     .then(text => define_analysis(text));
 
+
+///// This function registers the service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/js/service-worker.js').then(function () {
+        console.log('Service worker registered!');
+    });
+}
+
+Notification.requestPermission(function (status) {
+    console.log('Notification permission status:', status);
+});
+
+function displayNotification() {
+    if (Notification.permission == 'granted') {
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+            reg.showNotification('Hello world!');
+        });
+    }
+}
+
+displayNotification();
 ///// This Section Initializes timer.html's state machine
 force_state(timer_init);

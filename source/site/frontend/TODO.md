@@ -1,0 +1,9 @@
+- [ ] Implement task-level state machine
+- [ ] Decide task datastructure
+- [ ] Make task datastructure json-serielizable
+- [ ] Implement Firebase Integration
+- [ ] Implement login/logout workflow
+- [ ] Implement database sync
+- [ ] Implement Offline Website Service Worker
+- [ ] Use libraries to replace exploratory code
+- [ ] Test edge cases for database updates
