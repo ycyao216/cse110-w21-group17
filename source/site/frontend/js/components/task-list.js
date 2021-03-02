@@ -24,17 +24,17 @@ export function define_task_list(html) {
       let document = this.shadowRoot;
 
       /**
-       * Remove the empty text element in pending list html, so that the move 
+       * Remove the empty text element in pending list html, so that the move
        * functionalities will not be affected
-       * @param {*} _ dummy veriable 
+       * @param {*} _ dummy veriable
        */
-      let remove_empty_text = _ => {
-        for (let i of document.getElementById(pending_id).childNodes){
-          if (i.nodeType === "TEXT"){
+      let remove_empty_text = (_) => {
+        for (let i of document.getElementById(pending_id).childNodes) {
+          if (i.nodeType === "TEXT") {
             document.getElementById(pending_id).remove(i);
           }
         }
-      }
+      };
 
       function _class(name) {
         return document.querySelectorAll("." + name);
@@ -53,10 +53,10 @@ export function define_task_list(html) {
       }
 
       /**
-       * Render only. Move the curret task from running to finished after 
+       * Render only. Move the curret task from running to finished after
        * and display actual pomodoro sessions taken by the current task.
        * Does noting to empty pending.
-       * @param {mixed} num_cycles If there is a current task, is the actual 
+       * @param {mixed} num_cycles If there is a current task, is the actual
        * pomodoro cycle taken by the current task. Null if there is no curent
        * task.
        */
@@ -80,7 +80,7 @@ export function define_task_list(html) {
       /**
        * Update the task list (data and render) when a cycle naturally ends.
        */
-      function upon_cycle_natural_finish(){
+      function upon_cycle_natural_finish() {
         let num_cycles = window.task_list.upon_cycle_finish();
         upon_cycle_finish_render(num_cycles);
       }
@@ -89,7 +89,7 @@ export function define_task_list(html) {
        * Force the finish of the current task. Record the immediate cycles taken
        * by the current task so far as the actual number of cycles taken.
        */
-      function force_finish_task(){
+      function force_finish_task() {
         let num_cycles = window.task_list.upon_task_finish();
         upon_cycle_finish_render(num_cycles);
       }
@@ -145,9 +145,15 @@ export function define_task_list(html) {
         }
       }
 
-      document.addEventListener(window.TIME_FINISH_EVENT,_=>upon_cycle_natural_finish());
-      document.addEventListener(window.TIME_START_EVENT,_=>upon_cycle_start_render())
-      document.addEventListener(window.FINISH_EARLY_EVENT,_=>force_finish_task())
+      document.addEventListener(window.TIME_FINISH_EVENT, (_) =>
+        upon_cycle_natural_finish()
+      );
+      document.addEventListener(window.TIME_START_EVENT, (_) =>
+        upon_cycle_start_render()
+      );
+      document.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
+        force_finish_task()
+      );
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
@@ -156,16 +162,18 @@ export function define_task_list(html) {
       document
         .getElementById("test-btn-0")
         .addEventListener("click", function () {
-          document.dispatchEvent(window.TIME_START)
+          document.dispatchEvent(window.TIME_START);
         });
       document
         .getElementById("test-btn-1")
         .addEventListener("click", function () {
           document.dispatchEvent(window.TIME_FINISH);
         });
-      document.getElementById('test-btn-2').addEventListener('click',function(){
-        document.dispatchEvent(window.FINISH_EARLY);
-      })
+      document
+        .getElementById("test-btn-2")
+        .addEventListener("click", function () {
+          document.dispatchEvent(window.FINISH_EARLY);
+        });
     }
 
     enter_animate() {
@@ -283,14 +291,14 @@ export function define_task_list(html) {
        * @param {*} direction Direction of movement: 0 for up, 1 for down
        */
       function move(self, direction) {
-        window.task_list.move(data.list_index,direction);
+        window.task_list.move(data.list_index, direction);
         let parent = self.parentNode;
         if (direction === 0) {
           if (self.previousSibling !== null) {
             parent.insertBefore(self, self.previousSibling);
           }
         } else if (direction === 1) {
-          if (self.nextElementSibling.id !== 'add-task-button') {
+          if (self.nextElementSibling.id !== "add-task-button") {
             parent.insertBefore(self.nextElementSibling, self);
           }
         }
