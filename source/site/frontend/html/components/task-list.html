@@ -4,21 +4,17 @@
 
   <h3>Running Task:</h3>
   <ul class="side-bar-division" id="running"></ul>
-  <h3>Pending Tasks:</h3>
-  <ul class="side-bar-division" id="pending">
-    <button type="button" id="add-task-button">+</button>
-  </ul>
+  <h3 id='pending-head'>Pending Tasks:</h3>
+  <ul class="side-bar-division" id="pending"><button type="button" id="add-task-button">+</button></ul>
   <h3>Finished Tasks:</h3>
   <ul class="side-bar-division" id="finished"></ul>
 
-  <button
-    type="button"
-    id="fold-button"
-    onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
-  >
+  <button type="button" id="fold-button"
+    onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">
     Extend
   </button>
   <button type="button" id="test-btn-0">Simulate cycle start</button>
   <button type="button" id="test-btn-1">Simulate cycle finish</button>
+  <button type="button" id="test-btn-2">Simulate finish early</button>
   <p id="curr_task_information">There is no task in running.</p>
 </div>

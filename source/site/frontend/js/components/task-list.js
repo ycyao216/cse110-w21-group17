@@ -53,13 +53,15 @@ export function define_task_list(html) {
       }
 
       /**
-       * Renders the task list when a cycle finishes.
-       * Move the curret task from running to finished.
+       * Render only. Move the curret task from running to finished after 
+       * and display actual pomodoro sessions taken by the current task.
        * Does noting to empty pending.
+       * @param {mixed} num_cycles If there is a current task, is the actual 
+       * pomodoro cycle taken by the current task. Null if there is no curent
+       * task.
        */
-      function upon_cycle_finish_render() {
-        // Update task list data accordingly.
-        let num_cycles = window.task_list.upon_cycle_finish();
+      function upon_cycle_finish_render(num_cycles) {
+        // Rendering procedures are the same for both natural and manual finish
         if (num_cycles !== null) {
           if (current_task_display !== null) {
             current_task_display.finish_task_render(num_cycles);
@@ -73,6 +75,23 @@ export function define_task_list(html) {
           current_task_display = null;
         }
         test_current_task_display();
+      }
+
+      /**
+       * Update the task list (data and render) when a cycle naturally ends.
+       */
+      function upon_cycle_natural_finish(){
+        let num_cycles = window.task_list.upon_cycle_finish();
+        upon_cycle_finish_render(num_cycles);
+      }
+
+      /**
+       * Force the finish of the current task. Record the immediate cycles taken
+       * by the current task so far as the actual number of cycles taken.
+       */
+      function force_finish_task(){
+        let num_cycles = window.task_list.upon_task_finish();
+        upon_cycle_finish_render(num_cycles);
       }
 
       /**
@@ -126,8 +145,9 @@ export function define_task_list(html) {
         }
       }
 
-      document.addEventListener(window.TIME_FINISH_EVENT,_=>upon_cycle_finish_render());
+      document.addEventListener(window.TIME_FINISH_EVENT,_=>upon_cycle_natural_finish());
       document.addEventListener(window.TIME_START_EVENT,_=>upon_cycle_start_render())
+      document.addEventListener(window.FINISH_EARLY_EVENT,_=>force_finish_task())
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
@@ -143,6 +163,9 @@ export function define_task_list(html) {
         .addEventListener("click", function () {
           document.dispatchEvent(window.TIME_FINISH);
         });
+      document.getElementById('test-btn-2').addEventListener('click',function(){
+        document.dispatchEvent(window.FINISH_EARLY);
+      })
     }
 
     enter_animate() {

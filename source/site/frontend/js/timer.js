@@ -29,9 +29,10 @@ window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on you
 // Added example events to text compatibilities with event listener
 window.TIME_START_EVENT = 't_start';
 window.TIME_FINISH_EVENT = 't_finish';
+window.FINISH_EARLY_EVENT = 't_finish_early';
 window.TIME_START = new Event(window.TIME_START_EVENT);
 window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
-
+window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
 //// for timer
 window.num_pomos = 0;
 
