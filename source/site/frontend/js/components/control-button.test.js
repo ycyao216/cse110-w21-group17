@@ -1,5 +1,5 @@
 const {
-    define_control_button
+    define_control_button,
 } = require('./control-button');
 var fs = require('fs');
 let text = fs.readFileSync("frontend/html/components/control-button.html", 'utf8');
@@ -8,13 +8,8 @@ let ControlButton = new define_control_button(text);
 describe('Testing both valid and invalid instantiations of control button', () => {
     test('running valid HTML through the function', () => {
         let button = new ControlButton(text);
-        //let strings = JSON.stringify(button);
-        //console.log(strings);
-        expect(button).toMatch(text);      
+        expect((button.get_document()).innerHTML).toMatch(text); 
+        expect((button.get_shadow()).innerHTML).toMatch(text); 
+        expect((button.get_shadow()).mode).toMatch('open');  
     });
-    /** 
-    test('running invalid HTML through the function', () => {
-        //
-    })
-    **/
 })
