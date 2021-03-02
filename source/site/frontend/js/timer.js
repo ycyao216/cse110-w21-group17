@@ -26,27 +26,18 @@ window.TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
 window.EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
 window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
 
+// Added example events to text compatibilities with event listener
+window.TIME_START_EVENT = 't_start';
+window.TIME_FINISH_EVENT = 't_finish';
+window.TIME_START = new Event(window.TIME_START_EVENT);
+window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
+
 //// for timer
 window.num_pomos = 0;
 
 // Task-list data 
 window.task_list = new Task_list_data();
 window.current_task = null;
-
-//// for task-list
-// These two arrays are used to recored the information of running and pending
-window.task_description_arr = [];
-window.task_estimation_arr = [];
-
-window.task_finished_des = [];
-window.task_finished_est = [];
-
-window.current_task_description = "";
-window.current_task_estimation = "";
-
-window.edited_task_description = "";
-window.edited_index = 0;
-
 
 // This Section Imports Requires Components
 // Settings Component

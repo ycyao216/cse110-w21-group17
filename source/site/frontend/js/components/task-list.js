@@ -126,6 +126,8 @@ export function define_task_list(html) {
         }
       }
 
+      document.addEventListener(window.TIME_FINISH_EVENT,_=>upon_cycle_finish_render());
+      document.addEventListener(window.TIME_START_EVENT,_=>upon_cycle_start_render())
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
@@ -134,12 +136,12 @@ export function define_task_list(html) {
       document
         .getElementById("test-btn-0")
         .addEventListener("click", function () {
-          upon_cycle_start_render();
+          document.dispatchEvent(window.TIME_START)
         });
       document
         .getElementById("test-btn-1")
         .addEventListener("click", function () {
-          upon_cycle_finish_render();
+          document.dispatchEvent(window.TIME_FINISH);
         });
     }
 
