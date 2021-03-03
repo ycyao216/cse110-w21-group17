@@ -35,6 +35,7 @@ window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
 window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
 //// for timer
 window.num_pomos = 0;
+window.last_time_set = 0;
 
 // Task-list data 
 window.task_list = new Task_list_data();
