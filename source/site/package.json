@@ -39,7 +39,10 @@
     "stylelint": "*",
     "stylelint-config-standard": "*",
     "jsdoc": "*",
-    "babel-eslint": "*"
+    "babel-eslint": "*",
+    "cypress": "^6.5.0",
+    "nyc": "*",
+    "@cypress/code-coverage": "^3.9.0"
   },
   "babel": {
     "presets": [

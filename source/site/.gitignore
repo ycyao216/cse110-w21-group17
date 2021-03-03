@@ -622,3 +622,6 @@ dist/
 ### test result
 **/*jest.results.json
 **/*docs
+.nyc_output
+coverage
+frontend/js-trans
