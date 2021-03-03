@@ -14,10 +14,14 @@ export class Task_data {
     this.actual_pomo = 0;
     // Whether the task is finished
     this.finished = false;
+    // Whether more time is needed
+    this.overtime = false;
     // Whether the task is running
     this.running = false;
     // The current number of cycles spent on this task
     this.current_cycle = 0;
+    // The number of extra cycles 
+    this.extra_cycles = 0;
     this.list_index = list_index;
 
     /**
@@ -30,6 +34,25 @@ export class Task_data {
     }
   }
 
+  /**
+   * Set the overtime property to true
+   */
+  make_overtime(){
+    this.overtime = true;
+  }
+
+  /**
+   * Set the overtime property to false
+   */
+  remove_overtime(){
+    this.overtime = false;
+  }
+  /**
+   * @type {boolean} Whether or not the task is overtime
+   */
+  get overtime_status(){
+    return this.overtime;
+  }
   /**
    *@type {number} The UID
    */
@@ -97,8 +120,8 @@ export class Task_data {
    * @returns {number} The actual pomodoro cycle number of the task;
    */
   finish() {
-    this.finish = true;
-    this.actual_pomo = this.current_cycle;
+    this.finished = true;
+    this.actual_pomo = this.current_cycle +this.extra_cycles;
     return this.actual_pomo;
   }
 
@@ -121,6 +144,11 @@ export class Task_data {
    */
   increament_cycle() {
     this.current_cycle += 1;
+    window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+  }
+
+  stringify(){
+    return "Task Name: " + this.desc + "\nProgress: " + this.current_cycle + " of " + this.est + " cycles done";
   }
 }
 
@@ -230,6 +258,9 @@ export class Task_list_data {
   upon_task_finish() {
     // Order of operation does matter!!
     if (this.current_task != null) {
+      /**
+       * @fixme This is actually a duplicated call of current_task.finish().
+       */
       let actual = this.current_task.finish();
       this.finished_tasks.push(this.current_task);
       this.current_task = null;
@@ -239,40 +270,94 @@ export class Task_list_data {
   }
 
   /**
-   * Operations done to the task list when a cycle is finished
-   * Increment the pomo counter of the current task. If the task is finished,
-   * go to the task finish procedure.
-   * @return {mixed} The actual cycle number of the current task. If there is
-   * no current task, return null.
+   * Callback for add on cycle button. Set the overtime variable to true
    */
-  upon_cycle_finish() {
-    if (this.current_task !== null) {
-      this.current_task.increament_cycle();
-      if (
-        this.current_task.current_cycle >= this.current_task.pomo_estimation
-      ) {
-        return this.upon_task_finish();
-      }
+  upon_overtime(){
+    if (this.current != null && this.current_task.finish) {
+      this.current.make_overtime();
     }
-    return null;
   }
 
   /**
-   * Operations done to the task list when the timer starts
+   * Operations done to the task list when a cycle is finished
+   * Increment the pomo counter of the current task. If the task is finished,
+   * go to the task finish procedure. If the task is overtime, increase the extra
+   * cycle count.
+   * @return {number} The actual cycle number of the current task if the current
+   * task normally finishes. -2 if the task is overtime. -1 if the current task
+   * is null, -3 if the task is not finished (has more cycle to go to reach est)
+   */
+  upon_cycle_finish() {
+    if (this.current_task !== null) {
+      if (this.current.overtime_status === true){
+        this.current.extra_cycles += 1;
+        // Set the over time to false to prompt the user again when the cycle 
+        // is finished.
+        this.current.remove_overtime();
+        return -2;
+      }
+      else if (this.current_task.finish_status !== true){
+        this.current_task.increament_cycle();
+        if (
+          this.current_task.current_cycle >= this.current_task.pomo_estimation
+        ) {
+          return this.current_task.finish();
+        }
+        return -3;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Operations to take when the next task is starting
    * Pop the first pending task and add to the current task. Does nothing when
    * taking a break.
-   * @param {boolean} is_woring Whether the timer is in working mode.
-   * @return {boolean} Relays the timer cycle type.
+   * @param {boolean} is_woring Whether the timer is in working mode. (not using
+   * for now)
+   * @return {boolean} Relays the timer cycle type. (not using for now)
    */
-  upon_cycle_start(is_working) {
+  upon_next_task_start(is_working) {
     if (is_working) {
-      if (this.pending_tasks.length > 0) {
+      if (this.pending_tasks.length > 0 && this.current_task === null) {
         this.pending_tasks[0].running = true;
         // Overwrite the existing current task.
         this.current_task = this.pending_tasks[0];
         this.pending_tasks.shift();
+        // Updates current task display
+        window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+      }
+      // Attempt to add event for making empty task display when no pending tasks
+      else if (this.pending_tasks.length === 0){
+        window.dispatchEvent(window.NO_RUNNING);
+
       }
     }
     return is_working;
+  }
+
+  /**
+   * Operations to take when break ends:
+   * Finish the current task if it is finished and not overtime
+   * Push the next task from pending to running if there is more task to do
+   * @returns {number} 0 if current task finished and next task poped. -3 if 
+   * current task finished but no next task. 02 if current task overtime, -1 if 
+   * no current task.
+   */
+  upon_break_ends(){
+    if (this.current_task !== null){
+        if (this.current.finish_status) {
+          if (this.current.overtime_status){
+            return -2;
+          } 
+          this.upon_task_finish();
+          if (this.pending_tasks.length > 0){
+            this.upon_next_task_start();
+            return -3;
+          }
+          return 0;
+        }
+    }
+    return -1;
   }
 }

@@ -53,17 +53,31 @@ export function define_task_list(html) {
       }
 
       /**
+       * Update the display of task list when the break ends, also conducts the 
+       * corresponding data structure operations.
+       * 
+       */
+      function upon_break_ends_rendering(){
+        let break_status = window.task_list.upon_break_ends();
+        //Move the current task to finish and move the next pending to running
+        //when task normally finish.
+        if (break_status === 0){
+          upon_task_finish_render();
+          upon_cycle_start_render();
+        }
+      }
+
+      /**
        * Render only. Move the curret task from running to finished after
        * and display actual pomodoro sessions taken by the current task.
        * Does noting to empty pending.
-       * @param {mixed} num_cycles If there is a current task, is the actual
-       * pomodoro cycle taken by the current task. Null if there is no curent
-       * task.
        */
-      function upon_cycle_finish_render(num_cycles) {
+      function upon_task_finish_render() {
+        // Access the condition code for the last finished task.
+        let num_cycles = window.current_task_code;
         // Rendering procedures are the same for both natural and manual finish
-        if (num_cycles !== null) {
-          if (current_task_display !== null) {
+        if (num_cycles !== -1 && num_cycles !== -2) {
+          if (current_task_display !== null && num_cycles !== -3) {
             current_task_display.finish_task_render(num_cycles);
             document
               .getElementById(running_id)
@@ -72,6 +86,7 @@ export function define_task_list(html) {
               .getElementById(finished_id)
               .appendChild(current_task_display);
           }
+          /** @fixme I don't know why this is here */
           current_task_display = null;
         }
         test_current_task_display();
@@ -81,8 +96,10 @@ export function define_task_list(html) {
        * Update the task list (data and render) when a cycle naturally ends.
        */
       function upon_cycle_natural_finish() {
-        let num_cycles = window.task_list.upon_cycle_finish();
-        upon_cycle_finish_render(num_cycles);
+        // Get the condition of the current task when it finishes. 
+        // For condition codes, see upon_cycle_finish of task-list-data.js
+        window.current_task_code = window.task_list.upon_cycle_finish();
+        //upon_task_finish_render(num_cycles);
       }
 
       /**
@@ -101,10 +118,11 @@ export function define_task_list(html) {
        * pending is empty.
        */
       function upon_cycle_start_render() {
+        // call the data structure operations
+        let is_working = window.task_list.upon_next_task_start(true);
         /**
-         * @todo Link this to actaul timer cycle type.
+         * @note is_working is always true, so useless for now
          */
-        let is_working = window.task_list.upon_cycle_start(true);
         if (is_working) {
           let first_pending = document.getElementById(pending_id).childNodes[0];
           // while loop to ignore the empty textNodes
@@ -113,8 +131,7 @@ export function define_task_list(html) {
           }
           // Set current_task to null to prevent error on empty
           // pending list
-          current_task_display = null;
-          if (window.task_list.current_task !== null) {
+          if (window.task_list.current_task !== null && current_task_display === null) {
             current_task_display = first_pending;
             document
               .getElementById(running_id)
@@ -145,35 +162,23 @@ export function define_task_list(html) {
         }
       }
 
-      document.addEventListener(window.TIME_FINISH_EVENT, (_) =>
-        upon_cycle_natural_finish()
+      window.addEventListener(window.BREAK_ENDS_EVENT, (_) =>
+        upon_break_ends_rendering()
       );
-      document.addEventListener(window.TIME_START_EVENT, (_) =>
+      window.addEventListener(window.FIRST_TIME_START_EVENT, (_) =>
         upon_cycle_start_render()
       );
-      document.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
+      window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
+        upon_cycle_natural_finish();
+      })
+      window.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
         force_finish_task()
       );
+      window.addEventListener(window.TIMER_ADD_CYCLE_EVENT, (_) => window.task_list.upon_overtime());
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
         .addEventListener("click", add_task_to_pending);
-
-      document
-        .getElementById("test-btn-0")
-        .addEventListener("click", function () {
-          document.dispatchEvent(window.TIME_START);
-        });
-      document
-        .getElementById("test-btn-1")
-        .addEventListener("click", function () {
-          document.dispatchEvent(window.TIME_FINISH);
-        });
-      document
-        .getElementById("test-btn-2")
-        .addEventListener("click", function () {
-          document.dispatchEvent(window.FINISH_EARLY);
-        });
     }
 
     enter_animate() {
@@ -349,9 +354,9 @@ export function define_task_list(html) {
       let task_input_container = document.createElement("div");
       task_input_container.setAttribute("class", "task-container");
       // input for task description
-      let task_desc_in = document.createElement("textarea");
+      let task_desc_in = document.createElement("input");
       task_desc_in.setAttribute("class", "task");
-      // task_desc_in.setAttribute("type", "text");
+      task_desc_in.setAttribute("type", "text");
       // input for task pomo estimation, treat input as string
       let task_estimate_in = document.createElement("input");
       task_estimate_in.setAttribute("class", "pomo-counter");

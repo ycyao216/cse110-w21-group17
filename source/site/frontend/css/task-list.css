@@ -18,6 +18,8 @@
   width: 40%;
   left: 100%;
   transition: left 0.5s;
+  overflow: scroll;
+  z-index: 99;
 }
 
 .task {
