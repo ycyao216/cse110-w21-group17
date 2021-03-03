@@ -19,12 +19,13 @@ export function define_timer_display(html) {
             this.alarm_sound = this.shadowRoot.getElementById("alarm-sound");
         }
 
-        /* 
-         * trigger_countdown(seconds, callback_f)
-         * seconds - max time of the countdown
-         * callback_f - function to call once timer reaches 0
-         * use - sets up the time interval for update_countdown() and the
+        /**
+         * sets up the time interval for update_countdown() and the
          * callback function. Keeps track of the work cycle time.
+         * @function
+         * @param {Number} seconds - max time of the countdown
+         * @param {function} callback_f - function to call once timer reaches 0
+         * @returns callback_f
          */
         trigger_countdown(seconds, callback_f) {
             // save last time for resetting
@@ -52,11 +53,12 @@ export function define_timer_display(html) {
             }
         }
 
-        /*
-         * update_countdown()
-         * use - Does the actual counting from the time set to 0.
+        /**
+         * Does the actual counting from the time set to 0.
          * Updates timer display.
          * At 0 calls the callback function to change states.
+         * @function
+         * @returns when timer hits 0
          */
         update_countdown() {
             // add 1,000 to start at desired time instead of 1 under
@@ -74,11 +76,11 @@ export function define_timer_display(html) {
             this.timer_display.innerHTML = new Date(Math.ceil(remaining_ms)).toISOString().substr(14, 5)
         }
 
-        /*
-         * reset_countdown()
-         * use - If a countdown was set, clear its interval and
+        /**
+         * If a countdown was set, clear its interval and
          * and set it to null. Also sets the counter to the last
          * work cycle time set.
+         * @function
          */
         reset_countdown() {
             //reset to default value 
@@ -92,10 +94,10 @@ export function define_timer_display(html) {
             }
         }
         
-        /*
-         * trigger_start()
-         * use - This is for the start button to dispatch the
+        /**
+         * This is for the start button to dispatch the
          * start event and setup the state machine
+         * @function
          */
         trigger_start() {
             //event
@@ -106,10 +108,10 @@ export function define_timer_display(html) {
 
         }
 
-        /*
-         * trigger_continue_prompt()
-         * use - This is for the end of a cycle to prompt the user
+        /**
+         * This is for the end of a cycle to prompt the user
          * if they want to continue because they have no more cycles scheduled 
+         * @function
          */
         trigger_continue_prompt() {
             //prompt
@@ -127,10 +129,10 @@ export function define_timer_display(html) {
                 });
         }
         
-        /*
-         * trigger_emergency_stop_prompt()
-         * use - prompt user to trigger emergency stop or not.
+        /**
+         * Prompt user to trigger emergency stop or not.
          * if they want to stop, calls trigger_emergency_stop()
+         * @function
          */
         trigger_emergency_stop_prompt() {
             // debug msg
@@ -147,10 +149,10 @@ export function define_timer_display(html) {
             )
         }
         
-        /*
-         * trigger_emergency_stop()
-         * use - resets the countdown and its interval, set the display to the last work cycle time set,
+        /**
+         * Resets the countdown and its interval, set the display to the last work cycle time set,
          * and reset number of pomos
+         * @function
          */
         trigger_emergency_stop() {
             this.reset_countdown();
@@ -161,9 +163,9 @@ export function define_timer_display(html) {
             num_pomos = 0;
         }
 
-        /*
-         * trigger_finish_early()
-         * use - if the prompt is not already showing, pop-up message and show finish early prompt
+        /**
+         * If the prompt is not already showing, pop-up message and show finish early prompt
+         * @function
          */
         trigger_finish_early() {
             if(document.getElementById('early-prompt').style.display === 'none') {
@@ -172,9 +174,22 @@ export function define_timer_display(html) {
             }
         }
 
-        /*
-         * ring()
-         * use - sets the volume of the audio tag and plays it.
+        /**
+         * If the user clicks, dispatches event for tasklist to listen to
+         * to add 1 cycle to current task.
+         * @function
+         */
+        trigger_add_cycle() {
+            console.log("Cycle Added!");
+
+            //event
+            let timer_add_cycle = new Event('timer_add_cycle');
+            document.dispatchEvent(timer_add_cycle);
+        }
+
+        /**
+         * Sets the volume of the audio tag and plays it.
+         * @function
          */
         ring() {
             this.alarm_sound.volume = 0.1;
@@ -182,18 +197,19 @@ export function define_timer_display(html) {
             console.log("The Timer is RINGING!");
         }
 
-        /*
-         * incr_pomo()
-         * use - for at the start of a work cycle countdown, increments number of pomos
+        /**
+         * For at the start of a work cycle countdown, increments number of pomos
+         * @function
          */
         incr_pomo() {
             num_pomos++;
         }
         
-        /* 
-         * isLongBreak()
-         * use - return true if this is the 4th break since a Long Break
-         *       false otherwise
+        /**
+         * Return true if this is the 4th break since a Long Break
+         * false otherwise
+         * @function
+         * @returns true if evenly divisible by 4, false otherwise
          */
         isLongBreak() {
             return ((num_pomos % 4) == 0);
@@ -218,6 +234,11 @@ export function define_timer_display(html) {
     document.addEventListener('timer_cycle_complete', function (e) {
         console.log('timer cycle completed!');
     });
+
+    /*// event to update TaskBox underneath timer
+    document.addEventListener(' ... ', function (e) {
+        document.getElementById('current-task').innerHTML = window. ...;
+    } */
 
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;
