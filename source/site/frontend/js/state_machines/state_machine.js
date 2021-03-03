@@ -11,31 +11,31 @@ var example_state = {
 
 // TODO Ready For Testing
 // State Utils
-export function transition(from_state, to_state_string) {
+export function transition(from_state, to_state_string, target = null) {
     // Obtain next state
     let to_state = from_state.next_states[to_state_string]
     
     if (to_state == null) {
-        console.error('invalid state trainsition detected!!');
-        return from_state
+        console.error(`invalid state trainsition: ${from_state} -> ${to_state_string} detected!!`);
+        return null;
     }
 
     // run all functions_leave of from_state
     if (from_state !== null) {
-        from_state.functions_leave.forEach(f => f.call(this));
+        from_state.functions_leave.forEach(f => target == null ? f.call(this) : f.call(this, target));
     }
 
     // State Transition
     window.current_state = to_state;
 
     // run all functions_enter of to_state
-    to_state.functions_enter.forEach(f => f.call(this));
+    to_state.functions_enter.forEach(f => target == null ? f.call(this) : f.call(this, target));
 
     return to_state;
 }
 
-export function force_state(to_state) {
-    to_state.functions_enter.forEach(f => f.call(this));
+export function force_state(to_state, target = null) {
+    to_state.functions_enter.forEach(f => target == null ? f.call(this) : f.call(this, target));
     return to_state;
 }
 
@@ -45,7 +45,8 @@ export function fastforward_state(from_state, target){
 
     let current_state = from_state;
     var next_state_str = null;
-    while((next_state_str = current_state.get_next_state.call(this, target)) !== null){
-        current_state = transition(current_state, next_state_str);
+    while((next_state_str = current_state.next_state_string.call(this, target)) !== null && current_state != null){
+        current_state = transition(current_state, next_state_str, target = target);
     }
+    return current_state
 }

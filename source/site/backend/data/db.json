@@ -10,7 +10,7 @@
           "description": "task 1",
           "pomo_estimation": 4,
           "actual_pomo": 0,
-          "state": "pending",
+          "start_date": null,
           "next_task": "97bf356c-3910-45f5-950e-34acc6319b83"
         },
         {
@@ -18,7 +18,7 @@
           "description": "task 2",
           "pomo_estimation": 2,
           "actual_pomo": 0,
-          "state": "pending",
+          "start_date": null,
           "next_task": null
         }
       ],

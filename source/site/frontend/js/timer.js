@@ -82,33 +82,23 @@ fetch("/html/components/analysis.html")
 
 
 ///// This function registers the service worker
-navigator.serviceWorker.title = "ffff";
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').then(function () {
-        console.log('Service worker registered!');
-    });
+// navigator.serviceWorker.title = "ffff";
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('/service-worker.js').then(function () {
+//         console.log('Service worker registered!');
+//     });
 
 
-    // navigator.serviceWorker.addEventListener('message', event => {
-    //     // event is a MessageEvent object
-    //     console.log(`The service worker sent me a message: ${event.data}`);
-    //   });
-}
-
-Notification.requestPermission(function (status) {
-    console.log('Notification permission status:', status);
-});
-
-// function displayNotification() {
-//     if (Notification.permission == 'granted') {
-//         navigator.serviceWorker.getRegistration().then(function (reg) {
-//             reg.showNotification('Hello world!');
-//         });
-//     }
+//     // navigator.serviceWorker.addEventListener('message', event => {
+//     //     // event is a MessageEvent object
+//     //     console.log(`The service worker sent me a message: ${event.data}`);
+//     //   });
 // }
 
-// displayNotification();
-console.log(navigator.serviceWorker.controller);
+// Notification.requestPermission(function (status) {
+//     console.log('Notification permission status:', status);
+// });
+
 
 //// This Section fetches user data from the server and start state machine
 postData('/fetchuserdata', {
