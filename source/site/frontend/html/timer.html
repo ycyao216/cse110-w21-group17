@@ -33,7 +33,7 @@
                 <div class="control-buttons">
                     <!-- <button class="control" id="start-button">Start</button> -->
                     <c-control-button id="start-button" class="start" onclick="document.getElementById('timer-display').trigger_start()">Start</c-control-button>
-                    <c-control-button id="emergency-stop-button" class="finish" onclick="state_transition('timer_emergency_stop')">Emergency Stop</c-control-button>
+                    <c-control-button id="emergency-stop-button" class="finish" onclick="document.getElementById('timer-display').trigger_emergency_stop_prompt()">Emergency Stop</c-control-button>
                     <c-control-button id="overstudy-button" class="finish" onclick="document.getElementById('timer-display').trigger_finish_early()">Finished Early</c-control-button>
                 </div>
                 <div class="task">
