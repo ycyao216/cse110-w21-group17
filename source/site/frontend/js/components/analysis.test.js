@@ -8,7 +8,6 @@ var text = readFileSync("frontend/html/components/analysis.html", 'utf8');
 let CAnalysis = define_analysis(text)
 
 // perform tests
-
 test('test instantiation', () => {
     let test_ele = new CAnalysis(test);
 
