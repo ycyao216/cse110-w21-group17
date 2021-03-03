@@ -10,7 +10,7 @@
   <ul class="side-bar-division" id="finished"></ul>
 
   <button type="button" id="fold-button"
-    onclick="state_transition(timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">
+    onclick="window.current_state = transition(window.current_state,timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')">
     Extend
   </button>
   <button type="button" id="test-btn-0">Simulate cycle start</button>

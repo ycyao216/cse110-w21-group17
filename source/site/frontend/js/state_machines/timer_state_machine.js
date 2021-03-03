@@ -31,13 +31,8 @@ timer_init = {
         } // could be triggered when user presses emergency stop button
     },
     'functions_enter': [
-        // Set everything to defaults
         () => console.log("[timer_init]"),
-        () => {
-            window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_init";
-            localStorage.setItem('user_data', JSON.stringify(window.user_data));
-        },
-        // View
+        // Set everything to defaultView
         () => {
             document.getElementById("start-button").style.display = 'initial';
             document.getElementById("emergency-stop-button").style.display = 'none';
@@ -59,10 +54,6 @@ timer_open_settings = {
     'functions_enter': [
         () => console.log('[timer_open_settings]'),
         // show settings
-        () => {
-            window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_open_settings";
-            localStorage.setItem('user_data', JSON.stringify(window.user_data));
-        },
         () => {
             document.getElementById("c-settings").style.display = 'block';
         },
@@ -136,18 +127,9 @@ timer_during_countdown = {
         () => console.log('[timer_during_countdown]'),
         // change buttons shown, change timer label
         () => {
-            window.user_data
-        },
-        () => {
             document.getElementById("start-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("emergency-stop-button").style.display = 'initial';
-        },
-        () => {
             document.getElementById("overstudy-button").style.display = 'initial';
-        },
-        () => {
             document.getElementById("timer-label").innerHTML = "Work";
         },
         // initiate countdown
@@ -166,36 +148,6 @@ timer_during_countdown = {
     ],
 }
 
-/* REASON FOR NO EMERGENCY_STOP STATE: Prevents ringing at improper times
-timer_emergency_stop = {
-    'next_states': {
-        get timer_init() {
-            return timer_init
-        },
-        get timer_during_countdown() {
-            return timer_during_countdown
-        },
-        get timer_ringing() {
-            return timer_ringing
-        },
-    },
-    'functions_enter': [
-        () => console.log('[timer_emergency_stop]'),
-        // show popup, go back to defaults if confirmed, do nothing if not
-        () => {
-            document.getElementById('c-modal').display_confirm(
-                EMERG_STOP_WARNING,
-                () => {
-                    document.getElementById("timer-display").trigger_emergency_stop();
-                    window.current_state = transition(window.current_state, 'timer_init');
-                },
-                () => { }
-            )
-        }
-    ],
-    'functions_leave': [],
-} */
-
 timer_ringing = {
     'next_states': {
         get timer_init() {
@@ -207,21 +159,15 @@ timer_ringing = {
     },
     'functions_enter': [
         () => console.log('[timer_ringing]'),
+        // Update the page
         () => {
             document.getElementById("start-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("emergency-stop-button").style.display = 'initial';
-        },
-        () => {
             document.getElementById("overstudy-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("early-prompt").style.display = 'none';
-        },
-        () => {
             document.getElementById("timer-label").innerHTML = "Ringing";
         },
+        // Ring
         () => {
             document.getElementById("timer-display").ring();
         },
@@ -251,13 +197,10 @@ timer_break_countdown = {
                 });
             });
         },
+        // Update the page
         () => {
             document.getElementById("start-button").style.display = 'none';
-        },
-        () => {
             document.getElementById("emergency-stop-button").style.display = 'initial';
-        },
-        () => {
             document.getElementById("overstudy-button").style.display = 'none';
         },
         // decide between short or long break

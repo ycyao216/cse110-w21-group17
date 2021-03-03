@@ -11,7 +11,8 @@
           "pomo_estimation": 4,
           "actual_pomo": 0,
           "start_date": null,
-          "next_task": "97bf356c-3910-45f5-950e-34acc6319b83"
+          "next_task": "97bf356c-3910-45f5-950e-34acc6319b83",
+          "deleted": false
         },
         {
           "id": "97bf356c-3910-45f5-950e-34acc6319b83",
@@ -19,7 +20,8 @@
           "pomo_estimation": 2,
           "actual_pomo": 0,
           "start_date": null,
-          "next_task": null
+          "next_task": null,
+          "deleted": false
         }
       ],
       "user_log": [

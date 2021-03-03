@@ -14,7 +14,7 @@ var example_state = {
 export function transition(from_state, to_state_string, target = null) {
     // Obtain next state
     let to_state = from_state.next_states[to_state_string]
-    
+
     if (to_state == null) {
         console.error(`invalid state trainsition: ${from_state} -> ${to_state_string} detected!!`);
         return null;
@@ -39,14 +39,19 @@ export function force_state(to_state, target = null) {
     return to_state;
 }
 
-export function fastforward_state(from_state, target){
-    // To fastforward a state, we must have a target object that reacts to a state change
+export function fastforward_state(from_state, target) {
+    // To fastforward a state, we must have a target object that responds to a state change
     // This is unlike normally, we make state transitions manually.
 
     let current_state = from_state;
     var next_state_str = null;
-    while((next_state_str = current_state.next_state_string.call(this, target)) !== null && current_state != null){
-        current_state = transition(current_state, next_state_str, target = target);
+    while ((next_state_str = current_state.next_state_string.call(this, target)) !== null) {
+        let next_state = transition(current_state, next_state_str, target = target);
+        if (next_state == null) {
+            break;
+        } else {
+            current_state = next_state;
+        }
     }
     return current_state
 }

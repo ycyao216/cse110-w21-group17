@@ -94,7 +94,7 @@ export function define_timer_display(html) {
             let timer_started = new Event('timer_start');
             document.dispatchEvent(timer_started);
 
-            state_transition('timer_during_countdown');
+            window.current_state = transition(window.current_state,'timer_during_countdown');
 
         }
 
@@ -108,10 +108,10 @@ export function define_timer_display(html) {
             document.getElementById('c-modal').display_confirm(
                 "You have no tasks left! Click confirm to continue cycles/Cancel to stop.",
                 () => {
-                    state_transition('timer_during_countdown');
+                    window.current_state = transition(window.current_state,'timer_during_countdown');
                 },
                 () => {
-                    state_transition('timer_init');
+                    window.current_state = transition(window.current_state,'timer_init');
                     this.reset_countdown();
 
                     // update timer_display
@@ -133,7 +133,7 @@ export function define_timer_display(html) {
                 EMERG_STOP_WARNING,
                 () => {
                     document.getElementById("timer-display").trigger_emergency_stop();
-                    state_transition('timer_init');
+                    window.current_state = transition(window.current_state,'timer_init');
                 },
                 () => {}
             )
