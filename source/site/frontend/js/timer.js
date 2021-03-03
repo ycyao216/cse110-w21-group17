@@ -8,12 +8,14 @@ import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
 import { Task_data, Task_list_data } from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
-import { force_state, transition } from './state_machines/state_machine.js';
+import { fastforward_state, force_state, transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
+import { task_create } from './state_machines/task_state_machine.js';
 // set global variables
 
 //// state machine
 window.transition = transition;
+window.fastforward_state = fastforward_state;
 window.timer_init = timer_init;
 
 //// messages
@@ -128,4 +130,6 @@ postData('/fetchuserdata', {
     }) // JSON from `response.json()` call
     .catch(error => { console.error(error); })
 
+
+fastforward_state(task_create, "");
 

@@ -38,3 +38,14 @@ export function force_state(to_state) {
     to_state.functions_enter.forEach(f => f.call(this));
     return to_state;
 }
+
+export function fastforward_state(from_state, target){
+    // To fastforward a state, we must have a target object that reacts to a state change
+    // This is unlike normally, we make state transitions manually.
+
+    let current_state = from_state;
+    var next_state_str = null;
+    while((next_state_str = current_state.get_next_state.call(this, target)) !== null){
+        current_state = transition(current_state, next_state_str);
+    }
+}
