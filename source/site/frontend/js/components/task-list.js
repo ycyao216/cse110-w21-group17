@@ -23,6 +23,19 @@ export function define_task_list(html) {
 
       let document = this.shadowRoot;
 
+      /**
+       * Remove the empty text element in pending list html, so that the move
+       * functionalities will not be affected
+       * @param {*} _ dummy veriable
+       */
+      let remove_empty_text = (_) => {
+        for (let i of document.getElementById(pending_id).childNodes) {
+          if (i.nodeType === "TEXT") {
+            document.getElementById(pending_id).remove(i);
+          }
+        }
+      };
+
       function _class(name) {
         return document.querySelectorAll("." + name);
       }
@@ -40,13 +53,15 @@ export function define_task_list(html) {
       }
 
       /**
-       * Renders the task list when a cycle finishes.
-       * Move the curret task from running to finished.
+       * Render only. Move the curret task from running to finished after
+       * and display actual pomodoro sessions taken by the current task.
        * Does noting to empty pending.
+       * @param {mixed} num_cycles If there is a current task, is the actual
+       * pomodoro cycle taken by the current task. Null if there is no curent
+       * task.
        */
-      function upon_cycle_finish_render() {
-        // Update task list data accordingly.
-        let num_cycles = window.task_list.upon_cycle_finish();
+      function upon_cycle_finish_render(num_cycles) {
+        // Rendering procedures are the same for both natural and manual finish
         if (num_cycles !== null) {
           if (current_task_display !== null) {
             current_task_display.finish_task_render(num_cycles);
@@ -60,6 +75,23 @@ export function define_task_list(html) {
           current_task_display = null;
         }
         test_current_task_display();
+      }
+
+      /**
+       * Update the task list (data and render) when a cycle naturally ends.
+       */
+      function upon_cycle_natural_finish() {
+        let num_cycles = window.task_list.upon_cycle_finish();
+        upon_cycle_finish_render(num_cycles);
+      }
+
+      /**
+       * Force the finish of the current task. Record the immediate cycles taken
+       * by the current task so far as the actual number of cycles taken.
+       */
+      function force_finish_task() {
+        let num_cycles = window.task_list.upon_task_finish();
+        upon_cycle_finish_render(num_cycles);
       }
 
       /**
@@ -113,6 +145,16 @@ export function define_task_list(html) {
         }
       }
 
+      document.addEventListener(window.TIME_FINISH_EVENT, (_) =>
+        upon_cycle_natural_finish()
+      );
+      document.addEventListener(window.TIME_START_EVENT, (_) =>
+        upon_cycle_start_render()
+      );
+      document.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
+        force_finish_task()
+      );
+      // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
         .addEventListener("click", add_task_to_pending);
@@ -120,12 +162,17 @@ export function define_task_list(html) {
       document
         .getElementById("test-btn-0")
         .addEventListener("click", function () {
-          upon_cycle_start_render();
+          document.dispatchEvent(window.TIME_START);
         });
       document
         .getElementById("test-btn-1")
         .addEventListener("click", function () {
-          upon_cycle_finish_render();
+          document.dispatchEvent(window.TIME_FINISH);
+        });
+      document
+        .getElementById("test-btn-2")
+        .addEventListener("click", function () {
+          document.dispatchEvent(window.FINISH_EARLY);
         });
     }
 
@@ -154,7 +201,6 @@ export function define_task_list(html) {
       this.estimated_pomo = data.est;
       this.actual_pomo = 0;
       this.uid = data.UID;
-      this.list_index = data.index;
       // styling component
       let styling = document.createElement("link");
       //styling element
@@ -245,13 +291,14 @@ export function define_task_list(html) {
        * @param {*} direction Direction of movement: 0 for up, 1 for down
        */
       function move(self, direction) {
+        window.task_list.move(data.list_index, direction);
         let parent = self.parentNode;
         if (direction === 0) {
-          if (self.previousSibling !== "H3") {
+          if (self.previousSibling !== null) {
             parent.insertBefore(self, self.previousSibling);
           }
         } else if (direction === 1) {
-          if (self.nextElementSibling !== null) {
+          if (self.nextElementSibling.id !== "add-task-button") {
             parent.insertBefore(self.nextElementSibling, self);
           }
         }
@@ -302,13 +349,13 @@ export function define_task_list(html) {
       let task_input_container = document.createElement("div");
       task_input_container.setAttribute("class", "task-container");
       // input for task description
-      let task_desc_in = document.createElement("input");
+      let task_desc_in = document.createElement("textarea");
       task_desc_in.setAttribute("class", "task");
-      task_desc_in.setAttribute("type", "text");
+      // task_desc_in.setAttribute("type", "text");
       // input for task pomo estimation, treat input as string
       let task_estimate_in = document.createElement("input");
-      task_estimate_in.setAttribute("type", "number");
       task_estimate_in.setAttribute("class", "pomo-counter");
+      task_estimate_in.setAttribute("type", "number");
       // confirm button that addes a task when clicked
       let confirm_btn = document.createElement("button");
       confirm_btn.setAttribute("class", "pomo-edit-btn");
@@ -323,13 +370,13 @@ export function define_task_list(html) {
       let confirm_btn_container = document.createElement("div");
       confirm_btn_container.setAttribute("class", "task-input-btn-container");
 
+      root.appendChild(styling);
       task_input_container.appendChild(task_desc_in);
       task_input_container.appendChild(task_estimate_in);
       task_input_container.appendChild(confirm_btn);
       task_input_container.appendChild(cancel_btn);
 
       root.appendChild(task_input_container);
-      root.appendChild(styling);
 
       /**
        * Helper function that adds a task at the position of the task input box

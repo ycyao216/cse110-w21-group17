@@ -164,6 +164,31 @@ export class Task_list_data {
     return null;
   }
 
+/**
+ * Move a task from pending list one index eariler or later.
+ * @param {number} task_index The index of task in pending list to be moved
+ * @param {number} direction 0 for moving task so that it will be dequeued from the 
+ * pending list eariler than before; 1 if later tha before
+ */
+  move(task_index, direction){
+    let temp = this.pending_tasks[task_index];
+    if (direction === 0 && task_index > 0){
+      this.pending_tasks[task_index].list_index -=1;
+      this.pending_tasks[task_index-1].list_index +=1;
+      this.pending_tasks.splice(task_index,1);
+      console.log(temp);
+      this.pending_tasks.splice(task_index - 1, 0, temp);
+      console.log(this.pending_tasks);
+
+    }
+    else if (direction === 1 && task_index < this.pending_tasks.length -1){
+      this.pending_tasks[task_index].list_index +=1;
+      this.pending_tasks[task_index+1].list_index -=1;
+      this.pending_tasks.splice(task_index,1);
+      this.pending_tasks.splice(task_index + 1, 0, temp);
+    }
+  }
+
   /**
    * Remove a task object with a UID from the pending task list. Does nothing
    * the task UID is not found.

@@ -7,7 +7,6 @@ export var timer_ringing;
 export var timer_open_analysis;
 export var timer_during_countdown;
 export var timer_break_countdown;
-export var timer_emergency_stop;
 
 // init page when user enters website
 timer_init = {
@@ -27,8 +26,12 @@ timer_init = {
         get timer_during_countdown() {
             return timer_during_countdown
         }, // triggered when user pressed the start button
+        get timer_break_countdown() {
+            return timer_break_countdown
+        } // could be triggered when user presses emergency stop button
     },
     'functions_enter': [
+        // Set everything to defaults
         () => console.log("[timer_init]"),
         () => {
             window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_init";
@@ -50,11 +53,12 @@ timer_init = {
 timer_open_settings = {
     'next_states': {
         get timer_init() {
-            return timer_init
+            return timer_init;
         },
     },
     'functions_enter': [
         () => console.log('[timer_open_settings]'),
+        // show settings
         () => {
             window.user_data["user_log"].slice(-1)[0]["timer_state"] = "timer_open_settings";
             localStorage.setItem('user_data', JSON.stringify(window.user_data));
@@ -64,6 +68,7 @@ timer_open_settings = {
         },
     ],
     'functions_leave': [
+        // hide settings
         () => {
             document.getElementById("c-settings").style.display = 'none';
         },
@@ -74,16 +79,18 @@ timer_open_settings = {
 timer_open_analysis = {
     'next_states': {
         get timer_init() {
-            return timer_init
+            return timer_init;
         },
     },
     'functions_enter': [
         () => console.log('[timer_open_analysis]'),
+        // show analysis
         () => {
             document.getElementById("c-analysis").style.display = 'block';
         },
     ],
     'functions_leave': [
+        // hide analysis
         () => {
             document.getElementById("c-analysis").style.display = 'none';
         },
@@ -94,16 +101,18 @@ timer_open_analysis = {
 timer_toggle_task_list = {
     'next_states': {
         get timer_init() {
-            return timer_init
+            return timer_init;
         },
     },
     'functions_enter': [
         () => console.log('[timer_toggle_task_list]'),
+        // show task list
         () => {
             document.getElementById("c-task-list").enter_animate();
         },
     ],
     'functions_leave': [
+        // hide task list
         () => {
             document.getElementById("c-task-list").leave_animate();
         },
@@ -114,17 +123,18 @@ timer_toggle_task_list = {
 timer_during_countdown = {
     'next_states': {
         get timer_ringing() {
-            return timer_ringing
+            return timer_ringing;
         },
-        get timer_emergency_stop() {
-            return timer_emergency_stop
+        get timer_init() {
+            return timer_init;
         },
-        get timer_finished_early() {
+        /*get timer_finished_early() {
             return timer_finished_early
-        },
+        },*/
     },
     'functions_enter': [
         () => console.log('[timer_during_countdown]'),
+        // change buttons shown, change timer label
         () => {
             window.user_data
         },
@@ -140,6 +150,8 @@ timer_during_countdown = {
         () => {
             document.getElementById("timer-label").innerHTML = "Work";
         },
+        // initiate countdown
+        // TODO: Get time from settings page
         () => {
             document.getElementById("timer-display").trigger_countdown(10, () => {
                 window.current_state = transition(window.current_state, 'timer_ringing');
@@ -147,12 +159,14 @@ timer_during_countdown = {
         },
     ],
     'functions_leave': [
+        // increment # of pomos
         () => {
             document.getElementById("timer-display").incr_pomo();
         },
     ],
 }
 
+/* REASON FOR NO EMERGENCY_STOP STATE: Prevents ringing at improper times
 timer_emergency_stop = {
     'next_states': {
         get timer_init() {
@@ -161,9 +175,13 @@ timer_emergency_stop = {
         get timer_during_countdown() {
             return timer_during_countdown
         },
+        get timer_ringing() {
+            return timer_ringing
+        },
     },
     'functions_enter': [
         () => console.log('[timer_emergency_stop]'),
+        // show popup, go back to defaults if confirmed, do nothing if not
         () => {
             document.getElementById('c-modal').display_confirm(
                 EMERG_STOP_WARNING,
@@ -176,15 +194,15 @@ timer_emergency_stop = {
         }
     ],
     'functions_leave': [],
-}
+} */
 
 timer_ringing = {
     'next_states': {
         get timer_init() {
-            return timer_init
+            return timer_init;
         },
         get timer_break_countdown() {
-            return timer_break_countdown
+            return timer_break_countdown;
         },
     },
     'functions_enter': [
@@ -222,9 +240,6 @@ timer_break_countdown = {
         get timer_during_countdown() {
             return timer_during_countdown
         },
-        get timer_emergency_stop() {
-            return timer_emergency_stop
-        },
     },
     'functions_enter': [
         () => console.log('[timer_break_countdown]'),
@@ -245,6 +260,7 @@ timer_break_countdown = {
         () => {
             document.getElementById("overstudy-button").style.display = 'none';
         },
+        // decide between short or long break
         () => {
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
@@ -252,17 +268,28 @@ timer_break_countdown = {
                     window.current_state = transition(window.current_state, 'timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Long Break";
+                //event
+                let timer_long_break = new Event('timer_long_break');
+                document.dispatchEvent(timer_long_break);
             } else {
                 document.getElementById("timer-display").trigger_countdown(5, () => {
                     window.current_state = transition(window.current_state, 'timer_during_countdown');
                 });
                 document.getElementById("timer-label").innerHTML = "Short Break";
+                //event
+                let timer_short_break = new Event('timer_short_break');
+                document.dispatchEvent(timer_short_break);
             }
         }
     ],
     'functions_leave': [
         () => {
             document.getElementById("timer-display").ring();
+        },
+        () => {
+            //event
+            let timer_cycle_complete = new Event('timer_cycle_complete');
+            document.dispatchEvent(timer_cycle_complete);
         }
     ],
 }

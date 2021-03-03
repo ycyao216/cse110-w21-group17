@@ -27,6 +27,13 @@ window.TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
 window.EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
 window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
 
+// Added example events to text compatibilities with event listener
+window.TIME_START_EVENT = 't_start';
+window.TIME_FINISH_EVENT = 't_finish';
+window.FINISH_EARLY_EVENT = 't_finish_early';
+window.TIME_START = new Event(window.TIME_START_EVENT);
+window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
+window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
 //// for timer
 window.num_pomos = 0;
 window.last_time_set = 0;
@@ -35,7 +42,7 @@ window.last_time_set = 0;
 window.task_list = new Task_list_data();
 window.current_task = null;
 
-// This Section Imports Required Components
+// This Section Imports Requires Components
 // Settings Component
 fetch("/html/components/settings.html")
     .then(stream => stream.text())
