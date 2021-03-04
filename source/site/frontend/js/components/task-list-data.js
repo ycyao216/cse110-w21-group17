@@ -287,7 +287,7 @@ export class Task_list_data {
       this.current.unfinish();
       this.current.make_overtime();
       this.current.add_more_cycle();
-      //window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+      window.dispatchEvent(window.UPDATE_CURRENT_TASK);
     }
   }
 
@@ -351,9 +351,9 @@ export class Task_list_data {
     if (this.current_task !== null){
       window.current_task_code = this.upon_cycle_finish();
         if (this.current.finish_status) {
-          if (this.current.overtime_status){
-            return -2;
-          } 
+          // if (this.current.overtime_status){
+          //   return -2;
+          // } 
           this.upon_task_finish();
           if (this.pending_tasks.length > 0){
             this.upon_next_task_start();

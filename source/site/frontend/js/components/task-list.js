@@ -106,8 +106,10 @@ export function define_task_list(html) {
        * by the current task so far as the actual number of cycles taken.
        */
       function force_finish_task() {
-        let num_cycles = window.task_list.upon_task_finish();
-        upon_cycle_finish_render(num_cycles);
+        if (window.task_list.current !== null){
+          let num_cycles = window.task_list.upon_task_finish();
+          upon_task_finish_render(num_cycles);
+        }
       }
 
       /**

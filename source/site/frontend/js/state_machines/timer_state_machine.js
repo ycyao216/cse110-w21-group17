@@ -50,6 +50,11 @@ timer_init = {
             document.getElementById("timer-label").innerHTML = "Waiting";
             timer_label = "Waiting";
         },
+        () => {
+            if (window.task_list.current !== null){
+                window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+            }
+        },
     ],
     'functions_leave': [],
 }
