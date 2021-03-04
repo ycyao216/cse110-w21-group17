@@ -4,6 +4,7 @@ export function define_timer_display(html) {
     class CTimerDisplay extends HTMLElement {
         constructor() {
             super();
+            this.long_break_cycles = Number(window.user_data['settings']['long_break_cycles']);
             var shadow = this.attachShadow({
                 mode: 'open'
             });
@@ -174,7 +175,6 @@ export function define_timer_display(html) {
 
             // update timer_display
             this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5);
-
             num_pomos = 0;
         }
 
@@ -228,7 +228,7 @@ export function define_timer_display(html) {
          * @returns true if evenly divisible by 4, false otherwise
          */
         isLongBreak() {
-            return ((num_pomos % 4) == 0);
+            return ((num_pomos % this.long_break_cycles) == 0);
         }
 
         

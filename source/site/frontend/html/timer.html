@@ -15,8 +15,10 @@
             <c-settings id="c-settings" style="display: none"></c-settings>
             <c-analysis id="c-analysis" style="display: none"></c-analysis>
             <c-task-list id="c-task-list" style="display: initial"></c-task-list>
-            <c-control-button onclick="state_transition('timer_open_settings')">Settings</c-control-button>
+            <div class='top-bar-buttons'>
+            <c-control-button id = 'settings-toggle'>Settings</c-control-button>
             <c-control-button id = 'task-list-animate'>Tasklist</c-control-button>
+            </div>
             <!-- <c-control-button onclick="state_transition(timer_init == window.current_state ? 'timer_open_analysis' : 'timer_init')">Analysis</c-control-button>
             <c-control-button onclick="document.getElementById('c-modal').display_alert('test alert')">Alert</c-control-button>
             <c-control-button onclick="document.getElementById('c-modal').display_confirm('test confirmation', () => {}, () => {})">Confirm</c-control-button> -->

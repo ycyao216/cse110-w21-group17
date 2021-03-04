@@ -66,7 +66,7 @@ timer_open_settings = {
         () => console.log('[timer_open_settings]'),
         // show settings
         () => {
-            document.getElementById("c-settings").style.display = 'block';
+            document.getElementById("c-settings").style.display = 'initial';
         },
     ],
     'functions_leave': [
@@ -168,7 +168,8 @@ timer_during_countdown = {
         // initiate countdown
         // TODO: Get time from settings page
         () => {
-            document.getElementById("timer-display").trigger_countdown(10, () => {
+            let work_sec = Number(window.user_data['settings']['work_sec']);
+            document.getElementById("timer-display").trigger_countdown(work_sec, () => {
                 state_transition('timer_ringing')
             });
         },
@@ -299,9 +300,11 @@ timer_break_countdown = {
         // decide between short or long break
         () => {
             window.dispatchEvent(window.BREAK_START);
+            let long_break_sec = Number(window.user_data['settings']['long_break_sec']);
+            let short_break_sec = Number(window.user_data['settings']['short_break_sec']);
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
-                document.getElementById("timer-display").trigger_countdown(8, () => {
+                document.getElementById("timer-display").trigger_countdown(long_break_sec, () => {
                     window.dispatchEvent(window.BREAK_ENDS);
                     if(window.task_list.current === null) {
                         state_transition('timer_init');
@@ -320,7 +323,7 @@ timer_break_countdown = {
                 let timer_long_break = new Event('timer_long_break');
                 document.dispatchEvent(timer_long_break);
             } else {
-                document.getElementById("timer-display").trigger_countdown(5, () => {
+                document.getElementById("timer-display").trigger_countdown(short_break_sec, () => {
                     window.dispatchEvent(window.BREAK_ENDS);
                     if(window.task_list.current === null) {
                         state_transition('timer_init');

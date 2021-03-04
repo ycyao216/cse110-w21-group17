@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/settings.css">
-<button onclick="state_transition('timer_init')">Close</button>
+<!-- <button onclick="transition(window.current_state, 'timer_init')">Close</button> -->
 <div class="tabs">
     <div class="tab-header">
         <div class="active">
@@ -98,26 +98,56 @@
             <div class="option-list">
                 <div class="option-container">
                     <div class="option-name">
+                        Short break each N cycles
+                    </div>
+                    <div class="option-control">
+                        
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
+                        Long break each N cycles
+                    </div>
+                    <div class="option-control">
+                        
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
                         Emergency Stop
                     </div>
                     <div class="option-control">
-                        <input class="tgl tgl-light" id="emergencytoggle" type="checkbox" /><label class="tgl-btn" for="emergencytoggle"></label>
+                        <label class="switch">
+                            <input type="checkbox" id="allow-emergency-stop">
+                            <span class="slider round"></span>
+                          </label>
                     </div>
                 </div>
                 <div class="option-container">
                     <div class="option-name">
-                        Duration of each session
+                        Duration of each working session
                     </div>
                     <div class="option-control">
-                        <c-time-picker></c-time-picker>
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="working-min" min="0" max="60">
                     </div>
                 </div>
                 <div class="option-container">
                     <div class="option-name">
-                        Duration of each sprint
+                        Duration of each short break
                     </div>
                     <div class="option-control">
-                        <c-time-picker></c-time-picker>
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="short-break-min" min="0" max="60">
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
+                        Duration of each long break
+                    </div>
+                    <div class="option-control">
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="long-break-min" min="0" max="60">
                     </div>
                 </div>
             </div>

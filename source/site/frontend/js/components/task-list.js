@@ -389,6 +389,7 @@ export function define_task_list(html) {
         let task_pomo_est = task_estimate_in.value;
         let task_pomo_num = Number(task_pomo_est);
         let parent = self.parentNode;
+        let max_pomo = Number(window.user_data['settings']['max_pomo_per_task']);
         // if the user did not enter the task name
         if (task_desc == "") {
           alert("Please input a task name");
@@ -410,14 +411,14 @@ export function define_task_list(html) {
           // recommaend splitting up into more task
           if (r == true) {
             // calculate how many new sub tasks should be needed.
-            var breakNum = Math.floor(task_pomo_num / 4);
-            var rem = task_pomo_num % 4;
+            var breakNum = Math.floor(task_pomo_num / max_pomo);
+            var rem = task_pomo_num % max_pomo;
             for (var i = 1; i <= breakNum; i += 1) {
               var tempName = task_desc + " Part " + i;
               // add the i th sub task to the list
               let new_task_data = new Task_data(
                 tempName,
-                4,
+                max_pomo,
                 insert_index + i - 1
               );
               let new_task = new Task(new_task_data);
@@ -446,7 +447,7 @@ export function define_task_list(html) {
               parent.insertBefore(new_task, self);
             }
           }
-        } else if (task_pomo_num <= 4) {
+        } else if (task_pomo_num <= max_pomo) {
           // pushed the information to arrays at the correct index
           let new_task_data = new Task_data(
             task_desc,
