@@ -20,7 +20,7 @@ export class Task_data {
     this.running = false;
     // The current number of cycles spent on this task
     this.current_cycle = 0;
-    // The number of extra cycles 
+    // The number of extra cycles
     this.extra_cycles = 0;
     this.list_index = list_index;
 
@@ -205,7 +205,7 @@ export class Task_list_data {
 /**
  * Move a task from pending list one index eariler or later.
  * @param {number} task_index The index of task in pending list to be moved
- * @param {number} direction 0 for moving task so that it will be dequeued from the 
+ * @param {number} direction 0 for moving task so that it will be dequeued from the
  * pending list eariler than before; 1 if later tha before
  */
   move(task_index, direction){
@@ -225,6 +225,7 @@ export class Task_list_data {
       this.pending_tasks.splice(task_index,1);
       this.pending_tasks.splice(task_index + 1, 0, temp);
     }
+    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
   }
 
   /**
@@ -242,6 +243,7 @@ export class Task_list_data {
       }
       this.pending_tasks.splice(index, 1);
     }
+    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
   }
 
   /**
@@ -256,6 +258,7 @@ export class Task_list_data {
       this.pending_tasks[i].list_index += 1;
     }
     this.pending_tasks.splice(index, 0, task);
+    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
   }
 
   /**
@@ -274,6 +277,8 @@ export class Task_list_data {
       let actual = this.current_task.finish();
       this.finished_tasks.push(this.current_task);
       this.current_task = null;
+      localStorage.setItem('finished_tasks_storage', JSON.stringify(this.finished_tasks));
+      localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
       return actual;
     }
     return null;
@@ -288,6 +293,7 @@ export class Task_list_data {
       this.current.make_overtime();
       this.current.add_more_cycle();
       window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+      localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
     }
   }
 
@@ -306,8 +312,12 @@ export class Task_list_data {
         if (
           this.current_task.current_cycle >= this.current_task.pomo_estimation
         ) {
-          return this.current_task.finish();
+          var temp = this.current_task.finish();
+          localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+          return temp;
+
         }
+        localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
         return -3;
       }
   }
@@ -329,11 +339,12 @@ export class Task_list_data {
         this.pending_tasks.shift();
         // Updates current task display
         window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+        localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
+        localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
       }
       // Attempt to add event for making empty task display when no pending tasks
       else if (this.pending_tasks.length === 0){
         window.dispatchEvent(window.NO_RUNNING);
-
       }
     }
     return is_working;
@@ -343,8 +354,8 @@ export class Task_list_data {
    * Operations to take when break ends:
    * Finish the current task if it is finished and not overtime
    * Push the next task from pending to running if there is more task to do
-   * @returns {number} 0 if current task finished and next task poped. -3 if 
-   * current task finished but no next task. 02 if current task overtime, -1 if 
+   * @returns {number} 0 if current task finished and next task poped. -3 if
+   * current task finished but no next task. 02 if current task overtime, -1 if
    * no current task.
    */
   upon_break_ends(){
@@ -353,7 +364,7 @@ export class Task_list_data {
         if (this.current.finish_status) {
           // if (this.current.overtime_status){
           //   return -2;
-          // } 
+          // }
           this.upon_task_finish();
           if (this.pending_tasks.length > 0){
             this.upon_next_task_start();
@@ -363,5 +374,72 @@ export class Task_list_data {
         }
     }
     return -1;
+  }
+
+  /**
+   * using local storage to recover curret_task, pending_tasks, and
+   * finished_tasks
+   */
+  read_local_storage(){
+    // recorver the infromation of current_task
+    var temp_current_task = JSON.parse(localStorage.getItem('current_task_storage'));
+    if(temp_current_task == null){
+      this.current_task = null;
+    }
+
+    else{
+      var temp_C = new Task_data(temp_current_task.description,
+        Number(temp_current_task.pomo_estimation),
+        temp_current_task.list_index
+      );
+      temp_C.uid = temp_current_task.uid;
+      temp_C.actual_pomo = Number(temp_current_task.actual_pomo);
+      temp_C.finished = temp_current_task.finished;
+      temp_C.overtime = temp_current_task.overtime;
+      temp_C.running = temp_current_task.running;
+      temp_C.current_cycle = Number(temp_current_task.current_cycle);
+      temp_C.extra_cycles = Number(temp_current_task.extra_cycles);
+      this.current_task = temp_C;
+    }
+
+    // record the information of pending_tasks
+    var temp_pending_tasks = JSON.parse(localStorage.getItem('pending_tasks_storage'));
+    var temp_array_p = [];
+    for(var i = 0; i < temp_pending_tasks.length; i += 1){
+      var temp_Ptask = new Task_data(temp_pending_tasks[i].description,
+        Number(temp_pending_tasks[i].pomo_estimation),
+        temp_pending_tasks[i].list_index
+      );
+
+      temp_Ptask.uid = temp_pending_tasks[i].uid;
+      temp_Ptask.actual_pomo = Number(temp_pending_tasks[i].actual_pomo);
+      temp_Ptask.finished = temp_pending_tasks[i].finished;
+      temp_Ptask.overtime = temp_pending_tasks[i].overtime;
+      temp_Ptask.running = temp_pending_tasks[i].running;
+      temp_Ptask.current_cycle = Number(temp_pending_tasks[i].current_cycle);
+      temp_Ptask.extra_cycles = Number(temp_pending_tasks[i].extra_cycles);
+      temp_array_p.push(temp_Ptask);
+    }
+    this.pending_tasks = temp_array_p;
+
+    // recover the infromation of finished_tasks
+    var temp_finished_tasks = JSON.parse(localStorage.getItem('finished_tasks_storage'));
+    var temp_array_f = [];
+    for(var j = 0; j < temp_finished_tasks.length; j += 1){
+      var temp_Ftask = new Task_data(temp_finished_tasks[j].description,
+        Number(temp_finished_tasks[j].pomo_estimation),
+        temp_finished_tasks[j].list_index
+      );
+
+      temp_Ftask.uid = temp_finished_tasks[j].uid;
+      temp_Ftask.actual_pomo = Number(temp_finished_tasks[j].actual_pomo);
+      temp_Ftask.finished = temp_finished_tasks[j].finished;
+      temp_Ftask.overtime = temp_finished_tasks[j].overtime;
+      temp_Ftask.running = temp_finished_tasks[j].running;
+      temp_Ftask.current_cycle = Number(temp_finished_tasks[j].current_cycle);
+      temp_Ftask.extra_cycles = Number(temp_finished_tasks[j].extra_cycles);
+      temp_array_f.push(temp_Ftask);
+    }
+    this.finished_tasks = temp_array_f;
   }
 }
