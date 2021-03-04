@@ -103,6 +103,9 @@ timer_toggle_task_list = {
         get timer_init() {
             return timer_init;
         },
+        get timer_during_countdown(){
+            return timer_during_countdown;
+        }
     },
     'functions_enter': [
         () => console.log('[timer_toggle_task_list]'),
@@ -139,6 +142,9 @@ timer_during_countdown = {
         () => {
             document.getElementById("start-button").style.display = 'none';
         },
+        () =>{
+            document.getElementById("add-cycle-button").style.display = 'none';
+        },
         () => {
             document.getElementById("emergency-stop-button").style.display = 'initial';
         },
@@ -148,11 +154,14 @@ timer_during_countdown = {
         () => {
             document.getElementById("timer-label").innerHTML = "Work";
         },
+        // () =>{
+        //     document.getElementById("c-task-list").leave_animate;
+        // },
         // initiate countdown
         // TODO: Get time from settings page
         () => {
             document.getElementById("timer-display").trigger_countdown(10, () => {
-                state_transition('timer_ringing');
+                state_transition('timer_ringing')
             });
         },
     ],
@@ -247,7 +256,15 @@ timer_ringing = {
         },
         () => {
             state_transition('timer_break_countdown');
-        }
+        },
+        () => {
+            window.dispatchEvent(window.TIME_FINISH);
+        },
+        () => {
+            if (window.task_list.length === 0 && window.task_list.current === null){
+            state_transition('timer_init');
+            }
+        },
     ],
     'functions_leave': [],
 }
@@ -268,6 +285,9 @@ timer_break_countdown = {
             document.getElementById("start-button").style.display = 'none';
         },
         () => {
+            document.getElementById("add-cycle-button").style.display = 'initial';
+        },
+        () => {
             document.getElementById("emergency-stop-button").style.display = 'initial';
         },
         () => {
@@ -275,6 +295,7 @@ timer_break_countdown = {
         },
         // decide between short or long break
         () => {
+            window.dispatchEvent(window.BREAK_START);
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
                 document.getElementById("timer-display").trigger_countdown(8, () => {
@@ -303,6 +324,9 @@ timer_break_countdown = {
             //event
             let timer_cycle_complete = new Event('timer_cycle_complete');
             document.dispatchEvent(timer_cycle_complete);
+        },
+        () =>{
+            window.dispatchEvent(window.BREAK_ENDS);
         }
     ],
 }

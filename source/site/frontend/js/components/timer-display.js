@@ -17,6 +17,7 @@ export function define_timer_display(html) {
 
             this.timer_display = this.shadowRoot.getElementById("timer-string");
             this.alarm_sound = this.shadowRoot.getElementById("alarm-sound");
+            window.addEventListener(window.NO_RUNNING_EVENT, (_) => {this.trigger_continue_prompt()})
         }
 
         /**
@@ -101,11 +102,10 @@ export function define_timer_display(html) {
          */
         trigger_start() {
             //event
-            let timer_started = new Event('timer_start');
-            document.dispatchEvent(timer_started);
-
+            if (window.task_list.current === null){
+                window.dispatchEvent(window.FIRST_TIME_START);
+            }
             state_transition('timer_during_countdown');
-
         }
 
         /**
@@ -115,18 +115,25 @@ export function define_timer_display(html) {
          */
         trigger_continue_prompt() {
             //prompt
-            document.getElementById('c-modal').display_confirm(
-                "You have no tasks left! Click confirm to continue cycles/Cancel to stop.",
-                () => {
-                    state_transition('timer_during_countdown');
-                },
-                () => {
-                    state_transition('timer_init');
-                    this.reset_countdown();
+            // document.getElementById('c-modal').display_confirm(
+            //     "You have no tasks left! Click confirm to continue cycles/Cancel to stop.",
+            //     () => {
+            //         state_transition('timer_during_countdown');
+            //     },
+            //     () => {
+            //         state_transition('timer_init');
+            //         this.reset_countdown();
 
-                    // update timer_display
-                    this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5);
-                });
+            //         // update timer_display
+            //         this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5);
+            // this.reset_countdown();
+
+            // // update timer_display
+            // this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5);
+            // //     });
+            // state_transition('timer_init');
+
+
         }
         
         /**
@@ -171,6 +178,7 @@ export function define_timer_display(html) {
             if(document.getElementById('early-prompt').style.display === 'none') {
                 document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
                 document.getElementById('early-prompt').style.display = 'initial';
+                window.dispatchEvent(window.FINISH_EARLY)
             }
 
             //event
@@ -184,11 +192,7 @@ export function define_timer_display(html) {
          * @function
          */
         trigger_add_cycle() {
-            console.log("Cycle Added!");
-
-            //event
-            let timer_add_cycle = new Event('timer_add_cycle');
-            document.dispatchEvent(timer_add_cycle);
+            document.dispatchEvent(window.TIMER_ADD_CYCLE);
         }
 
         /**
@@ -218,6 +222,8 @@ export function define_timer_display(html) {
         isLongBreak() {
             return ((num_pomos % 4) == 0);
         }
+
+        
 
 
     }
