@@ -11,7 +11,7 @@ import { Task_data, Task_list_data } from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
 import { force_state, transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, next_task, update_task, current_task } from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle } from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -36,6 +36,8 @@ window.FINISH_EARLY_EVENT = 't_finish_early';
 window.TIME_START = new Event(window.TIME_START_EVENT);
 window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
 window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
+
+
 //// for timer
 window.num_pomos = 0;
 window.last_time_set = 0;
@@ -43,14 +45,17 @@ window.last_time_set = 0;
 //// Task-list data 
 window.task_list = new Task_list_data();
 
+//// Settings
+window.active_userstate = active_userstate;
+window.advance_break_cycle = advance_break_cycle;
 
 //// New Tasklist
 window.create_task = create_task;
 window.delete_task = delete_task;
 window.read_task = read_task;
-window.next_task = next_task;
 window.update_task = update_task;
 window.current_task = current_task;
+window.move_task = move_task;
 window.user_data = {
     "task_list_data": [
         {
@@ -73,15 +78,24 @@ window.user_data = {
             "login_timestamp": "",
             "timer_state": "timer_init",
             "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-            "accumulated_cycles": 0,
+            "break_status": {
+                "break": "short_break",
+                "cycles": 0
+            },
+            "log": [
+                "1579afed-2143-49e4-8768-b0d54eba43f8",
+                "short_break",
+            ],
             "online": true
         }
     ],
     "settings": {
+        "work_sec": 6,
         "short_break_sec": 3,
         "short_break_cycles": 1,
         "long_break_sec": 5,
-        "long_break_cycles": 4
+        "long_break_cycles": 4,
+        "allow_emergency_stop": true
     }
 }
 
@@ -147,7 +161,9 @@ fetch("/html/components/analysis.html")
 
 
 //// This Section fetches user data from the server and start state machine
-window.current_state = timer_init;
+// wait a while for the content to load
+setTimeout(() => window.current_state = force_state(timer_init), 500);
+
 // postData('/fetchuserdata', {
 //     "token": "1e250968-7a1b-11eb-9439-0242ac130002",
 //     "title": "title"
@@ -159,10 +175,11 @@ window.current_state = timer_init;
 //         window.current_state = timer_init;
 //         if (window.user_data["user_log"].length > 0) {
 //             let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
-//             window.current_state = transition(window.current_state, previous_state);
+//             transition(window.current_state, previous_state);
 //         } else {
 //             window.current_state = force_state(timer_init);
 //         }
 //         localStorage.setItem('user_data', JSON.stringify(window.user_data));
 //     }) // JSON from `response.json()` call
 //     .catch(error => { console.error(error); })
+

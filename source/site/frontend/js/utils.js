@@ -17,3 +17,7 @@ export function postData(url, data) {
     })
         .then(response => response.json()) // 輸出成 json
 }
+
+export function create_uid(length) {
+    return Math.trunc(Math.random() * Math.pow(10, length));
+}

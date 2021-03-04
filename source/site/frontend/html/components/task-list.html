@@ -6,11 +6,11 @@
   <ul class="side-bar-division" id="running"></ul>
 
   <h3>Pending Tasks:</h3>
-  <div id="pending-head">
+  <div id="pending-list">
     <!-- This space is for pending tasks -->
   </div>
-  <div id="pending-add">
-    <ul class="side-bar-division" id="pending">
+  <div>
+    <ul class="side-bar-division" id="pending-add">
       <!-- This space is for pending adds -->
       <button type="button" id="add-task-button">+</button>
     </ul>
@@ -23,7 +23,7 @@
   <button
     type="button"
     id="fold-button"
-    onclick="window.current_state = transition(window.current_state,timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
+    onclick="transition(window.current_state,timer_init == window.current_state ? 'timer_toggle_task_list' : 'timer_init')"
   >
     Extend
   </button>

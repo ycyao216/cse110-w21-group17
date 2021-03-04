@@ -39,7 +39,11 @@ timer_init = {
             document.getElementById("overstudy-button").style.display = 'none';
             document.getElementById("early-prompt").style.display = 'none';
             document.getElementById("timer-label").innerHTML = "Waiting";
+            document.getElementById("timer-display").reset_countdown(window.user_data.settings.work_sec)
         },
+        () => {
+            document.getElementById('c-task-list').refresh_list()
+        }
     ],
     'functions_leave': [],
 }
@@ -134,11 +138,28 @@ timer_during_countdown = {
             document.getElementById("c-task-list").leave_animate();
         },
         // initiate countdown
-        // TODO: Get time from settings page
         () => {
             window.task_list.upon_cycle_start(true);
-            document.getElementById("timer-display").trigger_countdown(10, () => {
-                window.current_state = transition(window.current_state, 'timer_ringing');
+            let time_limit = window.user_data.settings.work_sec;
+            document.getElementById("timer-display").trigger_countdown(time_limit, () => {
+                // countdown timeout
+                current_task().cycles_completed += 1;
+                update_task(current_task());
+
+                // TODO what if user didn't finish
+                if (current_task().cycles_completed >= current_task().pomo_estimation) {
+                    document.getElementById('c-modal').display_confirm('Did you finish the task?',
+                        () => {
+                            window.active_userstate().current_task = window.next_task().id;
+                            document.getElementById('c-task-list').refresh_list()
+                        },
+                        () => {
+                            window.current_task().pomo_estimation += 1;
+                            window.update_task(current_task());
+                        })
+                }
+
+                transition(window.current_state, 'timer_ringing');
             });
         },
     ],
@@ -174,7 +195,8 @@ timer_ringing = {
             document.getElementById("timer-display").ring();
         },
         () => {
-            window.current_state = transition(window.current_state, 'timer_break_countdown');
+            console.log(window.current_state);
+            transition(window.current_state, 'timer_break_countdown');
         }
     ],
     'functions_leave': [],
@@ -207,34 +229,18 @@ timer_break_countdown = {
         },
         // decide between short or long break
         () => {
-            // TODO: Get long/short break values from settings page
-            if (document.getElementById("timer-display").isLongBreak()) {
-                document.getElementById("timer-display").trigger_countdown(8, () => {
-                    window.current_state = transition(window.current_state, 'timer_during_countdown');
-                });
-                document.getElementById("timer-label").innerHTML = "Long Break";
-                //event
-                let timer_long_break = new Event('timer_long_break');
-                document.dispatchEvent(timer_long_break);
-            } else {
-                document.getElementById("timer-display").trigger_countdown(5, () => {
-                    window.current_state = transition(window.current_state, 'timer_during_countdown');
-                });
-                document.getElementById("timer-label").innerHTML = "Short Break";
-                //event
-                let timer_short_break = new Event('timer_short_break');
-                document.dispatchEvent(timer_short_break);
-            }
-        }
+            // get break status 
+            let break_string = window.active_userstate().break_status.break;
+            let sec_limit = window.user_data.settings[`${break_string}_sec`];
+            console.log(sec_limit);
+            document.getElementById("timer-label").innerHTML = break_string;
+            document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
+                transition(window.current_state, 'timer_during_countdown');
+            });
+        },
+        // advance 1 break cycle
+        () => window.advance_break_cycle()
     ],
     'functions_leave': [
-        () => {
-            document.getElementById("timer-display").ring();
-        },
-        () => {
-            //event
-            let timer_cycle_complete = new Event('timer_cycle_complete');
-            document.dispatchEvent(timer_cycle_complete);
-        }
     ],
 }

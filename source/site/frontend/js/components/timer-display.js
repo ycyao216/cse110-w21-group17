@@ -17,6 +17,11 @@ export function define_timer_display(html) {
 
             this.timer_display = this.shadowRoot.getElementById("timer-string");
             this.alarm_sound = this.shadowRoot.getElementById("alarm-sound");
+
+            // bind
+            this.trigger_countdown.bind(this);
+            this.update_countdown.bind(this);
+            this.reset_countdown.bind(this);
         }
 
         /**
@@ -72,17 +77,22 @@ export function define_timer_display(html) {
          * work cycle time set.
          * @function
          */
-        reset_countdown() {
+        reset_countdown(seconds = null) {
             //reset to default value 
-            // TODO: Take default value from settings
 
-            if (this.countdown !== null) {
+
+            if (this.countdown != null) {
                 clearInterval(this.countdown.timer);
                 let counter = last_time_set;
 
                 this.countdown = null;
             }
+            // update timer_display
+            this.timer_display.innerHTML = new Date(Math.ceil(seconds == null ? 10 : seconds)).toISOString().substr(14, 5)            
         }
+
+
+
         
         /**
          * This is for the start button to dispatch the
@@ -94,7 +104,7 @@ export function define_timer_display(html) {
             let timer_started = new Event('timer_start');
             document.dispatchEvent(timer_started);
 
-            window.current_state = transition(window.current_state,'timer_during_countdown');
+            transition(window.current_state,'timer_during_countdown');
 
         }
 
@@ -108,10 +118,10 @@ export function define_timer_display(html) {
             document.getElementById('c-modal').display_confirm(
                 "You have no tasks left! Click confirm to continue cycles/Cancel to stop.",
                 () => {
-                    window.current_state = transition(window.current_state,'timer_during_countdown');
+                    transition(window.current_state,'timer_during_countdown');
                 },
                 () => {
-                    window.current_state = transition(window.current_state,'timer_init');
+                    transition(window.current_state,'timer_init');
                     this.reset_countdown();
 
                     // update timer_display
@@ -133,7 +143,7 @@ export function define_timer_display(html) {
                 EMERG_STOP_WARNING,
                 () => {
                     document.getElementById("timer-display").trigger_emergency_stop();
-                    window.current_state = transition(window.current_state,'timer_init');
+                    transition(window.current_state,'timer_init');
                 },
                 () => {}
             )
@@ -172,6 +182,10 @@ export function define_timer_display(html) {
         trigger_add_cycle() {
             console.log("Cycle Added!");
 
+
+            current_task().cycles_completed += 1;
+            update_task(current_task());
+            
             //event
             let timer_add_cycle = new Event('timer_add_cycle');
             document.dispatchEvent(timer_add_cycle);
@@ -207,29 +221,6 @@ export function define_timer_display(html) {
 
 
     }
-
-    // testing events
-    document.addEventListener('timer_start', function (e) {
-        console.log('timer event started!');
-    });
-
-    document.addEventListener('timer_short_break', function (e) {
-        console.log('timer short break started!');
-    });
-
-    document.addEventListener('timer_long_break', function (e) {
-        console.log('timer long break started!');
-    });
-
-    document.addEventListener('timer_cycle_complete', function (e) {
-        console.log('timer cycle completed!');
-    });
-
-    /*// event to update TaskBox underneath timer
-    document.addEventListener(' ... ', function (e) {
-        document.getElementById('current-task').innerHTML = window. ...;
-    } */
-
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;
 }
