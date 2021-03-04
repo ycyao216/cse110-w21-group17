@@ -89,7 +89,6 @@ export function define_task_list(html) {
           /** @fixme I don't know why this is here */
           current_task_display = null;
         }
-        test_current_task_display();
       }
 
       /**
@@ -98,7 +97,7 @@ export function define_task_list(html) {
       function upon_cycle_natural_finish() {
         // Get the condition of the current task when it finishes. 
         // For condition codes, see upon_cycle_finish of task-list-data.js
-        window.current_task_code = window.task_list.upon_cycle_finish();
+        // window.current_task_code = window.task_list.upon_cycle_finish();
         //upon_task_finish_render(num_cycles);
       }
 
@@ -138,29 +137,8 @@ export function define_task_list(html) {
               .appendChild(current_task_display);
           }
         }
-        test_current_task_display();
       }
 
-      /**
-       * @note FOR TESTING PURPOSE ONLY
-       * Update the current task infomration displayed on task list for
-       * testing
-       */
-      function test_current_task_display() {
-        let task_display = document.getElementById("curr_task_information");
-        if (window.task_list.current_task !== null) {
-          let stringified =
-            "Task: " +
-            window.task_list.current_task.desc +
-            " || Status: " +
-            window.task_list.current_task.cycles +
-            " / " +
-            window.task_list.current_task.est;
-          task_display.innerHTML = stringified;
-        } else {
-          task_display.innerHTML = "No task running";
-        }
-      }
 
       window.addEventListener(window.BREAK_ENDS_EVENT, (_) =>
         upon_break_ends_rendering()
@@ -168,9 +146,9 @@ export function define_task_list(html) {
       window.addEventListener(window.FIRST_TIME_START_EVENT, (_) =>
         upon_cycle_start_render()
       );
-      window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
-        upon_cycle_natural_finish();
-      })
+      // window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
+      //   upon_cycle_natural_finish();
+      // })
       window.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
         force_finish_task()
       );
@@ -181,14 +159,25 @@ export function define_task_list(html) {
         .addEventListener("click", add_task_to_pending);
     }
 
-    enter_animate() {
+    /*enter_animate() {
       let document = this.shadowRoot;
       document.getElementById("side-bar").style.left = "60%";
-    }
+    }*/
 
     leave_animate() {
       let document = this.shadowRoot;
       document.getElementById("side-bar").style.left = "100%";
+    }
+
+    taskbar_animate() {
+      let document = this.shadowRoot;
+      if(window.timer_label !== "Work") {
+        if(document.getElementById("side-bar").style.left === "60%") {
+          document.getElementById("side-bar").style.left = "100%";
+        } else {
+          document.getElementById("side-bar").style.left = "60%";
+        }
+      }
     }
   }
 

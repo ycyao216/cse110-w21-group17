@@ -54,6 +54,14 @@ export function define_timer_display(html) {
             }
         }
 
+        reset_timer_when_done(){
+            console.log('timer cycle completed!');
+        
+            // update timer_display
+            this.timer_display.innerHTML = new Date(last_time_set * 1000).toISOString().substr(14, 5);
+    
+        }
+
         /**
          * Does the actual counting from the time set to 0.
          * Updates timer display.
@@ -241,9 +249,8 @@ export function define_timer_display(html) {
         console.log('timer long break started!');
     });
 
-    document.addEventListener('timer_cycle_complete', function (e) {
-        console.log('timer cycle completed!');
-
+    window.addEventListener('timer_cycle_complete', function (e) {
+        this.reset_timer_when_done();
         // update example task
         // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
     });

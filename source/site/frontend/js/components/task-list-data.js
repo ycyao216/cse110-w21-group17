@@ -121,8 +121,12 @@ export class Task_data {
    */
   finish() {
     this.finished = true;
-    this.actual_pomo = this.current_cycle +this.extra_cycles;
+    this.actual_pomo = this.current_cycle;
     return this.actual_pomo;
+  }
+
+  unfinish(){
+    this.finished = false;
   }
 
   /**
@@ -137,6 +141,12 @@ export class Task_data {
    */
   pause() {
     this.running = false;
+  }
+
+  add_more_cycle(){
+    if (this.pomo_estimation < 5){
+      this.pomo_estimation += 1;
+    }
   }
 
   /**
@@ -274,7 +284,10 @@ export class Task_list_data {
    */
   upon_overtime(){
     if (this.current != null && this.current_task.finish) {
+      this.current.unfinish();
       this.current.make_overtime();
+      this.current.add_more_cycle();
+      //window.dispatchEvent(window.UPDATE_CURRENT_TASK);
     }
   }
 
@@ -288,15 +301,7 @@ export class Task_list_data {
    * is null, -3 if the task is not finished (has more cycle to go to reach est)
    */
   upon_cycle_finish() {
-    if (this.current_task !== null) {
-      if (this.current.overtime_status === true){
-        this.current.extra_cycles += 1;
-        // Set the over time to false to prompt the user again when the cycle 
-        // is finished.
-        this.current.remove_overtime();
-        return -2;
-      }
-      else if (this.current_task.finish_status !== true){
+      if (this.current_task.finish_status !== true){
         this.current_task.increament_cycle();
         if (
           this.current_task.current_cycle >= this.current_task.pomo_estimation
@@ -305,8 +310,6 @@ export class Task_list_data {
         }
         return -3;
       }
-    }
-    return -1;
   }
 
   /**
@@ -346,6 +349,7 @@ export class Task_list_data {
    */
   upon_break_ends(){
     if (this.current_task !== null){
+      window.current_task_code = this.upon_cycle_finish();
         if (this.current.finish_status) {
           if (this.current.overtime_status){
             return -2;

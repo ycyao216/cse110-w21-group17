@@ -18,6 +18,7 @@ body {
   background: #f5f5f5;
   box-shadow: 5px 5px 10px 5px #ccc;
   overflow: hidden;
+  z-index: 99;
 }
 
 .tabs .tab-header {

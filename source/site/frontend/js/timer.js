@@ -51,12 +51,16 @@ window.NO_RUNNING = new Event(window.NO_RUNNING_EVENT);
 window.num_pomos = 0;
 window.last_time_set = 0;
 
+window.timer_label = document.getElementById('timer-label');
+
 // Task-list data 
 window.task_list = new Task_list_data();
 
 window.addEventListener(window.UPDATE_CURRENT_TASK_EVENT, function (e) {
     document.getElementById('current-task').innerHTML = window.task_list.current.stringify();
 });
+
+document.getElementById('task-list-animate').addEventListener('click',(_) => document.getElementById('c-task-list').taskbar_animate());
 
 // This Section Imports Requires Components
 // Settings Component

@@ -2,7 +2,7 @@
 
 export var timer_init;
 export var timer_open_settings;
-export var timer_toggle_task_list;
+//export var timer_toggle_task_list;
 export var timer_ringing;
 export var timer_open_analysis;
 export var timer_during_countdown;
@@ -18,9 +18,9 @@ timer_init = {
         get timer_open_analysis() {
             return timer_open_analysis
         }, // triggered when user pressed the analysis button
-        get timer_toggle_task_list() {
+        /*get timer_toggle_task_list() {
             return timer_toggle_task_list
-        }, // triggered when user pressed the tasklist button
+        },*/ // triggered when user pressed the tasklist button
         get timer_during_countdown() {
             return timer_during_countdown
         }, // triggered when user pressed the start button
@@ -44,7 +44,11 @@ timer_init = {
             document.getElementById("early-prompt").style.display = 'none';
         },
         () => {
+            document.getElementById("add-cycle-button").style.display = 'none';
+        },
+        () => {
             document.getElementById("timer-label").innerHTML = "Waiting";
+            timer_label = "Waiting";
         },
     ],
     'functions_leave': [],
@@ -97,7 +101,7 @@ timer_open_analysis = {
 }
 
 // opening the task list
-timer_toggle_task_list = {
+/*timer_toggle_task_list = {
     'attatched_states': [],
     'next_states': {
         get timer_init() {
@@ -120,7 +124,7 @@ timer_toggle_task_list = {
             document.getElementById("c-task-list").leave_animate();
         },
     ],
-}
+}*/
 
 // pomo timer states
 timer_during_countdown = {
@@ -153,6 +157,10 @@ timer_during_countdown = {
         },
         () => {
             document.getElementById("timer-label").innerHTML = "Work";
+            timer_label = "Work";
+        },
+        () =>{
+            document.getElementById("c-task-list").leave_animate();
         },
         // () =>{
         //     document.getElementById("c-task-list").leave_animate;
@@ -260,11 +268,6 @@ timer_ringing = {
         () => {
             window.dispatchEvent(window.TIME_FINISH);
         },
-        () => {
-            if (window.task_list.length === 0 && window.task_list.current === null){
-            state_transition('timer_init');
-            }
-        },
     ],
     'functions_leave': [],
 }
@@ -299,17 +302,37 @@ timer_break_countdown = {
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
                 document.getElementById("timer-display").trigger_countdown(8, () => {
-                    state_transition('timer_during_countdown');
+                    if(window.task_list.current === null) {
+                        state_transition('timer_init');
+                        document.getElementById('timer-display').reset_countdown();
+                    } else if (window.task_list.length === 0 && (window.task_list.current.finish_status)){
+                            state_transition('timer_init');
+                            document.getElementById('timer-display').reset_countdown();
+                    } else {
+                            state_transition('timer_during_countdown');
+                    }
+                    window.dispatchEvent(window.BREAK_ENDS);
                 });
                 document.getElementById("timer-label").innerHTML = "Long Break";
+                timer_label = "Long Break";
                 //event
                 let timer_long_break = new Event('timer_long_break');
                 document.dispatchEvent(timer_long_break);
             } else {
                 document.getElementById("timer-display").trigger_countdown(5, () => {
-                    state_transition('timer_during_countdown');
+                    if(window.task_list.current === null) {
+                        state_transition('timer_init');
+                        document.getElementById('timer-display').reset_countdown();
+                    } else if (window.task_list.length === 0 && (window.task_list.current.finish_status)){
+                            state_transition('timer_init');
+                            document.getElementById('timer-display').reset_countdown();
+                    } else {
+                            state_transition('timer_during_countdown');
+                    }
+                    window.dispatchEvent(window.BREAK_ENDS);
                 });
                 document.getElementById("timer-label").innerHTML = "Short Break";
+                timer_label = "Short Break";
                 //event
                 let timer_short_break = new Event('timer_short_break');
                 document.dispatchEvent(timer_short_break);
@@ -320,13 +343,16 @@ timer_break_countdown = {
         () => {
             document.getElementById("timer-display").ring();
         },
-        () => {
+        /*() => {
             //event
             let timer_cycle_complete = new Event('timer_cycle_complete');
-            document.dispatchEvent(timer_cycle_complete);
+            window.dispatchEvent(timer_cycle_complete);
+        },*/
+        () => {
+            document.getElementById("timer-display").reset_timer_when_done();
         },
-        () =>{
-            window.dispatchEvent(window.BREAK_ENDS);
-        }
+        // () =>{
+        //     window.dispatchEvent(window.BREAK_ENDS);
+        // },
     ],
 }
