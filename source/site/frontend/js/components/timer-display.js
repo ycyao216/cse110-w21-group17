@@ -180,6 +180,10 @@ export function define_timer_display(html) {
                 document.getElementById('early-prompt').style.display = 'initial';
                 window.dispatchEvent(window.FINISH_EARLY)
             }
+
+            //event
+            let task_complete = new Event('task_complete');
+            document.dispatchEvent(task_complete);
         }
 
         /**
@@ -239,8 +243,25 @@ export function define_timer_display(html) {
 
     document.addEventListener('timer_cycle_complete', function (e) {
         console.log('timer cycle completed!');
+
+        // update example task
+        // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
     });
 
+    document.addEventListener('task_complete', function (e) {
+        console.log('Task complete!');
+
+        // update example task
+        // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
+    });
+
+    // TODO: event for when user edits running task
+    /*document.addEventListener('edited_running'), function (e) {
+        console.log('Running Task Edited');
+
+        // update example task
+        // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
+    }*/
 
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;
