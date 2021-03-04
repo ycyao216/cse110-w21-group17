@@ -41,7 +41,6 @@ self.addEventListener('install', (e) => {
     "/js/components/task-list.js",
     "/js/components/timer-display.js",
     "/js/components/sync.js",
-    "/js/state_machines/task_state_machine.js",
     "/js/state_machines/state_machine.js",
     "/js/state_machines/timer_state_machine.js",
     "/js/timer.js",

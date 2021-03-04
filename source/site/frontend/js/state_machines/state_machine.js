@@ -38,20 +38,3 @@ export function force_state(to_state, target = null) {
     to_state.functions_enter.forEach(f => target == null ? f.call(this) : f.call(this, target));
     return to_state;
 }
-
-export function fastforward_state(from_state, target) {
-    // To fastforward a state, we must have a target object that responds to a state change
-    // This is unlike normally, we make state transitions manually.
-
-    let current_state = from_state;
-    var next_state_str = null;
-    while ((next_state_str = current_state.next_state_string.call(this, target)) !== null) {
-        let next_state = transition(current_state, next_state_str, target = target);
-        if (next_state == null) {
-            break;
-        } else {
-            current_state = next_state;
-        }
-    }
-    return current_state
-}

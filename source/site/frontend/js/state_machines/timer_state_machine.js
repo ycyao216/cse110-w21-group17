@@ -131,10 +131,12 @@ timer_during_countdown = {
             document.getElementById("emergency-stop-button").style.display = 'initial';
             document.getElementById("overstudy-button").style.display = 'initial';
             document.getElementById("timer-label").innerHTML = "Work";
+            document.getElementById("c-task-list").leave_animate();
         },
         // initiate countdown
         // TODO: Get time from settings page
         () => {
+            window.task_list.upon_cycle_start(true);
             document.getElementById("timer-display").trigger_countdown(10, () => {
                 window.current_state = transition(window.current_state, 'timer_ringing');
             });

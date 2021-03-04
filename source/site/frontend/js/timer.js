@@ -6,16 +6,16 @@ import { define_control_button } from './components/control-button.js';
 import { define_time_picker } from './components/time-picker.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
+import { define_task } from './components/task.js';
 import { Task_data, Task_list_data } from './components/task-list-data.js';
 import { define_analysis } from './components/analysis.js';
-import { fastforward_state, force_state, transition } from './state_machines/state_machine.js';
+import { force_state, transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
-import { task_create } from './state_machines/task_state_machine.js';
+import { create_task, delete_task, read_task, next_task, update_task, current_task } from './persistence/data.js';
 // set global variables
 
 //// state machine
 window.transition = transition;
-window.fastforward_state = fastforward_state;
 window.timer_init = timer_init;
 
 //// messages
@@ -42,7 +42,48 @@ window.last_time_set = 0;
 
 //// Task-list data 
 window.task_list = new Task_list_data();
-window.current_task = null;
+
+
+//// New Tasklist
+window.create_task = create_task;
+window.delete_task = delete_task;
+window.read_task = read_task;
+window.next_task = next_task;
+window.update_task = update_task;
+window.current_task = current_task;
+window.user_data = {
+    "task_list_data": [
+        {
+            "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
+            "description": "task 1",
+            "pomo_estimation": 4,
+            "cycles_completed": 0,
+            "last_timer_start": null,
+        },
+        {
+            "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+            "description": "task 2",
+            "pomo_estimation": 2,
+            "cycles_completed": 0,
+            "last_timer_start": null,
+        }
+    ],
+    "user_log": [
+        {
+            "login_timestamp": "",
+            "timer_state": "timer_init",
+            "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+            "accumulated_cycles": 0,
+            "online": true
+        }
+    ],
+    "settings": {
+        "short_break_sec": 3,
+        "short_break_cycles": 1,
+        "long_break_sec": 5,
+        "long_break_cycles": 4
+    }
+}
 
 // This Section Imports Requires Components
 // Settings Component
@@ -69,6 +110,11 @@ fetch("/html/components/time-picker.html")
 fetch("/html/components/modal.html")
     .then(stream => stream.text())
     .then(text => define_modal(text));
+
+// Task Component
+fetch("/html/components/task.html")
+    .then(stream => stream.text())
+    .then(text => define_task(text));
 
 // Task List Component
 fetch("/html/components/task-list.html")
@@ -101,25 +147,22 @@ fetch("/html/components/analysis.html")
 
 
 //// This Section fetches user data from the server and start state machine
-postData('/fetchuserdata', {
-    "token": "1e250968-7a1b-11eb-9439-0242ac130002",
-    "title": "title"
-})
-    .then(data => {
-        console.log(data);
-        // data ready
-        window.user_data = JSON.parse(localStorage.getItem('user_data')); //data
-        window.current_state = timer_init;
-        if (window.user_data["user_log"].length > 0){
-            let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
-            window.current_state = transition(window.current_state, previous_state);
-        }else{
-            window.current_state = force_state(timer_init);
-        }
-        localStorage.setItem('user_data', JSON.stringify(window.user_data));
-    }) // JSON from `response.json()` call
-    .catch(error => { console.error(error); })
-
-
-fastforward_state(task_create, "");
-
+window.current_state = timer_init;
+// postData('/fetchuserdata', {
+//     "token": "1e250968-7a1b-11eb-9439-0242ac130002",
+//     "title": "title"
+// })
+//     .then(data => {
+//         console.log(data);
+//         // data ready
+//         window.user_data = JSON.parse(localStorage.getItem('user_data')); //data
+//         window.current_state = timer_init;
+//         if (window.user_data["user_log"].length > 0) {
+//             let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
+//             window.current_state = transition(window.current_state, previous_state);
+//         } else {
+//             window.current_state = force_state(timer_init);
+//         }
+//         localStorage.setItem('user_data', JSON.stringify(window.user_data));
+//     }) // JSON from `response.json()` call
+//     .catch(error => { console.error(error); })

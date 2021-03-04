@@ -9,8 +9,8 @@
           "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
           "description": "task 1",
           "pomo_estimation": 4,
-          "actual_pomo": 0,
-          "start_date": null,
+          "cycles_completed": 0,
+          "last_timer_start": null,
           "next_task": "97bf356c-3910-45f5-950e-34acc6319b83",
           "deleted": false
         },
@@ -18,8 +18,8 @@
           "id": "97bf356c-3910-45f5-950e-34acc6319b83",
           "description": "task 2",
           "pomo_estimation": 2,
-          "actual_pomo": 0,
-          "start_date": null,
+          "cycles_completed": 0,
+          "last_timer_start": null,
           "next_task": null,
           "deleted": false
         }

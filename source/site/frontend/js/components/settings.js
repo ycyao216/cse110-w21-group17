@@ -36,6 +36,7 @@ export function define_settings(html) {
             define_incdecinput(this.shadowRoot);
 
         }
+
     }
     customElements.define('c-settings', CSettings);
     return CSettings;

@@ -32,26 +32,23 @@
   transition: box-shadow 0.1s;
 }
 
-
 .task-container:hover {
-    background-color: rgb(207, 207, 207);
-    box-shadow: 4px 3px 5px #000;
-  }
-  
-  .order_btn {
-    text-align: center;
-    margin: 1mm;
-    border: 1mm;
-    height: 100%;
-    background-color: rgb(153, 153, 153);
-    font-size: medium;
-    flex-grow: 1;
-  }
-  
+  background-color: rgb(207, 207, 207);
+  box-shadow: 4px 3px 5px #000;
+}
 
-  .order-btn-container{
-    flex-grow: 2;
-    flex-direction: row;
-    justify-content: center;
-  }
+.order_btn {
+  text-align: center;
+  margin: 1mm;
+  border: 1mm;
+  height: 100%;
+  background-color: rgb(153, 153, 153);
+  font-size: medium;
+  flex-grow: 1;
+}
 
+.order-btn-container {
+  flex-grow: 2;
+  flex-direction: row;
+  justify-content: center;
+}
