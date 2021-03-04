@@ -229,6 +229,17 @@ export class Task_list_data {
   }
 
   /**
+   * Stringify the current task. Handles the null current task.
+   */
+  stringify_current(){
+    if (this.current === null){
+      return "No current running task.";
+    }
+    return "Task Name: " + this.current.desc + "\nProgress: " + this.current.current_cycle + " of " + this.current.est + " cycles done";
+
+  }
+
+  /**
    * Remove a task object with a UID from the pending task list. Does nothing
    * the task UID is not found.
    * @param {number} UID THe uid of the task to be removed
@@ -297,7 +308,7 @@ export class Task_list_data {
     }
   }
 
-  /**
+ /**
    * Operations done to the task list when a cycle is finished
    * Increment the pomo counter of the current task. If the task is finished,
    * go to the task finish procedure. If the task is overtime, increase the extra
@@ -307,6 +318,7 @@ export class Task_list_data {
    * is null, -3 if the task is not finished (has more cycle to go to reach est)
    */
   upon_cycle_finish() {
+    if (this.current_task !== null){
       if (this.current_task.finish_status !== true){
         this.current_task.increament_cycle();
         if (
@@ -315,63 +327,69 @@ export class Task_list_data {
           var temp = this.current_task.finish();
           localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
           return temp;
-
         }
         localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
         return -3;
       }
+    }
+    return -1;
   }
 
-  /**
+ /**
    * Operations to take when the next task is starting
    * Pop the first pending task and add to the current task. Does nothing when
    * taking a break.
-   * @param {boolean} is_woring Whether the timer is in working mode. (not using
-   * for now)
-   * @return {boolean} Relays the timer cycle type. (not using for now)
    */
-  upon_next_task_start(is_working) {
-    if (is_working) {
-      if (this.pending_tasks.length > 0 && this.current_task === null) {
-        this.pending_tasks[0].running = true;
-        // Overwrite the existing current task.
-        this.current_task = this.pending_tasks[0];
-        this.pending_tasks.shift();
-        // Updates current task display
-        window.dispatchEvent(window.UPDATE_CURRENT_TASK);
-        localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
-        localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
-      }
-      // Attempt to add event for making empty task display when no pending tasks
-      else if (this.pending_tasks.length === 0){
-        window.dispatchEvent(window.NO_RUNNING);
-      }
-    }
-    return is_working;
+upon_next_task_start() {
+  if (this.pending_tasks.length > 0 && this.current_task === null) {
+    this.pending_tasks[0].running = true;
+    // Overwrite the existing current task.
+    this.current_task = this.pending_tasks[0];
+    this.pending_tasks.shift();
+    // Updates current task display
+    window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
+    localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
   }
+  // Attempt to add event for making empty task display when no pending tasks
+  else if (this.pending_tasks.length === 0){
+    window.dispatchEvent(window.NO_RUNNING);
+
+  }
+}
+
 
   /**
    * Operations to take when break ends:
    * Finish the current task if it is finished and not overtime
    * Push the next task from pending to running if there is more task to do
-   * @returns {number} 0 if current task finished and next task poped. -3 if
-   * current task finished but no next task. 02 if current task overtime, -1 if
+   * @returns {number} 0 if current task finished and next task poped. -3 if 
+   * current task finished but no next task. -2 if no next task, -1 if 
    * no current task.
    */
   upon_break_ends(){
     if (this.current_task !== null){
-      window.current_task_code = this.upon_cycle_finish();
+      // window.current_task_code = this.upon_cycle_finish();
         if (this.current.finish_status) {
           // if (this.current.overtime_status){
           //   return -2;
-          // }
+          // } 
           this.upon_task_finish();
           if (this.pending_tasks.length > 0){
-            this.upon_next_task_start();
-            return -3;
+            this.upon_next_task_start(true);
+            window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+            return 0;
           }
-          return 0;
+          return -2
         }
+        return -3;
+    }
+    else if (this.current_finished_early){
+      if (this.pending_tasks.length > 0){
+        this.upon_next_task_start(true);
+        window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+        return 0;
+      }
     }
     return -1;
   }

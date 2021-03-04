@@ -57,7 +57,7 @@ window.timer_label = document.getElementById('timer-label');
 window.task_list = new Task_list_data();
 
 window.addEventListener(window.UPDATE_CURRENT_TASK_EVENT, function (e) {
-    document.getElementById('current-task').innerHTML = window.task_list.current.stringify();
+    document.getElementById('current-task').innerHTML = window.task_list.stringify_current();
 });
 
 document.getElementById('task-list-animate').addEventListener('click',(_) => document.getElementById('c-task-list').taskbar_animate());

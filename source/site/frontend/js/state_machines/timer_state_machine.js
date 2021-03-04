@@ -50,11 +50,6 @@ timer_init = {
             document.getElementById("timer-label").innerHTML = "Waiting";
             timer_label = "Waiting";
         },
-        () => {
-            if (window.task_list.current !== null){
-                window.dispatchEvent(window.UPDATE_CURRENT_TASK);
-            }
-        },
     ],
     'functions_leave': [],
 }
@@ -307,6 +302,7 @@ timer_break_countdown = {
             // TODO: Get long/short break values from settings page
             if (document.getElementById("timer-display").isLongBreak()) {
                 document.getElementById("timer-display").trigger_countdown(8, () => {
+                    window.dispatchEvent(window.BREAK_ENDS);
                     if(window.task_list.current === null) {
                         state_transition('timer_init');
                         document.getElementById('timer-display').reset_countdown();
@@ -316,7 +312,7 @@ timer_break_countdown = {
                     } else {
                             state_transition('timer_during_countdown');
                     }
-                    window.dispatchEvent(window.BREAK_ENDS);
+                    window.dispatchEvent(window.UPDATE_CURRENT_TASK);
                 });
                 document.getElementById("timer-label").innerHTML = "Long Break";
                 timer_label = "Long Break";
@@ -325,6 +321,7 @@ timer_break_countdown = {
                 document.dispatchEvent(timer_long_break);
             } else {
                 document.getElementById("timer-display").trigger_countdown(5, () => {
+                    window.dispatchEvent(window.BREAK_ENDS);
                     if(window.task_list.current === null) {
                         state_transition('timer_init');
                         document.getElementById('timer-display').reset_countdown();
@@ -334,7 +331,7 @@ timer_break_countdown = {
                     } else {
                             state_transition('timer_during_countdown');
                     }
-                    window.dispatchEvent(window.BREAK_ENDS);
+                    window.dispatchEvent(window.UPDATE_CURRENT_TASK);
                 });
                 document.getElementById("timer-label").innerHTML = "Short Break";
                 timer_label = "Short Break";

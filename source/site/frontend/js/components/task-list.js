@@ -61,9 +61,11 @@ export function define_task_list(html) {
         let break_status = window.task_list.upon_break_ends();
         //Move the current task to finish and move the next pending to running
         //when task normally finish.
-        if (break_status === 0){
+        if (break_status === 0 || break_status === -2){
           upon_task_finish_render();
-          upon_cycle_start_render();
+          if (break_status !== -2){
+            upon_cycle_start_render();
+          }
         }
       }
 
@@ -107,8 +109,9 @@ export function define_task_list(html) {
        */
       function force_finish_task() {
         if (window.task_list.current !== null){
-          let num_cycles = window.task_list.upon_task_finish();
-          upon_task_finish_render(num_cycles);
+          window.current_task_code = window.task_list.upon_task_finish();
+          upon_task_finish_render();
+          window.task_list.current_finished_early = true;
         }
       }
 
@@ -120,25 +123,25 @@ export function define_task_list(html) {
        */
       function upon_cycle_start_render() {
         // call the data structure operations
-        let is_working = window.task_list.upon_next_task_start(true);
+        window.task_list.upon_next_task_start(true);
         /**
          * @note is_working is always true, so useless for now
          */
-        if (is_working) {
-          let first_pending = document.getElementById(pending_id).childNodes[0];
-          // while loop to ignore the empty textNodes
-          while (first_pending.nodeType === 3) {
-            first_pending = first_pending.nextSibling;
-          }
-          // Set current_task to null to prevent error on empty
-          // pending list
-          if (window.task_list.current_task !== null && current_task_display === null) {
-            current_task_display = first_pending;
-            document
-              .getElementById(running_id)
-              .appendChild(current_task_display);
-          }
+
+        let first_pending = document.getElementById(pending_id).childNodes[0];
+        // while loop to ignore the empty textNodes
+        while (first_pending.nodeType === 3) {
+          first_pending = first_pending.nextSibling;
         }
+        // Set current_task to null to prevent error on empty
+        // pending list
+        if (window.task_list.current_task !== null && current_task_display === null) {
+          current_task_display = first_pending;
+          document
+            .getElementById(running_id)
+            .appendChild(current_task_display);
+        }
+        
       }
 
 
@@ -148,9 +151,9 @@ export function define_task_list(html) {
       window.addEventListener(window.FIRST_TIME_START_EVENT, (_) =>
         upon_cycle_start_render()
       );
-      // window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
-      //   upon_cycle_natural_finish();
-      // })
+      window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
+        window.current_task_code = window.task_list.upon_cycle_finish();
+      })
       window.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
         force_finish_task()
       );
@@ -173,7 +176,7 @@ export function define_task_list(html) {
 
     taskbar_animate() {
       let document = this.shadowRoot;
-      if(window.timer_label !== "Work") {
+      if(window.timer_label.innerHTML !== 'Work') {
         if(document.getElementById("side-bar").style.left === "60%") {
           document.getElementById("side-bar").style.left = "100%";
         } else {
