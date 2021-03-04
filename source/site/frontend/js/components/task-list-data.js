@@ -37,20 +37,20 @@ export class Task_data {
   /**
    * Set the overtime property to true
    */
-  make_overtime(){
+  make_overtime() {
     this.overtime = true;
   }
 
   /**
    * Set the overtime property to false
    */
-  remove_overtime(){
+  remove_overtime() {
     this.overtime = false;
   }
   /**
    * @type {boolean} Whether or not the task is overtime
    */
-  get overtime_status(){
+  get overtime_status() {
     return this.overtime;
   }
   /**
@@ -125,7 +125,7 @@ export class Task_data {
     return this.actual_pomo;
   }
 
-  unfinish(){
+  unfinish() {
     this.finished = false;
   }
 
@@ -143,8 +143,8 @@ export class Task_data {
     this.running = false;
   }
 
-  add_more_cycle(){
-    if (this.pomo_estimation < 5){
+  add_more_cycle() {
+    if (this.pomo_estimation < 5) {
       this.pomo_estimation += 1;
     }
   }
@@ -157,8 +157,16 @@ export class Task_data {
     window.dispatchEvent(window.UPDATE_CURRENT_TASK);
   }
 
-  stringify(){
-    return "Task Name: " + this.desc + "\nProgress: " + this.current_cycle + " of " + this.est + " cycles done";
+  stringify() {
+    return (
+      "Task Name: " +
+      this.desc +
+      "\nProgress: " +
+      this.current_cycle +
+      " of " +
+      this.est +
+      " cycles done"
+    );
   }
 }
 
@@ -202,41 +210,49 @@ export class Task_list_data {
     return null;
   }
 
-/**
- * Move a task from pending list one index eariler or later.
- * @param {number} task_index The index of task in pending list to be moved
- * @param {number} direction 0 for moving task so that it will be dequeued from the
- * pending list eariler than before; 1 if later tha before
- */
-  move(task_index, direction){
+  /**
+   * Move a task from pending list one index eariler or later.
+   * @param {number} task_index The index of task in pending list to be moved
+   * @param {number} direction 0 for moving task so that it will be dequeued from the
+   * pending list eariler than before; 1 if later tha before
+   */
+  move(task_index, direction) {
     let temp = this.pending_tasks[task_index];
-    if (direction === 0 && task_index > 0){
-      this.pending_tasks[task_index].list_index -=1;
-      this.pending_tasks[task_index-1].list_index +=1;
-      this.pending_tasks.splice(task_index,1);
+    if (direction === 0 && task_index > 0) {
+      this.pending_tasks[task_index].list_index -= 1;
+      this.pending_tasks[task_index - 1].list_index += 1;
+      this.pending_tasks.splice(task_index, 1);
       console.log(temp);
       this.pending_tasks.splice(task_index - 1, 0, temp);
       console.log(this.pending_tasks);
-
-    }
-    else if (direction === 1 && task_index < this.pending_tasks.length -1){
-      this.pending_tasks[task_index].list_index +=1;
-      this.pending_tasks[task_index+1].list_index -=1;
-      this.pending_tasks.splice(task_index,1);
+    } else if (direction === 1 && task_index < this.pending_tasks.length - 1) {
+      this.pending_tasks[task_index].list_index += 1;
+      this.pending_tasks[task_index + 1].list_index -= 1;
+      this.pending_tasks.splice(task_index, 1);
       this.pending_tasks.splice(task_index + 1, 0, temp);
     }
-    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
+    localStorage.setItem(
+      "pending_tasks_storage",
+      JSON.stringify(this.pending_tasks)
+    );
   }
 
   /**
    * Stringify the current task. Handles the null current task.
    */
-  stringify_current(){
-    if (this.current === null){
+  stringify_current() {
+    if (this.current === null) {
       return "No current running task.";
     }
-    return "Task Name: " + this.current.desc + "\nProgress: " + this.current.current_cycle + " of " + this.current.est + " cycles done";
-
+    return (
+      "Task Name: " +
+      this.current.desc +
+      "\nProgress: " +
+      this.current.current_cycle +
+      " of " +
+      this.current.est +
+      " cycles done"
+    );
   }
 
   /**
@@ -254,7 +270,10 @@ export class Task_list_data {
       }
       this.pending_tasks.splice(index, 1);
     }
-    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
+    localStorage.setItem(
+      "pending_tasks_storage",
+      JSON.stringify(this.pending_tasks)
+    );
   }
 
   /**
@@ -269,7 +288,10 @@ export class Task_list_data {
       this.pending_tasks[i].list_index += 1;
     }
     this.pending_tasks.splice(index, 0, task);
-    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
+    localStorage.setItem(
+      "pending_tasks_storage",
+      JSON.stringify(this.pending_tasks)
+    );
   }
 
   /**
@@ -288,8 +310,14 @@ export class Task_list_data {
       let actual = this.current_task.finish();
       this.finished_tasks.push(this.current_task);
       this.current_task = null;
-      localStorage.setItem('finished_tasks_storage', JSON.stringify(this.finished_tasks));
-      localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+      localStorage.setItem(
+        "finished_tasks_storage",
+        JSON.stringify(this.finished_tasks)
+      );
+      localStorage.setItem(
+        "current_task_storage",
+        JSON.stringify(this.current_task)
+      );
       return actual;
     }
     return null;
@@ -298,17 +326,20 @@ export class Task_list_data {
   /**
    * Callback for add on cycle button. Set the overtime variable to true
    */
-  upon_overtime(){
+  upon_overtime() {
     if (this.current != null && this.current_task.finish) {
       this.current.unfinish();
       this.current.make_overtime();
       this.current.add_more_cycle();
       window.dispatchEvent(window.UPDATE_CURRENT_TASK);
-      localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+      localStorage.setItem(
+        "current_task_storage",
+        JSON.stringify(this.current_task)
+      );
     }
   }
 
- /**
+  /**
    * Operations done to the task list when a cycle is finished
    * Increment the pomo counter of the current task. If the task is finished,
    * go to the task finish procedure. If the task is overtime, increase the extra
@@ -318,74 +349,83 @@ export class Task_list_data {
    * is null, -3 if the task is not finished (has more cycle to go to reach est)
    */
   upon_cycle_finish() {
-    if (this.current_task !== null){
-      if (this.current_task.finish_status !== true){
+    if (this.current_task !== null) {
+      if (this.current_task.finish_status !== true) {
         this.current_task.increament_cycle();
         if (
           this.current_task.current_cycle >= this.current_task.pomo_estimation
         ) {
           var temp = this.current_task.finish();
-          localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+          localStorage.setItem(
+            "current_task_storage",
+            JSON.stringify(this.current_task)
+          );
           return temp;
         }
-        localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+        localStorage.setItem(
+          "current_task_storage",
+          JSON.stringify(this.current_task)
+        );
         return -3;
       }
     }
     return -1;
   }
 
- /**
+  /**
    * Operations to take when the next task is starting
    * Pop the first pending task and add to the current task. Does nothing when
    * taking a break.
    */
-upon_next_task_start() {
-  if (this.pending_tasks.length > 0 && this.current_task === null) {
-    this.pending_tasks[0].running = true;
-    // Overwrite the existing current task.
-    this.current_task = this.pending_tasks[0];
-    this.pending_tasks.shift();
-    // Updates current task display
-    window.dispatchEvent(window.UPDATE_CURRENT_TASK);
-    localStorage.setItem('pending_tasks_storage', JSON.stringify(this.pending_tasks));
-    localStorage.setItem('current_task_storage', JSON.stringify(this.current_task));
+  upon_next_task_start() {
+    if (this.pending_tasks.length > 0 && this.current_task === null) {
+      this.pending_tasks[0].running = true;
+      // Overwrite the existing current task.
+      this.current_task = this.pending_tasks[0];
+      this.pending_tasks.shift();
+      // Updates current task display
+      window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+      localStorage.setItem(
+        "pending_tasks_storage",
+        JSON.stringify(this.pending_tasks)
+      );
+      localStorage.setItem(
+        "current_task_storage",
+        JSON.stringify(this.current_task)
+      );
+    }
+    // Attempt to add event for making empty task display when no pending tasks
+    else if (this.pending_tasks.length === 0) {
+      window.dispatchEvent(window.NO_RUNNING);
+    }
   }
-  // Attempt to add event for making empty task display when no pending tasks
-  else if (this.pending_tasks.length === 0){
-    window.dispatchEvent(window.NO_RUNNING);
-
-  }
-}
-
 
   /**
    * Operations to take when break ends:
    * Finish the current task if it is finished and not overtime
    * Push the next task from pending to running if there is more task to do
-   * @returns {number} 0 if current task finished and next task poped. -3 if 
-   * current task finished but no next task. -2 if no next task, -1 if 
+   * @returns {number} 0 if current task finished and next task poped. -3 if
+   * current task finished but no next task. -2 if no next task, -1 if
    * no current task.
    */
-  upon_break_ends(){
-    if (this.current_task !== null){
+  upon_break_ends() {
+    if (this.current_task !== null) {
       // window.current_task_code = this.upon_cycle_finish();
-        if (this.current.finish_status) {
-          // if (this.current.overtime_status){
-          //   return -2;
-          // } 
-          this.upon_task_finish();
-          if (this.pending_tasks.length > 0){
-            this.upon_next_task_start(true);
-            window.dispatchEvent(window.UPDATE_CURRENT_TASK);
-            return 0;
-          }
-          return -2
+      if (this.current.finish_status) {
+        // if (this.current.overtime_status){
+        //   return -2;
+        // }
+        this.upon_task_finish();
+        if (this.pending_tasks.length > 0) {
+          this.upon_next_task_start(true);
+          window.dispatchEvent(window.UPDATE_CURRENT_TASK);
+          return 0;
         }
-        return -3;
-    }
-    else if (this.current_finished_early){
-      if (this.pending_tasks.length > 0){
+        return -2;
+      }
+      return -3;
+    } else if (this.current_finished_early) {
+      if (this.pending_tasks.length > 0) {
         this.upon_next_task_start(true);
         window.dispatchEvent(window.UPDATE_CURRENT_TASK);
         return 0;
@@ -398,15 +438,16 @@ upon_next_task_start() {
    * using local storage to recover curret_task, pending_tasks, and
    * finished_tasks
    */
-  read_local_storage(){
+  read_local_storage() {
     // recorver the infromation of current_task
-    var temp_current_task = JSON.parse(localStorage.getItem('current_task_storage'));
-    if(temp_current_task == null){
+    var temp_current_task = JSON.parse(
+      localStorage.getItem("current_task_storage")
+    );
+    if (temp_current_task == null) {
       this.current_task = null;
-    }
-
-    else{
-      var temp_C = new Task_data(temp_current_task.description,
+    } else {
+      var temp_C = new Task_data(
+        temp_current_task.description,
         Number(temp_current_task.pomo_estimation),
         temp_current_task.list_index
       );
@@ -421,10 +462,13 @@ upon_next_task_start() {
     }
 
     // record the information of pending_tasks
-    var temp_pending_tasks = JSON.parse(localStorage.getItem('pending_tasks_storage'));
+    var temp_pending_tasks = JSON.parse(
+      localStorage.getItem("pending_tasks_storage")
+    );
     var temp_array_p = [];
-    for(var i = 0; i < temp_pending_tasks.length; i += 1){
-      var temp_Ptask = new Task_data(temp_pending_tasks[i].description,
+    for (var i = 0; i < temp_pending_tasks.length; i += 1) {
+      var temp_Ptask = new Task_data(
+        temp_pending_tasks[i].description,
         Number(temp_pending_tasks[i].pomo_estimation),
         temp_pending_tasks[i].list_index
       );
@@ -441,10 +485,13 @@ upon_next_task_start() {
     this.pending_tasks = temp_array_p;
 
     // recover the infromation of finished_tasks
-    var temp_finished_tasks = JSON.parse(localStorage.getItem('finished_tasks_storage'));
+    var temp_finished_tasks = JSON.parse(
+      localStorage.getItem("finished_tasks_storage")
+    );
     var temp_array_f = [];
-    for(var j = 0; j < temp_finished_tasks.length; j += 1){
-      var temp_Ftask = new Task_data(temp_finished_tasks[j].description,
+    for (var j = 0; j < temp_finished_tasks.length; j += 1) {
+      var temp_Ftask = new Task_data(
+        temp_finished_tasks[j].description,
         Number(temp_finished_tasks[j].pomo_estimation),
         temp_finished_tasks[j].list_index
       );

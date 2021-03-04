@@ -53,17 +53,17 @@ export function define_task_list(html) {
       }
 
       /**
-       * Update the display of task list when the break ends, also conducts the 
+       * Update the display of task list when the break ends, also conducts the
        * corresponding data structure operations.
-       * 
+       *
        */
-      function upon_break_ends_rendering(){
+      function upon_break_ends_rendering() {
         let break_status = window.task_list.upon_break_ends();
         //Move the current task to finish and move the next pending to running
         //when task normally finish.
-        if (break_status === 0 || break_status === -2){
+        if (break_status === 0 || break_status === -2) {
           upon_task_finish_render();
-          if (break_status !== -2){
+          if (break_status !== -2) {
             upon_cycle_start_render();
           }
         }
@@ -94,21 +94,11 @@ export function define_task_list(html) {
       }
 
       /**
-       * Update the task list (data and render) when a cycle naturally ends.
-       */
-      function upon_cycle_natural_finish() {
-        // Get the condition of the current task when it finishes. 
-        // For condition codes, see upon_cycle_finish of task-list-data.js
-        // window.current_task_code = window.task_list.upon_cycle_finish();
-        //upon_task_finish_render(num_cycles);
-      }
-
-      /**
        * Force the finish of the current task. Record the immediate cycles taken
        * by the current task so far as the actual number of cycles taken.
        */
       function force_finish_task() {
-        if (window.task_list.current !== null){
+        if (window.task_list.current !== null) {
           window.current_task_code = window.task_list.upon_task_finish();
           upon_task_finish_render();
           window.task_list.current_finished_early = true;
@@ -135,15 +125,14 @@ export function define_task_list(html) {
         }
         // Set current_task to null to prevent error on empty
         // pending list
-        if (window.task_list.current_task !== null && current_task_display === null) {
+        if (
+          window.task_list.current_task !== null &&
+          current_task_display === null
+        ) {
           current_task_display = first_pending;
-          document
-            .getElementById(running_id)
-            .appendChild(current_task_display);
+          document.getElementById(running_id).appendChild(current_task_display);
         }
-        
       }
-
 
       window.addEventListener(window.BREAK_ENDS_EVENT, (_) =>
         upon_break_ends_rendering()
@@ -151,33 +140,38 @@ export function define_task_list(html) {
       window.addEventListener(window.FIRST_TIME_START_EVENT, (_) =>
         upon_cycle_start_render()
       );
-      window.addEventListener(window.TIME_FINISH_EVENT, (_)=>{
+      window.addEventListener(window.TIME_FINISH_EVENT, (_) => {
         window.current_task_code = window.task_list.upon_cycle_finish();
-      })
+      });
       window.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
         force_finish_task()
       );
-      window.addEventListener(window.TIMER_ADD_CYCLE_EVENT, (_) => window.task_list.upon_overtime());
+      window.addEventListener(window.TIMER_ADD_CYCLE_EVENT, (_) =>
+        window.task_list.upon_overtime()
+      );
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
         .addEventListener("click", add_task_to_pending);
     }
 
-    /*enter_animate() {
+    enter_animate() {
       let document = this.shadowRoot;
       document.getElementById("side-bar").style.left = "60%";
-    }*/
+    }
 
     leave_animate() {
       let document = this.shadowRoot;
       document.getElementById("side-bar").style.left = "100%";
     }
 
+    /**
+     * Toggles the task list
+     */
     taskbar_animate() {
       let document = this.shadowRoot;
-      if(window.timer_label.innerHTML !== 'Work') {
-        if(document.getElementById("side-bar").style.left === "60%") {
+      if (window.timer_label.innerHTML !== "Work") {
+        if (document.getElementById("side-bar").style.left === "60%") {
           document.getElementById("side-bar").style.left = "100%";
         } else {
           document.getElementById("side-bar").style.left = "60%";
@@ -389,7 +383,9 @@ export function define_task_list(html) {
         let task_pomo_est = task_estimate_in.value;
         let task_pomo_num = Number(task_pomo_est);
         let parent = self.parentNode;
-        let max_pomo = Number(window.user_data['settings']['max_pomo_per_task']);
+        let max_pomo = Number(
+          window.user_data["settings"]["max_pomo_per_task"]
+        );
         // if the user did not enter the task name
         if (task_desc == "") {
           alert("Please input a task name");

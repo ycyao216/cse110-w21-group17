@@ -32,7 +32,7 @@ window.EMERG_STOP_WARNING =
 window.OVERSTUDY_MSG =
   "Great job! Don't start the next task yet, reflect on your current task!";
 
-// global variable
+// Condition code for curent running task 
 window.current_task_code = 0;
 
 // Event names
@@ -53,26 +53,36 @@ window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
 window.TIMER_ADD_CYCLE = new Event(window.TIMER_ADD_CYCLE_EVENT);
 window.UPDATE_CURRENT_TASK = new Event(window.UPDATE_CURRENT_TASK_EVENT);
 window.NO_RUNNING = new Event(window.NO_RUNNING_EVENT);
+
 //// for timer
 window.num_pomos = 0;
 window.last_time_set = 0;
 
+// Reference for timer label to be accessed from shadow dom
 window.timer_label = document.getElementById("timer-label");
 
 // Task-list data
 window.task_list = new Task_list_data();
 
+// Listener that updates the current task display
 window.addEventListener(window.UPDATE_CURRENT_TASK_EVENT, function (e) {
   document.getElementById(
     "current-task"
   ).innerHTML = window.task_list.stringify_current();
 });
 
+/**
+ * @note Currently bypassing state machine when toggling task list
+ */
 document
   .getElementById("task-list-animate")
   .addEventListener("click", (_) =>
     document.getElementById("c-task-list").taskbar_animate()
   );
+
+/**
+ * @note Currently bypassing state machine when toggling settings
+ */
 document.getElementById("settings-toggle").addEventListener("click", (_) => {
   console.log(window.current_state);
   if (document.getElementById("c-settings").style.display === "none") {
@@ -84,6 +94,7 @@ document.getElementById("settings-toggle").addEventListener("click", (_) => {
   }
 });
 
+// Settings data
 window.user_data = {
     "settings": {
         "work_sec": 1500,
