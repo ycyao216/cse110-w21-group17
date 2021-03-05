@@ -53,33 +53,17 @@ export function define_task_list(html) {
       }
 
       /**
-       * Update the display of task list when the break ends, also conducts the
-       * corresponding data structure operations.
-       *
-       */
-      function upon_break_ends_rendering() {
-        let break_status = window.task_list.upon_break_ends();
-        //Move the current task to finish and move the next pending to running
-        //when task normally finish.
-        if (break_status === 0 || break_status === -2) {
-          upon_task_finish_render();
-          if (break_status !== -2) {
-            upon_cycle_start_render();
-          }
-        }
-      }
-
-      /**
        * Render only. Move the curret task from running to finished after
        * and display actual pomodoro sessions taken by the current task.
        * Does noting to empty pending.
+       * @param {mixed} num_cycles If there is a current task, is the actual
+       * pomodoro cycle taken by the current task. Null if there is no curent
+       * task.
        */
-      function upon_task_finish_render() {
-        // Access the condition code for the last finished task.
-        let num_cycles = window.current_task_code;
+      function upon_cycle_finish_render(num_cycles) {
         // Rendering procedures are the same for both natural and manual finish
-        if (num_cycles !== -1 && num_cycles !== -2) {
-          if (current_task_display !== null && num_cycles !== -3) {
+        if (num_cycles !== null) {
+          if (current_task_display !== null) {
             current_task_display.finish_task_render(num_cycles);
             document
               .getElementById(running_id)
@@ -88,9 +72,17 @@ export function define_task_list(html) {
               .getElementById(finished_id)
               .appendChild(current_task_display);
           }
-          /** @fixme I don't know why this is here */
           current_task_display = null;
         }
+        test_current_task_display();
+      }
+
+      /**
+       * Update the task list (data and render) when a cycle naturally ends.
+       */
+      function upon_cycle_natural_finish() {
+        let num_cycles = window.task_list.upon_cycle_finish();
+        upon_cycle_finish_render(num_cycles);
       }
 
       /**
@@ -98,11 +90,8 @@ export function define_task_list(html) {
        * by the current task so far as the actual number of cycles taken.
        */
       function force_finish_task() {
-        if (window.task_list.current !== null) {
-          window.current_task_code = window.task_list.upon_task_finish();
-          upon_task_finish_render();
-          window.task_list.current_finished_early = true;
-        }
+        let num_cycles = window.task_list.upon_task_finish();
+        upon_cycle_finish_render(num_cycles);
       }
 
       /**
@@ -112,47 +101,79 @@ export function define_task_list(html) {
        * pending is empty.
        */
       function upon_cycle_start_render() {
-        // call the data structure operations
-        window.task_list.upon_next_task_start(true);
         /**
-         * @note is_working is always true, so useless for now
+         * @todo Link this to actaul timer cycle type.
          */
-
-        let first_pending = document.getElementById(pending_id).childNodes[0];
-        // while loop to ignore the empty textNodes
-        while (first_pending.nodeType === 3) {
-          first_pending = first_pending.nextSibling;
+        let is_working = window.task_list.upon_cycle_start(true);
+        if (is_working) {
+          let first_pending = document.getElementById(pending_id).childNodes[0];
+          // while loop to ignore the empty textNodes
+          while (first_pending.nodeType === 3) {
+            first_pending = first_pending.nextSibling;
+          }
+          // Set current_task to null to prevent error on empty
+          // pending list
+          current_task_display = null;
+          if (window.task_list.current_task !== null) {
+            current_task_display = first_pending;
+            document
+              .getElementById(running_id)
+              .appendChild(current_task_display);
+          }
         }
-        // Set current_task to null to prevent error on empty
-        // pending list
-        if (
-          window.task_list.current_task !== null &&
-          current_task_display === null
-        ) {
-          current_task_display = first_pending;
-          document.getElementById(running_id).appendChild(current_task_display);
+        test_current_task_display();
+      }
+
+      /**
+       * @note FOR TESTING PURPOSE ONLY
+       * Update the current task infomration displayed on task list for
+       * testing
+       */
+      function test_current_task_display() {
+        let task_display = document.getElementById("curr_task_information");
+        if (window.task_list.current_task !== null) {
+          let stringified =
+            "Task: " +
+            window.task_list.current_task.desc +
+            " || Status: " +
+            window.task_list.current_task.cycles +
+            " / " +
+            window.task_list.current_task.est;
+          task_display.innerHTML = stringified;
+        } else {
+          task_display.innerHTML = "No task running";
         }
       }
 
-      window.addEventListener(window.BREAK_ENDS_EVENT, (_) =>
-        upon_break_ends_rendering()
+      document.addEventListener(window.TIME_FINISH_EVENT, (_) =>
+        upon_cycle_natural_finish()
       );
-      window.addEventListener(window.FIRST_TIME_START_EVENT, (_) =>
+      document.addEventListener(window.TIME_START_EVENT, (_) =>
         upon_cycle_start_render()
       );
-      window.addEventListener(window.TIME_FINISH_EVENT, (_) => {
-        window.current_task_code = window.task_list.upon_cycle_finish();
-      });
-      window.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
+      document.addEventListener(window.FINISH_EARLY_EVENT, (_) =>
         force_finish_task()
-      );
-      window.addEventListener(window.TIMER_ADD_CYCLE_EVENT, (_) =>
-        window.task_list.upon_overtime()
       );
       // Link all the button to corresponding callbacks
       document
         .getElementById("add-task-button")
         .addEventListener("click", add_task_to_pending);
+
+      document
+        .getElementById("test-btn-0")
+        .addEventListener("click", function () {
+          document.dispatchEvent(window.TIME_START);
+        });
+      document
+        .getElementById("test-btn-1")
+        .addEventListener("click", function () {
+          document.dispatchEvent(window.TIME_FINISH);
+        });
+      document
+        .getElementById("test-btn-2")
+        .addEventListener("click", function () {
+          document.dispatchEvent(window.FINISH_EARLY);
+        });
     }
 
     enter_animate() {
@@ -163,20 +184,6 @@ export function define_task_list(html) {
     leave_animate() {
       let document = this.shadowRoot;
       document.getElementById("side-bar").style.left = "100%";
-    }
-
-    /**
-     * Toggles the task list
-     */
-    taskbar_animate() {
-      let document = this.shadowRoot;
-      if (window.timer_label.innerHTML !== "Work") {
-        if (document.getElementById("side-bar").style.left === "60%") {
-          document.getElementById("side-bar").style.left = "100%";
-        } else {
-          document.getElementById("side-bar").style.left = "60%";
-        }
-      }
     }
   }
 
@@ -342,9 +349,9 @@ export function define_task_list(html) {
       let task_input_container = document.createElement("div");
       task_input_container.setAttribute("class", "task-container");
       // input for task description
-      let task_desc_in = document.createElement("input");
+      let task_desc_in = document.createElement("textarea");
       task_desc_in.setAttribute("class", "task");
-      task_desc_in.setAttribute("type", "text");
+      // task_desc_in.setAttribute("type", "text");
       // input for task pomo estimation, treat input as string
       let task_estimate_in = document.createElement("input");
       task_estimate_in.setAttribute("class", "pomo-counter");
@@ -383,9 +390,6 @@ export function define_task_list(html) {
         let task_pomo_est = task_estimate_in.value;
         let task_pomo_num = Number(task_pomo_est);
         let parent = self.parentNode;
-        let max_pomo = Number(
-          window.user_data["settings"]["max_pomo_per_task"]
-        );
         // if the user did not enter the task name
         if (task_desc == "") {
           alert("Please input a task name");
@@ -407,14 +411,14 @@ export function define_task_list(html) {
           // recommaend splitting up into more task
           if (r == true) {
             // calculate how many new sub tasks should be needed.
-            var breakNum = Math.floor(task_pomo_num / max_pomo);
-            var rem = task_pomo_num % max_pomo;
+            var breakNum = Math.floor(task_pomo_num / 4);
+            var rem = task_pomo_num % 4;
             for (var i = 1; i <= breakNum; i += 1) {
               var tempName = task_desc + " Part " + i;
               // add the i th sub task to the list
               let new_task_data = new Task_data(
                 tempName,
-                max_pomo,
+                4,
                 insert_index + i - 1
               );
               let new_task = new Task(new_task_data);
@@ -443,7 +447,7 @@ export function define_task_list(html) {
               parent.insertBefore(new_task, self);
             }
           }
-        } else if (task_pomo_num <= max_pomo) {
+        } else if (task_pomo_num <= 4) {
           // pushed the information to arrays at the correct index
           let new_task_data = new Task_data(
             task_desc,
