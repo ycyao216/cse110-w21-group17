@@ -11,9 +11,6 @@ function define_control_button(html) {
             let document = this.shadowRoot;
             this.shadow = shadow;
             this.document = document;
-            function _class(name) {
-                return document.querySelectorAll("." + name);
-            }
 
             // Use value in the custom tag to be the display text in the button
             document.getElementById('button').innerText = this.textContent
