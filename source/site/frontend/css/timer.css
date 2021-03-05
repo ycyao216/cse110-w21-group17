@@ -1,5 +1,5 @@
 html {
-  background: url("/assets/images/web-background.png") no-repeat center center fixed;
+  background: url("/assets/images/web-background.jpg") no-repeat center center fixed;
   background-color: #4a707a;
   background-size: cover;
 }
@@ -21,7 +21,7 @@ body {
 
 /* style links */
 a {}
-
+/*
 footer {
   position: fixed;
   display: inline-block;
@@ -31,6 +31,23 @@ footer {
   bottom: 0;
   width: 100%;
   text-align: left;
+}
+*/
+
+footer {
+  position: fixed;
+  width: 100%;
+  background-color: #a2adc3;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: .6;
+  font-size: 2vh;
+}
+
+.top-bar-buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .container {
