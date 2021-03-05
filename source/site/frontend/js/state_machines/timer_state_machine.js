@@ -40,6 +40,7 @@ timer_init = {
             document.getElementById("early-prompt").style.display = 'none';
             document.getElementById("timer-label").innerHTML = "Waiting";
             document.getElementById("timer-display").reset_countdown(window.user_data.settings.work_sec)
+            window.update_status();
         },
         () => {
             document.getElementById('c-task-list').refresh_list()
@@ -123,9 +124,6 @@ timer_during_countdown = {
         get timer_init() {
             return timer_init;
         },
-        /*get timer_finished_early() {
-            return timer_finished_early
-        },*/
     },
     'functions_enter': [
         () => console.log('[timer_during_countdown]'),
@@ -136,38 +134,23 @@ timer_during_countdown = {
             document.getElementById("overstudy-button").style.display = 'initial';
             document.getElementById("timer-label").innerHTML = "Work";
             document.getElementById("c-task-list").leave_animate();
+            window.update_status();
         },
         // initiate countdown
         () => {
-            window.task_list.upon_cycle_start(true);
+            if (current_task() == null) transition(window.current_state, 'timer_init');
+        },
+        () => {
             let time_limit = window.user_data.settings.work_sec;
             document.getElementById("timer-display").trigger_countdown(time_limit, () => {
                 // countdown timeout
                 current_task().cycles_completed += 1;
                 update_task(current_task());
-
-                // TODO what if user didn't finish
-                if (current_task().cycles_completed >= current_task().pomo_estimation) {
-                    document.getElementById('c-modal').display_confirm('Did you finish the task?',
-                        () => {
-                            window.active_userstate().current_task = window.next_task().id;
-                            document.getElementById('c-task-list').refresh_list()
-                        },
-                        () => {
-                            window.current_task().pomo_estimation += 1;
-                            window.update_task(current_task());
-                        })
-                }
-
                 transition(window.current_state, 'timer_ringing');
             });
         },
     ],
     'functions_leave': [
-        // increment # of pomos
-        () => {
-            document.getElementById("timer-display").incr_pomo();
-        },
     ],
 }
 
@@ -195,8 +178,22 @@ timer_ringing = {
             document.getElementById("timer-display").ring();
         },
         () => {
-            console.log(window.current_state);
-            transition(window.current_state, 'timer_break_countdown');
+            if (is_finished(current_task())) {
+                document.getElementById('c-modal').display_confirm('Did you finish the task?',
+                    () => {
+                        window.advance_task();
+                        transition(window.current_state, 'timer_break_countdown');
+                    },
+                    () => {
+                        window.current_task().pomo_estimation += 1;
+                        window.update_task(current_task());
+                        transition(window.current_state, 'timer_break_countdown');
+                    })
+            }else{
+                transition(window.current_state, 'timer_break_countdown');
+            }
+        },
+        () => {
         }
     ],
     'functions_leave': [],
@@ -213,14 +210,6 @@ timer_break_countdown = {
     },
     'functions_enter': [
         () => console.log('[timer_break_countdown]'),
-        () => {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.active.postMessage({
-                    'title': 'take a break',
-                    'message': 'take a break'
-                });
-            });
-        },
         // Update the page
         () => {
             document.getElementById("start-button").style.display = 'none';
@@ -232,7 +221,6 @@ timer_break_countdown = {
             // get break status 
             let break_string = window.active_userstate().break_status.break;
             let sec_limit = window.user_data.settings[`${break_string}_sec`];
-            console.log(sec_limit);
             document.getElementById("timer-label").innerHTML = break_string;
             document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
                 transition(window.current_state, 'timer_during_countdown');

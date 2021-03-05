@@ -10,9 +10,7 @@ export function define_task(html) {
 
             let document = this.shadowRoot;
 
-            function _class(name) {
-                return document.querySelectorAll("." + name);
-            }
+
 
             // Put you initialization code here
             this.task_view = this.shadowRoot.getElementById("task-view");

@@ -25,6 +25,7 @@ export function update_task(task) {
 
     // Refresh screen
     document.getElementById("c-task-list").refresh_list(); // TODO current implementation is slow
+    window.update_status();
 }
 
 
@@ -62,10 +63,26 @@ export function current_task() {
     return read_task(active_userstate().current_task);
 }
 
-export function next_task() {
+export function is_finished(task) {
+    return task.cycles_completed >= task.pomo_estimation;
+}
+
+export function is_running(task) {
+    if (window.current_task() == null) return false;
+    if (task == null) return false;
+    return task.id === window.current_task().id;
+}
+
+export function next_task_id() {
     let current_task_inner = current_task();
     let fromidx = window.user_data.task_list_data.findIndex(x => x.id === current_task_inner.id);
-    return read_task(window.user_data.task_list_data[fromidx + 1]);
+    let next_task = window.user_data.task_list_data[fromidx + 1];
+    return (next_task == null) ? null : next_task.id;
+}
+
+export function advance_task(){
+    window.active_userstate().current_task = window.next_task_id();
+    document.getElementById('c-task-list').refresh_list();
 }
 
 export function active_userstate() {

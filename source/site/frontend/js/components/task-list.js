@@ -1,5 +1,3 @@
-import { Task_data, Task_list_data } from "./task-list-data.js";
-
 export function define_task_list(html) {
   class CTaskList extends HTMLElement {
     constructor() {
@@ -40,24 +38,25 @@ export function define_task_list(html) {
 
       let CTask = customElements.get("c-task");
 
-      function create_task_element(task){
+      function create_task_element(task) {
         let ele = new CTask();
         ele.populate(task);
         ele.mode_view();
         return ele;
       }
 
+
       // Add Pending
-      window.user_data.task_list_data.filter(e => e.cycles_completed < e.pomo_estimation).forEach(e => this.pendning_list.appendChild(create_task_element(e)))
+      window.user_data.task_list_data.filter(e => !is_running(e) && !is_finished(e)).forEach(e => this.pendning_list.appendChild(create_task_element(e)))
 
       // Add Running
-      window.user_data.task_list_data.filter(e => e.id === window.current_task().id).forEach(e => this.running_list.appendChild(create_task_element(e)))
+      window.user_data.task_list_data.filter(e => is_running(e)).forEach(e => this.running_list.appendChild(create_task_element(e)))
 
       // Add Finished
-      window.user_data.task_list_data.filter(e => e.cycles_completed >= e.pomo_estimation).forEach(e => this.finished_list.appendChild(create_task_element(e)))
+      window.user_data.task_list_data.filter(e => is_finished(e)).forEach(e => this.finished_list.appendChild(create_task_element(e)))
     }
 
-    new_add_task(){
+    new_add_task() {
       let CTask = customElements.get("c-task");
       let ele = new CTask();
       ele.mode_edit();

@@ -9,9 +9,7 @@ export function define_modal(html) {
 
             let document = this.shadowRoot;
 
-            function _class(name) {
-                return document.querySelectorAll("." + name);
-            }
+
 
             // The modal elements
             this.modal = this.shadowRoot.getElementById("modal-popup");

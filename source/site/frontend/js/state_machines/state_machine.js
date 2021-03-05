@@ -22,14 +22,14 @@ export function transition(from_state, to_state_string, target = null) {
 
     // run all functions_leave of from_state
     if (from_state !== null) {
-        from_state.functions_leave.forEach(f => target == null ? f.call(this) : f.call(this, target));
+        from_state.functions_leave.forEach(f => (window.current_state == from_state) && (target == null ? f.call(this) : f.call(this, target)));
     }
 
     // State Transition
     window.current_state = to_state;
 
     // run all functions_enter of to_state
-    to_state.functions_enter.forEach(f => target == null ? f.call(this) : f.call(this, target));
+    to_state.functions_enter.forEach(f => (window.current_state == to_state) && (target == null ? f.call(this) : f.call(this, target)));
 
     return to_state;
 }

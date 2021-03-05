@@ -9,9 +9,7 @@ export function define_time_picker(html) {
 
             let document = this.shadowRoot;
 
-            function _class(name) {
-                return document.querySelectorAll("." + name);
-            }
+
 
             // Put you initialization code here
             ionRangeSlider(document.getElementById("single-slider"))

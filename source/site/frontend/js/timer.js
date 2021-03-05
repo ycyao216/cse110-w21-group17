@@ -1,5 +1,4 @@
 // import modules
-import { postData } from './utils.js';
 import { define_settings } from './components/settings.js';
 import { define_timer_display } from './components/timer-display.js';
 import { define_control_button } from './components/control-button.js';
@@ -7,11 +6,9 @@ import { define_time_picker } from './components/time-picker.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
-import { Task_data, Task_list_data } from './components/task-list-data.js';
-import { define_analysis } from './components/analysis.js';
 import { force_state, transition } from './state_machines/state_machine.js';
 import { timer_init } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle } from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task } from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -38,24 +35,21 @@ window.TIME_FINISH = new Event(window.TIME_FINISH_EVENT);
 window.FINISH_EARLY = new Event(window.FINISH_EARLY_EVENT);
 
 
-//// for timer
-window.num_pomos = 0;
-window.last_time_set = 0;
-
-//// Task-list data 
-window.task_list = new Task_list_data();
-
 //// Settings
 window.active_userstate = active_userstate;
 window.advance_break_cycle = advance_break_cycle;
 
-//// New Tasklist
+//// opertions on data
 window.create_task = create_task;
 window.delete_task = delete_task;
 window.read_task = read_task;
 window.update_task = update_task;
 window.current_task = current_task;
 window.move_task = move_task;
+window.next_task_id = next_task_id;
+window.is_finished = is_finished;
+window.is_running = is_running;
+window.advance_task = advance_task;
 window.user_data = {
     "task_list_data": [
         {
@@ -99,6 +93,15 @@ window.user_data = {
     }
 }
 
+//// Status
+window.update_status = () => {
+    document.getElementById("current-task").innerText =
+        window.current_task() == null ? "Please add a task" :
+            "Task Name: " + window.current_task().description +
+            "\nProgress: " + Math.min((window.current_task().cycles_completed + 1), window.current_task().pomo_estimation) +
+            " of " + window.current_task().pomo_estimation;
+}
+
 // This Section Imports Requires Components
 // Settings Component
 fetch("/html/components/settings.html")
@@ -134,30 +137,6 @@ fetch("/html/components/task.html")
 fetch("/html/components/task-list.html")
     .then(stream => stream.text())
     .then(text => define_task_list(text));
-
-// Analysis Component
-fetch("/html/components/analysis.html")
-    .then(stream => stream.text())
-    .then(text => define_analysis(text));
-
-
-///// This function registers the service worker
-// navigator.serviceWorker.title = "ffff";
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('/service-worker.js').then(function () {
-//         console.log('Service worker registered!');
-//     });
-
-
-//     // navigator.serviceWorker.addEventListener('message', event => {
-//     //     // event is a MessageEvent object
-//     //     console.log(`The service worker sent me a message: ${event.data}`);
-//     //   });
-// }
-
-// Notification.requestPermission(function (status) {
-//     console.log('Notification permission status:', status);
-// });
 
 
 //// This Section fetches user data from the server and start state machine
