@@ -1,5 +1,5 @@
 // TODO Ready For Testing
-export function define_control_button(html) {
+function define_control_button(html) {
     class CControlButton extends HTMLElement {
         constructor() {
             super();
@@ -9,15 +9,24 @@ export function define_control_button(html) {
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
-
-            function _class(name) {
-                return document.querySelectorAll("." + name);
-            }
+            this.shadow = shadow;
+            this.document = document;
 
             // Use value in the custom tag to be the display text in the button
             document.getElementById('button').innerText = this.textContent
+        }
+        get_shadow() {
+            return this.shadow;
+        }
+        get_document() {
+            return this.document;
         }
     }
     customElements.define('c-control-button', CControlButton);
     return CControlButton;
 }
+
+// for testing
+module.exports = {
+    define_control_button,
+};

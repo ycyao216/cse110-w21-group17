@@ -8,6 +8,8 @@ export function define_analysis(html) {
             shadow.innerHTML = html;
 
             let document = this.shadowRoot;
+            this.shadow = shadow;
+            this.document = document;
 
             function _class(name) {
                 return document.querySelectorAll("." + name);
@@ -15,6 +17,14 @@ export function define_analysis(html) {
 
             // Put you initialization code here
             // some code
+        }
+        
+        get_shadow() {
+            return this.shadow;
+        }
+        
+        get_document() {
+            return this.document;
         }
     }
     customElements.define('c-analysis', CAnalysis);

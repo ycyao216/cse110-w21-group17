@@ -249,8 +249,16 @@ export function define_timer_display(html) {
         console.log('timer long break started!');
     });
 
+
     window.addEventListener('timer_cycle_complete', function (e) {
         this.reset_timer_when_done();
+        // update example task
+        // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
+    });
+
+    document.addEventListener('timer_cycle_complete', function (e) {
+        console.log('timer cycle completed!');
+
         // update example task
         // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
     });
@@ -261,7 +269,7 @@ export function define_timer_display(html) {
         // update example task
         // document.getElementById('current-task').innerHTML = window.task_list.current_task.stringify();
     });
-
+  
     // TODO: event for when user edits running task
     /*document.addEventListener('edited_running'), function (e) {
         console.log('Running Task Edited');
