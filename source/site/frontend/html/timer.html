@@ -32,12 +32,13 @@
                 <c-timer-display id="timer-display"></c-timer-display>
                 <div class="control-buttons">
                     <!-- <button class="control" id="start-button">Start</button> -->
-                    <c-control-button id="start-button" class="start" onclick="state_transition('timer_during_countdown')">Start</c-control-button>
-                    <c-control-button id="emergency-stop-button" class="finish" onclick="state_transition('timer_emergency_stop')">Emergency stop</c-control-button>
-                    <c-control-button id="overstudy-button" class="finish" onclick="document.getElementById('c-modal').display_alert(OVERSTUDY_MSG)">Overstudy</c-control-button>
+                    <c-control-button id="start-button" class="start" onclick="document.getElementById('timer-display').trigger_start()">Start</c-control-button>
+                    <c-control-button id="emergency-stop-button" class="finish" onclick="document.getElementById('timer-display').trigger_emergency_stop_prompt()">Emergency Stop</c-control-button>
+                    <c-control-button id="overstudy-button" class="finish" onclick="document.getElementById('timer-display').trigger_finish_early()">Finished Early</c-control-button>
+                    <c-control-button id="add-cycle-button" class="finish" onclick="document.getElementById('timer-display').trigger_add_cycle()">Add Cycle</c-control-button>
                 </div>
                 <div class="task">
-                    <span id="current-task">Example Task</span>
+                    <span id="current-task">Example Task</span> <!-- window.task_list.current_task.stringify() -->
                 </div>
             </div>
 
