@@ -12,17 +12,12 @@
   position: absolute;
   margin: 0;
   padding: 0%;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  background-color: rgba(201, 201, 201, 0.5);
+  background-color: rgb(88, 88, 88);
   position: fixed;
-  backdrop-filter: blur(30px);
   height: 95%;
   width: 40%;
   left: 100%;
   transition: left 0.5s;
-  overflow: scroll;
-  z-index: 2;
 }
 
 .task {
