@@ -11,30 +11,36 @@ var example_state = {
 
 // TODO Ready For Testing
 // State Utils
-export function transition(from_state, to_state_string, target = null) {
-    // Obtain next state
-    let to_state = from_state.next_states[to_state_string]
+export function transition(statelet, to_state_string) {
+    let from_state = statelet.current;
 
-    if (to_state == null) {
+    // Obtain next state
+    if (!window.timer_state_machine[statelet.current].next_states.includes(to_state_string)) {
         console.error(`invalid state trainsition: ${from_state} -> ${to_state_string} detected!!`);
         return null;
     }
 
     // run all functions_leave of from_state
-    if (from_state !== null) {
-        from_state.functions_leave.forEach(f => (window.current_state == from_state) && (target == null ? f.call(this) : f.call(this, target)));
+    if (statelet.current !== null) {
+        window.timer_state_machine[statelet.current].functions_leave.forEach(f => (statelet.current == from_state) && (f.call(this)));
     }
 
     // State Transition
-    window.current_state = to_state;
+    statelet.previous = statelet.current;
+    statelet.current = to_state_string;
+    from_state = statelet.current;
 
     // run all functions_enter of to_state
-    to_state.functions_enter.forEach(f => (window.current_state == to_state) && (target == null ? f.call(this) : f.call(this, target)));
+    window.timer_state_machine[statelet.current].functions_enter.forEach(f => (statelet.current == from_state) && (f.call(this)));
 
-    return to_state;
+    return;
 }
 
-export function force_state(to_state, target = null) {
-    to_state.functions_enter.forEach(f => target == null ? f.call(this) : f.call(this, target));
-    return to_state;
+export function rev_transition(statelet) {
+    transition(statelet, statelet.previous);
+}
+
+export function force_state(to_state) {
+    window.timer_state_machine[statelet.current].functions_enter.forEach(f => f.call(this));
+    return;
 }

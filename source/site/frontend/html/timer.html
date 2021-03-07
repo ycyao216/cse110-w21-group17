@@ -24,11 +24,13 @@
         <c-task-list id="c-task-list" style="display: initial"></c-task-list>
         <div class="top-bar-buttons">
           <c-control-button
-            onclick="transition(window.current_state, 'timer_open_settings')"
+            onclick="transition(window.statelet, 'timer_open_settings')"
             >Settings</c-control-button
           >
           <c-control-button
-            onclick="transition(window.current_state, 'timer_toggle_task_list')"
+            onclick="(window.statelet.current == 'timer_toggle_task_list') ? 
+            rev_transition(window.statelet, 'timer_toggle_task_list'):
+            transition(window.statelet, 'timer_toggle_task_list')"
             >Tasklist</c-control-button
           >
         </div>

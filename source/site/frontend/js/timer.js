@@ -5,14 +5,15 @@ import { define_control_button } from './components/control-button.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
-import { force_state, transition } from './state_machines/state_machine.js';
-import { timer_init } from './state_machines/timer_state_machine.js';
+import { force_state, transition, rev_transition } from './state_machines/state_machine.js';
+import { timer_state_machine } from './state_machines/timer_state_machine.js';
 import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task } from './persistence/data.js';
 // set global variables
 
 //// state machine
 window.transition = transition;
-window.timer_init = timer_init;
+window.rev_transition = rev_transition;
+window.timer_state_machine = timer_state_machine;
 
 //// messages
 window.WORK_TIME = "00:10";
@@ -97,7 +98,7 @@ window.emergency_stop_btn = () => {
     document.getElementById('c-modal').display_confirm(EMERG_STOP_WARNING,
         () => {
             document.getElementById('timer-display').reset_countdown();
-            transition(window.current_state, 'timer_init');
+            transition(window.statelet, 'timer_init');
         },
         () => { }
     )
@@ -110,7 +111,7 @@ window.finish_early_btn = () => {
 }
 window.start_btn = () => {
     if (current_task() == null) window.advance_task();
-    if (current_task() != null) transition(window.current_state, 'timer_during_countdown');
+    if (current_task() != null) transition(window.statelet, 'timer_during_countdown');
 }
 window.add_cycle_btn = () => {
     window.current_task().pomo_estimation += 1;
@@ -170,7 +171,7 @@ fetch("/html/components/task-list.html")
 //         window.current_state = timer_init;
 //         if (window.user_data["user_log"].length > 0) {
 //             let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
-//             transition(window.current_state, previous_state);
+//             transition(window.statelet, previous_state);
 //         } else {
 //             window.current_state = force_state(timer_init);
 //         }
@@ -180,5 +181,6 @@ fetch("/html/components/task-list.html")
 
 
 // Initialize the timer state machine
-setTimeout(() => window.current_state = force_state(timer_init), 500);
+window.statelet = { 'current': 'timer_init', 'previous': null };
+setTimeout(() => force_state(window.statelet), 500);
 

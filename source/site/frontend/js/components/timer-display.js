@@ -51,6 +51,9 @@ export function define_timer_display(html) {
          * @returns when timer hits 0
          */
         update_countdown() {
+            // prevent late updates
+            if (this.countdown == null) return;
+            
             // add 1,000 to start at desired time instead of 1 under
             let remaining_ms = this.countdown.endTime - Date.now() + 1000;
 
