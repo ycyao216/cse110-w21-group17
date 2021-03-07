@@ -12,7 +12,7 @@
 
 - Our definition of cycle includes *Work + Break*.
 
-- Because of the way we count cycles done, Long breaks will occur every **4** cycles *independent* of the tasklist.
+- Because of the way we count cycles done, Long breaks will occur every **4th** cycle *independent* of the tasklist.
 
 - Add Cycle button will allow the user to add 1 cycle to the *estimation* of the running task during the break/before timer starts if they feel they won't finish.
 
