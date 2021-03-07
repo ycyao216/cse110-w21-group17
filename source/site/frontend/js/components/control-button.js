@@ -8,12 +8,8 @@ export function define_control_button(html) {
             });
             shadow.innerHTML = html;
 
-            let document = this.shadowRoot;
-
-
-
             // Use value in the custom tag to be the display text in the button
-            document.getElementById('button').innerText = this.textContent
+            this.shadowRoot.getElementById('button').innerText = this.textContent
         }
     }
     customElements.define('c-control-button', CControlButton);

@@ -9,10 +9,6 @@ export function define_timer_display(html) {
             });
             shadow.innerHTML = html;
 
-            let document = this.shadowRoot;
-
-
-
             this.timer_display = this.shadowRoot.getElementById("timer-string");
             this.alarm_sound = this.shadowRoot.getElementById("alarm-sound");
 

@@ -8,10 +8,6 @@ export function define_task(html) {
             var shadow = this.attachShadow({ mode: 'open' });
             shadow.innerHTML = html;
 
-            let document = this.shadowRoot;
-
-
-
             // Put you initialization code here
             this.task_view = this.shadowRoot.getElementById("task-view");
             this.pomo_counter_view = this.shadowRoot.getElementById("pomo-counter-view");

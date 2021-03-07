@@ -7,10 +7,6 @@ export function define_modal(html) {
             });
             shadow.innerHTML = html;
 
-            let document = this.shadowRoot;
-
-
-
             // The modal elements
             this.modal = this.shadowRoot.getElementById("modal-popup");
             this.modal_text = this.shadowRoot.getElementById("modal-text");

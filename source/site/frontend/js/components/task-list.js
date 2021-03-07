@@ -11,12 +11,6 @@ export function define_task_list(html) {
       });
       shadow.innerHTML = html;
 
-      let document = this.shadowRoot;
-
-      function _class(name) {
-        return document.querySelectorAll("." + name);
-      }
-
       // Initialization
       this.running_list = this.shadowRoot.getElementById("running");
       this.pendning_list = this.shadowRoot.getElementById("pending-list");
@@ -60,7 +54,7 @@ export function define_task_list(html) {
       let CTask = customElements.get("c-task");
       let ele = new CTask();
       ele.mode_edit();
-      this.pendning_list.prepend(ele);
+      this.pendning_list.append(ele);
     }
 
     enter_animate() {
