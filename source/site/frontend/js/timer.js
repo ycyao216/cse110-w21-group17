@@ -57,14 +57,12 @@ window.user_data = {
             "description": "task 1",
             "pomo_estimation": 4,
             "cycles_completed": 0,
-            "last_timer_start": null,
         },
         {
             "id": "97bf356c-3910-45f5-950e-34acc6319b83",
             "description": "task 2",
             "pomo_estimation": 2,
             "cycles_completed": 0,
-            "last_timer_start": null,
         }
     ],
     "user_log": [

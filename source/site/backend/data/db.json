@@ -10,7 +10,6 @@
           "description": "task 1",
           "pomo_estimation": 4,
           "cycles_completed": 0,
-          "last_timer_start": null,
           "next_task": "97bf356c-3910-45f5-950e-34acc6319b83",
           "deleted": false
         },
@@ -19,7 +18,6 @@
           "description": "task 2",
           "pomo_estimation": 2,
           "cycles_completed": 0,
-          "last_timer_start": null,
           "next_task": null,
           "deleted": false
         }
