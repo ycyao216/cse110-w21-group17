@@ -20,6 +20,9 @@ export function define_timer_display(html) {
             this.trigger_countdown.bind(this);
             this.update_countdown.bind(this);
             this.reset_countdown.bind(this);
+            this.is_countingdown.bind(this);
+            this.ring.bind(this);
+            this.stop_ring.bind(this);
         }
 
         /**
@@ -81,73 +84,8 @@ export function define_timer_display(html) {
             this.timer_display.innerHTML = new Date(Math.ceil(seconds == null ? 10 : seconds)).toISOString().substr(14, 5)
         }
 
-
-
-
-        /**
-         * This is for the start button to dispatch the
-         * start event and setup the state machine
-         * @function
-         */
-        trigger_start() {
-            //event
-            let timer_started = new Event('timer_start');
-            document.dispatchEvent(timer_started);
-
-            transition(window.current_state, 'timer_during_countdown');
-
-        }
-
-
-        /**
-         * Prompt user to trigger emergency stop or not.
-         * if they want to stop, calls trigger_emergency_stop()
-         * @function
-         */
-        trigger_emergency_stop_prompt() {
-            // debug msg
-            console.log('[timer_emergency_stop]')
-
-            // show prompt, go back to defaults if confirmed, do nothing if not
-            document.getElementById('c-modal').display_confirm(
-                EMERG_STOP_WARNING,
-                () => {
-                    document.getElementById("timer-display").trigger_emergency_stop();
-                    transition(window.current_state, 'timer_init');
-                },
-                () => { }
-            )
-        }
-
-        /**
-         * Resets the countdown and its interval, set the display to the last work cycle time set,
-         * and reset number of pomos
-         * @function
-         */
-        trigger_emergency_stop() {
-            this.reset_countdown();
-        }
-
-        /**
-         * If the prompt is not already showing, pop-up message and show finish early prompt
-         * @function
-         */
-        trigger_finish_early() {
-            document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
-            document.getElementById('early-prompt').style.display = 'initial';
-            current_task().pomo_estimation = current_task().cycles_completed + 1;
-            update_task(current_task());
-        }
-
-        /**
-         * If the user clicks, dispatches event for tasklist to listen to
-         * to add 1 cycle to current task.
-         * @function
-         */
-        trigger_add_cycle() {
-            console.log("Cycle Added!");
-            current_task().pomo_estimation += 1;
-            update_task(current_task());
+        is_countingdown() {
+            return this.countdown != null;
         }
 
         /**
@@ -160,6 +98,13 @@ export function define_timer_display(html) {
             console.log("The Timer is RINGING!");
         }
 
+        /**
+         * Stops the audio
+         * @function
+         */
+        stop_ring() {
+            this.alarm_sound.volume = 0;
+        }
     }
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;

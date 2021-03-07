@@ -1,5 +1,3 @@
-import { define_incdecinput } from './incdecinput.js';
-
 export function define_settings(html) {
     class CSettings extends HTMLElement {
         constructor() {
@@ -31,9 +29,6 @@ export function define_settings(html) {
 
                 });
             }
-
-            // for incdecinput control
-            define_incdecinput(this.shadowRoot);
 
 
             // allow_emergency_stop

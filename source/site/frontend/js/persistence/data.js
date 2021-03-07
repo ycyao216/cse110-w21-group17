@@ -1,7 +1,10 @@
-// Programmer Note: A Screen refresh should always be triggered by a data change
-// Please do not refresh elements that shows the info of the data elsewhere
+/*
+    Developer Note: A Screen refresh should always be triggered by a data change
+    Please do not refresh elements that shows the info of the data elsewhere
+    Everything in this file is global because there is only 1 data for 1 browser session
+*/
 
-// CRUD Operations
+// CRUD Operations on user_data
 export function create_task(task, prev_task_id = null) {
     let prev_idx = window.user_data.task_list_data.findIndex(x => x.id == prev_task_id);
     window.user_data.task_list_data.splice(prev_idx !== -1 ? prev_idx + 1 : window.user_data.task_list_data.length, 0, task);
@@ -28,9 +31,11 @@ export function update_task(task) {
     window.update_status();
 }
 
-
 export function update_settings() {
     // update backend
+    // TODO
+    // Refresh Settings
+    // TODO
 }
 
 // Macros
@@ -58,6 +63,11 @@ export function advance_break_cycle() {
     }
 }
 
+export function advance_task() {
+    window.active_userstate().current_task = window.next_task_id();
+    document.getElementById('c-task-list').refresh_list();
+}
+
 // Easy Access
 export function current_task() {
     return read_task(active_userstate().current_task);
@@ -78,11 +88,6 @@ export function next_task_id() {
     let fromidx = window.user_data.task_list_data.findIndex(x => x.id === current_task_inner.id);
     let next_task = window.user_data.task_list_data[fromidx + 1];
     return (next_task == null) ? null : next_task.id;
-}
-
-export function advance_task(){
-    window.active_userstate().current_task = window.next_task_id();
-    document.getElementById('c-task-list').refresh_list();
 }
 
 export function active_userstate() {

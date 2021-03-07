@@ -2,7 +2,6 @@
 import { define_settings } from './components/settings.js';
 import { define_timer_display } from './components/timer-display.js';
 import { define_control_button } from './components/control-button.js';
-import { define_time_picker } from './components/time-picker.js';
 import { define_modal } from './components/modal.js';
 import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
@@ -93,12 +92,35 @@ window.user_data = {
     }
 }
 
-//// Status
+//// Macros
+window.emergency_stop_btn = () => {
+    document.getElementById('c-modal').display_confirm(EMERG_STOP_WARNING,
+        () => {
+            document.getElementById('timer-display').reset_countdown();
+            transition(window.current_state, 'timer_init');
+        },
+        () => { }
+    )
+}
+window.finish_early_btn = () => {
+    document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
+    document.getElementById('early-prompt').style.display = 'initial';
+    current_task().pomo_estimation = current_task().cycles_completed + 1;
+    update_task(current_task());
+}
+window.start_btn = () => {
+    if (current_task() == null) window.advance_task();
+    if (current_task() != null) transition(window.current_state, 'timer_during_countdown');
+}
+window.add_cycle_btn = () => {
+    window.current_task().pomo_estimation += 1;
+    window.update_task(current_task());
+}
 window.update_status = () => {
     document.getElementById("current-task").innerText =
         window.current_task() == null ? "Please add a task" :
             "Task Name: " + window.current_task().description +
-            "\nProgress: " + Math.min((window.current_task().cycles_completed + 1), window.current_task().pomo_estimation) +
+            "\nDone: " + Math.min((window.current_task().cycles_completed + 1), window.current_task().pomo_estimation) +
             " of " + window.current_task().pomo_estimation;
 }
 
@@ -116,12 +138,7 @@ fetch("/html/components/timer-display.html")
 // Control Button Component
 fetch("/html/components/control-button.html")
     .then(stream => stream.text())
-    .then(text => define_control_button(text));
-
-// Time Picker Component
-fetch("/html/components/time-picker.html")
-    .then(stream => stream.text())
-    .then(text => define_time_picker(text));
+    .then(text => define_control_button(text))
 
 // Modal Component
 fetch("/html/components/modal.html")
@@ -141,7 +158,6 @@ fetch("/html/components/task-list.html")
 
 //// This Section fetches user data from the server and start state machine
 // wait a while for the content to load
-setTimeout(() => window.current_state = force_state(timer_init), 500);
 
 // postData('/fetchuserdata', {
 //     "token": "1e250968-7a1b-11eb-9439-0242ac130002",
@@ -161,4 +177,8 @@ setTimeout(() => window.current_state = force_state(timer_init), 500);
 //         localStorage.setItem('user_data', JSON.stringify(window.user_data));
 //     }) // JSON from `response.json()` call
 //     .catch(error => { console.error(error); })
+
+
+// Initialize the timer state machine
+setTimeout(() => window.current_state = force_state(timer_init), 500);
 

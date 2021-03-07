@@ -1,11 +1,11 @@
 // Example State Data Structure
 var example_state = {
-    'name': 'timer_init',
-    'attatched_states': [],
     'next_states': {
-
+        get some_state() { return some_state; },
     },
-    'functions_enter': [],
+    'functions_enter': [
+        () => console.log("test")
+    ],
     'functions_leave': [],
 }
 
