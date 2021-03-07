@@ -146,7 +146,7 @@ export function define_timer_display(html) {
          */
         trigger_add_cycle() {
             console.log("Cycle Added!");
-            current_task().cycles_completed += 1;
+            current_task().pomo_estimation += 1;
             update_task(current_task());
         }
 
