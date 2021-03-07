@@ -112,6 +112,7 @@ window.finish_early_btn = () => {
 window.start_btn = () => {
     if (current_task() == null) window.advance_task();
     if (current_task() != null) transition(window.statelet, 'timer_during_countdown');
+    active_userstate().break_status.cycles = 0;
 }
 window.add_cycle_btn = () => {
     window.current_task().pomo_estimation += 1;

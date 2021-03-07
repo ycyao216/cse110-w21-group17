@@ -31,11 +31,11 @@ export function update_task(task) {
     window.update_status();
 }
 
-export function update_settings() {
+export function update_settings(settings) {
     // update backend
     // TODO
     // Refresh Settings
-    // TODO
+    document.getElementById("c-settings").refresh();
 }
 
 // Macros
