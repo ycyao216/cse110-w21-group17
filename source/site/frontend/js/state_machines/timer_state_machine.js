@@ -68,6 +68,7 @@ export var timer_state_machine = {
             // Task-list should ONLY open when the user is not working
             'timer_init',
             'timer_break_countdown',
+            'timer_during_countdown'
         ],
         'functions_enter': [
             () => console.log('[timer_toggle_task_list]'),
@@ -179,6 +180,12 @@ export var timer_state_machine = {
             () => window.advance_break_cycle()
         ],
         'functions_leave': [
+            // advance task if completed
+            () => {
+                if (window.is_finished(window.current_task())){
+                    window.advance_task();
+                }
+            }
         ],
     }
 }

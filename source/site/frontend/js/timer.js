@@ -121,7 +121,7 @@ window.update_status = () => {
     document.getElementById("current-task").innerText =
         window.current_task() == null ? "Please add a task" :
             "Task Name: " + window.current_task().description +
-            "\nDone: " + Math.min((window.current_task().cycles_completed + 1), window.current_task().pomo_estimation) +
+            "\nDone: " + window.current_task().cycles_completed +
             " of " + window.current_task().pomo_estimation;
 }
 

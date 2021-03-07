@@ -53,7 +53,7 @@ export function define_task_list(html) {
       window.user_data.task_list_data.filter(e => is_running(e)).forEach(e => this.running_list.appendChild(create_task_element(e)))
 
       // Add Finished
-      window.user_data.task_list_data.filter(e => is_finished(e)).forEach(e => this.finished_list.appendChild(create_task_element(e)))
+      window.user_data.task_list_data.filter(e => !is_running(e) && is_finished(e)).forEach(e => this.finished_list.appendChild(create_task_element(e)))
     }
 
     new_add_task() {
