@@ -137,6 +137,8 @@ export function define_task(html) {
                     () => {
                         create_or_update([new_data])
                     });
+            } else {
+                create_or_update([new_data]);
             }
         }
     }

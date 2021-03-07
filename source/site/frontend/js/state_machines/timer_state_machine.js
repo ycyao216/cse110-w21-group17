@@ -168,21 +168,23 @@ export var timer_state_machine = {
             },
             // decide between short or long break
             () => {
-                // get break status 
-                let break_string = window.active_userstate().break_status.break;
-                let sec_limit = window.user_data.settings[`${break_string}_sec`];
-                document.getElementById("timer-label").innerHTML = break_string;
-                document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
-                    transition(window.statelet, 'timer_during_countdown');
-                });
+                if (!document.getElementById("timer-display").is_countingdown()) {
+                    // get break status 
+                    let break_string = window.active_userstate().break_status.break;
+                    let sec_limit = window.user_data.settings[`${break_string}_sec`];
+                    document.getElementById("timer-label").innerHTML = break_string;
+                    document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
+                        // advance 1 break cycle
+                        window.advance_break_cycle();
+                        transition(window.statelet, 'timer_during_countdown');
+                    });
+                }
             },
-            // advance 1 break cycle
-            () => window.advance_break_cycle()
         ],
         'functions_leave': [
             // advance task if completed
             () => {
-                if (window.is_finished(window.current_task())){
+                if (window.is_finished(window.current_task())) {
                     window.advance_task();
                 }
             }
