@@ -40,9 +40,14 @@ export function define_settings(html) {
 
             // work-session duration
             this.working_min = this.shadowRoot.getElementById("working-min");
-            this.working_min.value = window.user_data.settings.short_break_sec/60;
+            this.working_min.value = window.user_data.settings.working_sec/60;
             this.working_min.addEventListener("change", function() {
                 let working_sec = this.value * 60;
+                if(working_sec < window.user_data.settings.long_break_sec){
+                    this.value = window.user_data.settings.working_sec/60;
+                    document.getElementById('c-modal').display_alert("FAILED: working time should be longer than long break");
+                    return
+                }
                 window.user_data.settings.working_sec = working_sec;
                 console.log(window.user_data.settings.working_sec);
             });
@@ -54,7 +59,7 @@ export function define_settings(html) {
                 let short_break_sec = this.value * 60;
                 if(short_break_sec > window.user_data.settings.long_break_sec){
                     this.value = window.user_data.settings.short_break_sec/60;
-                    document.getElementById('c-modal').display_alert("FAILED: short break longer than long break");
+                    document.getElementById('c-modal').display_alert("FAILED: short break should be shorter than long break");
                     return
                 }
                 window.user_data.settings.short_break_sec = short_break_sec;
@@ -68,7 +73,7 @@ export function define_settings(html) {
                 let long_break_sec = this.value * 60;
                 if(long_break_sec < window.user_data.settings.short_break_sec){
                     this.value = window.user_data.settings.long_break_sec/60;
-                    document.getElementById('c-modal').display_alert("FAILED: long break shorter than short break");
+                    document.getElementById('c-modal').display_alert("FAILED: long break should be longer than short break");
                     return
                 }
                 console.log(window.user_data.settings.long_break_sec);
