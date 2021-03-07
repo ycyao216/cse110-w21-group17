@@ -57,7 +57,7 @@ export function advance_break_cycle() {
     let break_string = active_userstate().break_status.break;
     let cycles_limit = window.user_data.settings[`${break_string}_cycles`];
     window.active_userstate().break_status.cycles += 1;
-    if (active_userstate().break_status.cycles > cycles_limit) {
+    if (active_userstate().break_status.cycles + 1 > cycles_limit) {
         active_userstate().break_status.cycles = 0;
         active_userstate().break_status.break = break_string === "short_break" ? "long_break" : "short_break"; //dirty code
     }
@@ -83,11 +83,13 @@ export function is_running(task) {
     return task.id === window.current_task().id;
 }
 
+export function is_pending(task) {
+    return !is_running(task) && !is_finished(task);
+}
+
 export function next_task_id() {
-    let current_task_inner = current_task();
-    let fromidx = window.user_data.task_list_data.findIndex(x => x.id === current_task_inner.id);
-    let next_task = window.user_data.task_list_data[fromidx + 1];
-    return (next_task == null) ? null : next_task.id;
+    let pending_list = window.user_data.task_list_data.filter(x => is_pending(x));
+    return pending_list.length == 0 ? null : pending_list[0].id;
 }
 
 export function active_userstate() {
