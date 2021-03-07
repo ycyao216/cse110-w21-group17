@@ -130,6 +130,7 @@ timer_during_countdown = {
         // change buttons shown, change timer label
         () => {
             document.getElementById("start-button").style.display = 'none';
+            document.getElementById("add-cycle-button").style.display = 'none';
             document.getElementById("emergency-stop-button").style.display = 'initial';
             document.getElementById("overstudy-button").style.display = 'initial';
             document.getElementById("timer-label").innerHTML = "Work";
@@ -213,6 +214,7 @@ timer_break_countdown = {
         // Update the page
         () => {
             document.getElementById("start-button").style.display = 'none';
+            document.getElementById("add-cycle-button").style.display = 'initial';
             document.getElementById("emergency-stop-button").style.display = 'initial';
             document.getElementById("overstudy-button").style.display = 'none';
         },
