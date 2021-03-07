@@ -84,9 +84,9 @@ window.user_data = {
     "settings": {
         "work_sec": 6,
         "short_break_sec": 3,
-        "short_break_cycles": 1,
+        "short_break_cycles": 4,
         "long_break_sec": 5,
-        "long_break_cycles": 4,
+        "long_break_cycles": 1,
         "allow_emergency_stop": true
     }
 }
