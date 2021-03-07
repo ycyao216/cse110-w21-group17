@@ -18,6 +18,7 @@
   width: 40%;
   left: 100%;
   transition: left 0.5s;
+  z-index: 2;
 }
 
 .task {
