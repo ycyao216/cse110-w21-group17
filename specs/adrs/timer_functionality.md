@@ -2,7 +2,9 @@
 
 ### Note: Most of these decisions were made at the beginning/middle of the project on our Miro board.
 
-- Timer will start with display of default Work Time of **25 minutes.**
+- Timer will start with display of default **00:00**
+
+- Default Work Time: **25 minutes.**
 
 - Default Short Break: **5 minutes**
 
