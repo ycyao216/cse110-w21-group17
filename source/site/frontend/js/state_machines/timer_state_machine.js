@@ -27,7 +27,7 @@ export var timer_state_machine = {
         'functions_enter': [
             () => console.log("[timer_init]"),
             // Force init
-            () => document.getElementById("timer-display").reset_countdown(window.user_data.settings.work_sec),
+            () => document.getElementById("timer-display").reset_countdown(window.user_data.settings.working_sec),
             // Set everything to defaultView
             () => {
                 // should show
@@ -54,7 +54,10 @@ export var timer_state_machine = {
         'functions_enter': [
             () => console.log('[timer_open_settings]'),
             // show settings
-            () => document.getElementById("c-settings").style.display = 'block'
+            () => {
+                document.getElementById("c-settings").style.display = 'block';
+                document.getElementById("c-settings").refresh();
+            }
         ],
         'functions_leave': [
             // hide settings
@@ -93,7 +96,7 @@ export var timer_state_machine = {
             // change buttons shown, change timer label
             () => {
                 // should show
-                document.getElementById("emergency-stop-button").style.display = 'initial';
+                document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                 document.getElementById("overstudy-button").style.display = 'initial';
                 document.getElementById("timer-label").innerHTML = "Work";
                 // should NOT show
@@ -107,7 +110,7 @@ export var timer_state_machine = {
             () => { if (current_task() == null) transition(window.statelet, 'timer_init'); },
             () => {
                 if (!document.getElementById("timer-display").is_countingdown()) {
-                    let time_limit = window.user_data.settings.work_sec;
+                    let time_limit = window.user_data.settings.working_sec;
                     document.getElementById("timer-display").trigger_countdown(time_limit, () => {
                         // when done
                         current_task().cycles_completed += 1;
@@ -132,7 +135,7 @@ export var timer_state_machine = {
             // Update the page
             () => {
                 // should show
-                document.getElementById("emergency-stop-button").style.display = 'initial';
+                document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                 document.getElementById("timer-label").innerHTML = "Ringing";
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
@@ -163,7 +166,7 @@ export var timer_state_machine = {
             () => {
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("add-cycle-button").style.display = 'initial';
-                document.getElementById("emergency-stop-button").style.display = 'initial';
+                document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
             },
             // decide between short or long break

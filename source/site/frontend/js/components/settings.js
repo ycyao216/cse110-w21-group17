@@ -37,44 +37,49 @@ export function define_settings(html) {
                 window.user_data.settings.allow_emergency_stop = this.checked;
             });
 
+
+
+
+            function validate_durations() {
+                if (self.short_break_min.value < self.long_break_min.value &&
+                    self.long_break_min.value < self.working_min.value) {
+                    return true;
+                }
+                return false;
+            }
+
+
             // work-session duration
             this.working_min = this.shadowRoot.getElementById("working-min");
             this.working_min.addEventListener("change", function () {
-                let working_sec = this.value * 60;
-                if (working_sec < window.user_data.settings.long_break_sec) {
-                    this.value = window.user_data.settings.working_sec / 60;
-                    document.getElementById('c-modal').display_alert("FAILED: working time should be longer than long break");
-                    return
+                if (validate_durations()) {
+                    window.user_data.settings.working_sec = this.value * 60;
+                } else {
+                    document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                window.user_data.settings.working_sec = working_sec;
-                console.log(window.user_data.settings.working_sec);
+                document.getElementById("c-settings").refresh();
             });
 
             // short-break duration
             this.short_break_min = this.shadowRoot.getElementById("short-break-min");
             this.short_break_min.addEventListener("change", function () {
-                let short_break_sec = this.value * 60;
-                if (short_break_sec > window.user_data.settings.long_break_sec) {
-                    this.value = window.user_data.settings.short_break_sec / 60;
-                    document.getElementById('c-modal').display_alert("FAILED: short break should be shorter than long break");
-                    return
+                if (validate_durations()) {
+                    window.user_data.settings.short_break_sec = this.value * 60;
+                } else {
+                    document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                window.user_data.settings.short_break_sec = short_break_sec;
-                console.log(window.user_data.settings.short_break_sec);
+                document.getElementById("c-settings").refresh();
             });
 
             // long-break duration
             this.long_break_min = this.shadowRoot.getElementById("long-break-min");
             this.long_break_min.addEventListener("change", function () {
-                let long_break_sec = this.value * 60;
-                if (long_break_sec < window.user_data.settings.short_break_sec) {
-                    this.value = window.user_data.settings.long_break_sec / 60;
-                    document.getElementById('c-modal').display_alert("FAILED: long break should be longer than short break");
-                    return
+                if (validate_durations()) {
+                    window.user_data.settings.long_break_sec = this.value * 60;
+                } else {
+                    document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                console.log(window.user_data.settings.long_break_sec);
-                window.user_data.settings.long_break_sec = long_break_sec;
-                console.log(window.user_data.settings.long_break_sec);
+                document.getElementById("c-settings").refresh();
             });
 
 

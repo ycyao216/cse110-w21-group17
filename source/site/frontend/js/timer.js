@@ -82,7 +82,7 @@ window.user_data = {
         }
     ],
     "settings": {
-        "work_sec": 6,
+        "working_sec": 6,
         "short_break_sec": 3,
         "short_break_cycles": 3,
         "long_break_sec": 5,
