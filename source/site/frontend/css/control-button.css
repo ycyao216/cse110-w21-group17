@@ -12,18 +12,27 @@
 } */
 
 button {
-  background: #a2adc3;
+  color: #f8f8ff;
+  background: #1a748e;
   box-sizing: border-box;
   border: 2px solid black;
   opacity: .75;
   border-radius: 30px;
   margin: 5vh .5vh 5vh .5vh;
-  width: 15vh;
+  width: fit-content;
   height: 5vh;
+  padding: 0 1vh 0 1vh;
   font-size: 3vh;
+  box-shadow: 0 6px #999;
 }
 
 button:hover {
-  background: #cbd1dd;
+  background: #94d6e9;
   opacity: .5;
+  cursor: pointer;
+}
+
+button:active {
+  box-shadow: 0 4px #333;
+  transform: translateY(3px);
 }
