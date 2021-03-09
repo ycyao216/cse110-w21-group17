@@ -1,3 +1,7 @@
+* {
+  outline: none;
+}
+
 /* button {
   border: 2px solid black;
   margin: 20px 0px 20px;
@@ -36,3 +40,5 @@ button:active {
   box-shadow: 0 4px #333;
   transform: translateY(3px);
 }
+
+
