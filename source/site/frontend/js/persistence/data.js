@@ -1,3 +1,4 @@
+import { postData } from '../utils.js';
 /*
     Developer Note: A Screen refresh should always be triggered by a data change
     Please do not refresh elements that shows the info of the data elsewhere
@@ -11,10 +12,16 @@ export function create_task(task, prev_task_id = null) {
 
     // Refresh screen
     document.getElementById("c-task-list").refresh_list();
+
+    // Sync
+    upload_userdata();
 }
 
 export function delete_task(task_id) {
     window.user_data.task_list_data = window.user_data.task_list_data.filter(x => x.id !== task_id);
+
+    // Sync
+    upload_userdata();
 }
 
 export function read_task(task_id) {
@@ -29,13 +36,30 @@ export function update_task(task) {
     // Refresh screen
     document.getElementById("c-task-list").refresh_list(); // TODO current implementation is slow
     window.update_status();
+
+    // Sync
+    upload_userdata();
 }
 
 export function update_settings(settings) {
-    // update backend
-    // TODO
     // Refresh Settings
     document.getElementById("c-settings").refresh();
+
+    // Sync
+    upload_userdata();
+}
+
+export function upload_userdata(){
+    postData('/uploaduserdata', {
+        "token": window.userid,
+        "data": window.user_data
+    })
+        .then(data => {
+            console.log("Sync Successful");
+            // data ready
+            window.user_data = data; //data
+        }) // JSON from `response.json()` call
+        .catch(error => { console.error(error); })
 }
 
 // Macros

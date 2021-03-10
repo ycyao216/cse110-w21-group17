@@ -1,21 +1,20 @@
 // Ref: https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch
 
 export function postData(url, data) {
-    // Default options are marked with *
     return fetch(url, {
-        body: JSON.stringify(data), // must match 'Content-Type' header
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, same-origin, *omit
+        body: JSON.stringify(data),
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
             'user-agent': 'Mozilla/4.0 MDN Example',
             'content-type': 'application/json'
         },
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, cors, *same-origin
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer', // *client, no-referrer
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer',
     })
-        .then(response => response.json()) // 輸出成 json
+        .then(response => response.json())
 }
 
 export function create_uid(length) {

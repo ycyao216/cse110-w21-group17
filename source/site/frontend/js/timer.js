@@ -1,4 +1,5 @@
 // import modules
+import { postData } from './utils.js';
 import { define_settings } from './components/settings.js';
 import { define_timer_display } from './components/timer-display.js';
 import { define_control_button } from './components/control-button.js';
@@ -7,7 +8,7 @@ import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
 import { force_state, transition, rev_transition } from './state_machines/state_machine.js';
 import { timer_state_machine } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task } from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings } from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -50,6 +51,7 @@ window.next_task_id = next_task_id;
 window.is_finished = is_finished;
 window.is_running = is_running;
 window.advance_task = advance_task;
+window.update_settings = update_settings;
 window.user_data = {
     "task_list_data": [
         {
@@ -125,7 +127,26 @@ window.update_status = () => {
             " of " + window.current_task().pomo_estimation;
 }
 
-// This Section Imports Requires Components
+//// Backend Sync
+let url_current = window.location.href.split("/");
+window.userid = url_current[url_current.length - 1]
+function request_user_data_and_start(token) {
+    //// This Section fetches user data from the server and start state machine
+    //// wait a while for the content to load
+
+    return postData('/fetchuserdata', {
+        "token": window.userid,
+    })
+        .then(data => {
+            // data ready
+            window.user_data = data; //data
+        }) // JSON from `response.json()` call
+        .catch(error => { console.error(error); })
+}
+
+
+
+// This Section Imports Requires Components and starts
 // Settings Component
 fetch("/html/components/settings.html")
     .then(stream => stream.text())
@@ -146,7 +167,13 @@ fetch("/html/components/settings.html")
                         .then(stream => stream.text())
                         .then(text => define_task_list(text))
                         .then(() => {
-                            // Initialize the timer state machine
-                            window.statelet = { 'current': 'timer_init', 'previous': null };
-                            force_state(window.statelet);
+                            // set user data
+                            request_user_data_and_start(window.userid).then(() => {
+                                // Initialize the timer state machine
+                                window.statelet = { 'current': 'timer_init', 'previous': null };
+                                force_state(window.statelet);
+                            });
+
                         }))))));
+
+

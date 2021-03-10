@@ -35,6 +35,7 @@ export function define_settings(html) {
             this.allow_emergency_stop = this.shadowRoot.getElementById("allow-emergency-stop");
             this.allow_emergency_stop.addEventListener("change", function () {
                 window.user_data.settings.allow_emergency_stop = this.checked;
+                window.update_settings();
             });
 
 
@@ -57,7 +58,7 @@ export function define_settings(html) {
                 } else {
                     document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                document.getElementById("c-settings").refresh();
+                window.update_settings();
             });
 
             // short-break duration
@@ -68,7 +69,7 @@ export function define_settings(html) {
                 } else {
                     document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                document.getElementById("c-settings").refresh();
+                window.update_settings();
             });
 
             // long-break duration
@@ -79,7 +80,7 @@ export function define_settings(html) {
                 } else {
                     document.getElementById('c-modal').display_alert("FAILED: short break < long break < working time");
                 }
-                document.getElementById("c-settings").refresh();
+                window.update_settings();
             });
 
 

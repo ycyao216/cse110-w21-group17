@@ -2,8 +2,9 @@
   "userid": {
     "testuser@gmail.com": "1e250968-7a1b-11eb-9439-0242ac130002"
   },
-  "userdata": {
-    "1e250968-7a1b-11eb-9439-0242ac130002": {
+  "userdata": [
+    {
+      "id": "1e250968-7a1b-11eb-9439-0242ac130002",
       "task_list_data": [
         {
           "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
@@ -37,6 +38,46 @@
         "long_break_sec": 5,
         "long_break_cycles": 4
       }
+    },
+    {
+      "id": "rrrrr",
+      "task_list_data": [],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": "timer_init",
+          "task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+          "accumulated_cycles": 0,
+          "online": true
+        }
+      ],
+      "settings": {
+        "short_break_sec": 3,
+        "short_break_cycles": 1,
+        "long_break_sec": 5,
+        "long_break_cycles": 4
+      }
+    },
+    {
+      "id": "1e250968-7a1b-11eb-9439-ss",
+      "task_list_data": [],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": "timer_init",
+          "task": null,
+          "accumulated_cycles": 0,
+          "online": true
+        }
+      ],
+      "settings": {
+        "short_break_sec": 3,
+        "short_break_cycles": 1,
+        "long_break_sec": 5,
+        "long_break_cycles": 4,
+        "working_sec": 180,
+        "allow_emergency_stop": true
+      }
     }
-  }
+  ]
 }
