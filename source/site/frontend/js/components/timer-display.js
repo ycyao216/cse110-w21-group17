@@ -93,7 +93,7 @@ export function define_timer_display(html) {
          */
         ring() {
             this.alarm_sound.volume = 0.1;
-            //this.alarm_sound.play();
+            this.alarm_sound.play();
             console.log("The Timer is RINGING!");
         }
 
@@ -108,3 +108,8 @@ export function define_timer_display(html) {
     customElements.define('c-timer-display', CTimerDisplay);
     return CTimerDisplay;
 }
+
+// for testing
+/*module.exports = {
+    define_timer_display,
+}*/
