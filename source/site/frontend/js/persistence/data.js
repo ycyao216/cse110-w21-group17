@@ -49,17 +49,19 @@ export function update_settings(settings) {
     upload_userdata();
 }
 
-export function upload_userdata(){
-    postData('/uploaduserdata', {
-        "token": window.userid,
-        "data": window.user_data
-    })
-        .then(data => {
-            console.log("Sync Successful");
-            // data ready
-            window.user_data = data; //data
-        }) // JSON from `response.json()` call
-        .catch(error => { console.error(error); })
+export function upload_userdata() {
+    if (window.userid !== "") {
+        postData('/uploaduserdata', {
+            "token": window.userid,
+            "data": window.user_data
+        })
+            .then(data => {
+                console.log("Sync Successful");
+                // data ready
+                window.user_data = data; //data
+            }) // JSON from `response.json()` call
+            .catch(error => { console.error(error); })
+    }
 }
 
 // Macros

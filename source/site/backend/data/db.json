@@ -78,6 +78,47 @@
         "working_sec": 180,
         "allow_emergency_stop": true
       }
+    },
+    {
+      "id": "fwefe",
+      "task_list_data": [],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": "timer_init",
+          "task": null,
+          "accumulated_cycles": 0,
+          "online": true
+        }
+      ],
+      "settings": {
+        "short_break_sec": 3,
+        "short_break_cycles": 1,
+        "long_break_sec": 5,
+        "long_break_cycles": 4,
+        "allow_emergency_stop": true,
+        "working_sec": 180
+      }
+    },
+    {
+      "id": "bo",
+      "task_list_data": [],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": "timer_init",
+          "task": null,
+          "accumulated_cycles": 0,
+          "online": true
+        }
+      ],
+      "settings": {
+        "short_break_sec": 3,
+        "short_break_cycles": 1,
+        "long_break_sec": 5,
+        "long_break_cycles": 4,
+        "allow_emergency_stop": true
+      }
     }
   ]
 }

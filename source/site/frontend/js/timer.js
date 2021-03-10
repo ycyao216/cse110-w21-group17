@@ -52,7 +52,7 @@ window.is_finished = is_finished;
 window.is_running = is_running;
 window.advance_task = advance_task;
 window.update_settings = update_settings;
-window.user_data = {
+let default_user_data = {
     "task_list_data": [
         {
             "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
@@ -139,11 +139,11 @@ window.dark_mode = () => {
 
 //// Backend Sync
 let url_current = window.location.href.split("/");
+console.log(url_current);
 window.userid = url_current[url_current.length - 1]
-function request_user_data_and_start(token) {
+function request_user_data_and_start() {
     //// This Section fetches user data from the server and start state machine
     //// wait a while for the content to load
-
     return postData('/fetchuserdata', {
         "token": window.userid,
     })
@@ -176,12 +176,16 @@ fetch("/html/components/settings.html")
                         .then(text => define_task_list(text))
                         .then(() => {
                             // set user data
-                            request_user_data_and_start(window.userid).then(() => {
-                                // Initialize the timer state machine
-                                window.statelet = { 'current': 'timer_init', 'previous': null };
+                            window.statelet = { 'current': 'timer_init', 'previous': null };
+                            if (window.userid == "") {
+                                window.user_data = default_user_data;
                                 force_state(window.statelet);
-                            });
-
+                            } else {
+                                request_user_data_and_start().then(() => {
+                                    // Initialize the timer state machine
+                                    force_state(window.statelet);
+                                });
+                            }
                         }))))));
 
 
