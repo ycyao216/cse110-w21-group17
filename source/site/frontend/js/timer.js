@@ -127,6 +127,16 @@ window.update_status = () => {
             " of " + window.current_task().pomo_estimation;
 }
 
+//// Themes
+window.light_mode = () => {
+    document.body.style.background = "#ffffff";
+}
+
+window.dark_mode = () => {
+    document.body.style.background = "#000000";
+}
+
+
 //// Backend Sync
 let url_current = window.location.href.split("/");
 window.userid = url_current[url_current.length - 1]
@@ -142,17 +152,6 @@ function request_user_data_and_start(token) {
             window.user_data = data; //data
         }) // JSON from `response.json()` call
         .catch(error => { console.error(error); })
-}
-
-
-
-// This Section Imports Requires Components and starts
-window.light_mode = () => {
-    document.body.style.background = "#ffffff";
-}
-
-window.dark_mode = () => {
-    document.body.style.background = "#000000";
 }
 
 // This Section Imports Requires Components
