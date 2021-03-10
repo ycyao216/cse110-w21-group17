@@ -137,58 +137,24 @@ window.dark_mode = () => {
 // Settings Component
 fetch("/html/components/settings.html")
     .then(stream => stream.text())
-    .then(text => define_settings(text));
-
-// Timer Display Component
-fetch("/html/components/timer-display.html")
-    .then(stream => stream.text())
-    .then(text => define_timer_display(text));
-
-// Control Button Component
-fetch("/html/components/control-button.html")
-    .then(stream => stream.text())
-    .then(text => define_control_button(text))
-
-// Modal Component
-fetch("/html/components/modal.html")
-    .then(stream => stream.text())
-    .then(text => define_modal(text));
-
-// Task Component
-fetch("/html/components/task.html")
-    .then(stream => stream.text())
-    .then(text => define_task(text));
-
-// Task List Component
-fetch("/html/components/task-list.html")
-    .then(stream => stream.text())
-    .then(text => define_task_list(text));
-
-
-//// This Section fetches user data from the server and start state machine
-// wait a while for the content to load
-
-// postData('/fetchuserdata', {
-//     "token": "1e250968-7a1b-11eb-9439-0242ac130002",
-//     "title": "title"
-// })
-//     .then(data => {
-//         console.log(data);
-//         // data ready
-//         window.user_data = JSON.parse(localStorage.getItem('user_data')); //data
-//         window.current_state = timer_init;
-//         if (window.user_data["user_log"].length > 0) {
-//             let previous_state = window.user_data["user_log"].slice(-1)[0]["timer_state"];
-//             transition(window.statelet, previous_state);
-//         } else {
-//             window.current_state = force_state(timer_init);
-//         }
-//         localStorage.setItem('user_data', JSON.stringify(window.user_data));
-//     }) // JSON from `response.json()` call
-//     .catch(error => { console.error(error); })
-
-
-// Initialize the timer state machine
-window.statelet = { 'current': 'timer_init', 'previous': null };
-setTimeout(() => force_state(window.statelet), 500);
-
+    .then(text => define_settings(text))
+    .then(fetch("/html/components/timer-display.html")
+        .then(stream => stream.text())
+        .then(text => define_timer_display(text))
+        .then(fetch("/html/components/control-button.html")
+            .then(stream => stream.text())
+            .then(text => define_control_button(text))
+            .then(fetch("/html/components/modal.html")
+                .then(stream => stream.text())
+                .then(text => define_modal(text))
+                .then(fetch("/html/components/task.html")
+                    .then(stream => stream.text())
+                    .then(text => define_task(text))
+                    .then(fetch("/html/components/task-list.html")
+                        .then(stream => stream.text())
+                        .then(text => define_task_list(text))
+                        .then(() => {
+                            // Initialize the timer state machine
+                            window.statelet = { 'current': 'timer_init', 'previous': null };
+                            force_state(window.statelet);
+                        }))))));
