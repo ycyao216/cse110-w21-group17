@@ -67,8 +67,13 @@ export function upload_userdata() {
 // Macros
 export function move_task(task_id, offset) {
     let fromidx = window.user_data.task_list_data.findIndex(x => x.id === task_id);
-    let toidx = Math.min(Math.max(fromidx + offset, 0), window.user_data.task_list_data.length - 1)
-
+    let toidx = fromidx;
+    // traverse the task list, and stop at the next running task, or at the ends
+    do {
+        toidx += offset/Math.abs(offset);
+    }while (toidx < window.user_data.task_list_data.length-1 && toidx > 0 && !is_pending(window.user_data.task_list_data[toidx]))
+    // to protect the tast from being out of bound
+    toidx = Math.min(Math.max(toidx, 0), window.user_data.task_list_data.length - 1)
     // swap
     var temp = window.user_data.task_list_data[fromidx];
     window.user_data.task_list_data[fromidx] = window.user_data.task_list_data[toidx];
