@@ -30,7 +30,7 @@ export function define_task(html) {
             this.order_btn_up.addEventListener("click", () => this.move(-1));
             this.order_btn_down.addEventListener("click", () => this.move(1));
             this.pomo_confirm_btn.addEventListener("click", () => this.confirm());
-            this.pomo_cancel_btn.addEventListener("click", () => this.mode_view());
+            this.pomo_cancel_btn.addEventListener("click", () => this.cancel());
 
             // task data
             this.task = null;
@@ -41,6 +41,7 @@ export function define_task(html) {
             this.mode_edit.bind(this);
             this.remove_task.bind(this);
             this.confirm.bind(this);
+            this.cancel.bind(this);
             this.move.bind(this);
         }
 
@@ -76,6 +77,13 @@ export function define_task(html) {
             window.move_task(this.task.id, offset);
         }
 
+        cancel() {
+            if (this.task !== null) {
+                this.mode_view();
+            } else {
+                this.remove_task();
+            }
+        }
 
         confirm() {
             self.task = this.task; // bind self task to this task

@@ -13,7 +13,9 @@
       "text",
       "lcov"
     ],
-    "modulePathIgnorePatterns": ["/cypress/"]
+    "modulePathIgnorePatterns": [
+      "/cypress/"
+    ]
   },
   "author": "",
   "license": "ISC",

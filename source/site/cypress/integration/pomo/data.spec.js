@@ -43,7 +43,7 @@ let mock_data = {
 context('Window', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000');
-    cy.wait(3);
+    cy.wait(3000);
   })
 
 
