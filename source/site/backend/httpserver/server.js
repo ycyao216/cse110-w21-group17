@@ -61,18 +61,27 @@ app.post('/fetchuserdata', async function (request, response) {
           "task_list_data": [],
           "user_log": [
             {
-              "login_timestamp": "",
-              "timer_state": "timer_init",
-              "task": null,
-              "accumulated_cycles": 0,
-              "online": true
+                "login_timestamp": "",
+                "timer_state": "timer_init",
+                "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+                "break_status": {
+                    "break": "short_break",
+                    "cycles": 0
+                },
+                "log": [
+                    "1579afed-2143-49e4-8768-b0d54eba43f8",
+                    "short_break",
+                ],
+                "online": true
             }
           ],
           "settings": {
+            "working_sec": 6,
             "short_break_sec": 3,
-            "short_break_cycles": 1,
+            "short_break_cycles": 3,
             "long_break_sec": 5,
-            "long_break_cycles": 4
+            "long_break_cycles": 1,
+            "allow_emergency_stop": true
           }
         }).then(res => response.send(res.data));
       });
