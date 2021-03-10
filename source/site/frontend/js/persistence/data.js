@@ -97,6 +97,9 @@ export function advance_break_cycle() {
 export function advance_task() {
     window.active_userstate().current_task = window.next_task_id();
     document.getElementById('c-task-list').refresh_list();
+
+    // Sync
+    upload_userdata();
 }
 
 // Easy Access
