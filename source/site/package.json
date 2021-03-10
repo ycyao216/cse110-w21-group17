@@ -12,7 +12,8 @@
       "json-summary",
       "text",
       "lcov"
-    ]
+    ],
+    "modulePathIgnorePatterns": ["/cypress/"]
   },
   "author": "",
   "license": "ISC",
