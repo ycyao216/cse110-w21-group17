@@ -30,6 +30,17 @@ export function define_settings(html) {
                 });
             }
 
+            // light/dark mode buttons
+
+            this.light_mode_button = this.shadowRoot.getElementById("light-mode-button");
+            this.light_mode_button.addEventListener("click", function () {
+                window.light_mode();
+            })
+
+            this.dark_mode_button = this.shadowRoot.getElementById("dark-mode-button");
+            this.dark_mode_button.addEventListener("click", function () {
+                window.dark_mode();
+            })
 
             // allow_emergency_stop
             this.allow_emergency_stop = this.shadowRoot.getElementById("allow-emergency-stop");

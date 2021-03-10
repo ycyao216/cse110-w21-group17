@@ -125,6 +125,14 @@ window.update_status = () => {
             " of " + window.current_task().pomo_estimation;
 }
 
+window.light_mode = () => {
+    document.body.style.background = "#ffffff";
+}
+
+window.dark_mode = () => {
+    document.body.style.background = "#000000";
+}
+
 // This Section Imports Requires Components
 // Settings Component
 fetch("/html/components/settings.html")

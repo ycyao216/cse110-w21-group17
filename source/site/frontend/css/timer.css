@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
 html {
   background: url("/assets/images/web-background.jpg") no-repeat center center fixed;
   background-color: #4a707a;
