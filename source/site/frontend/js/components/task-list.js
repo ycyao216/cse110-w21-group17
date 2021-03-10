@@ -36,6 +36,9 @@ export function define_task_list(html) {
         let ele = new CTask();
         ele.populate(task);
         ele.mode_view();
+        if (task !== null && (is_running(task) || is_finished(task))){
+          ele.mode_non_pending();
+        }
         return ele;
       }
 

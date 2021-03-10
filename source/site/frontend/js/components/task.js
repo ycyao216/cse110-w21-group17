@@ -15,6 +15,7 @@ export function define_task(html) {
             this.pomo_edit_btn = this.shadowRoot.getElementById("pomo-edit-btn");
             this.order_btn_up = this.shadowRoot.getElementById("order-btn-up");
             this.order_btn_down = this.shadowRoot.getElementById("order-btn-down");
+            this.pomo_actual_counter = this.shadowRoot.getElementById("actual-pomo-counter");
 
             this.task_edit = this.shadowRoot.getElementById("task-edit");
             this.pomo_counter_edit = this.shadowRoot.getElementById("pomo-counter-edit");
@@ -55,6 +56,17 @@ export function define_task(html) {
         mode_edit() {
             this.view_div.style.display = "none";
             this.edit_div.style.display = "flex";
+            this.task_edit.focus();
+            this.task_edit.select();
+        }
+
+        mode_non_pending(){
+            this.pomo_actual_counter.style.display = "flex";
+            this.edit_div.style.display = "none";
+            this.pomo_delete_btn.style.display="none";
+            this.pomo_edit_btn.style.display="none";
+            this.order_btn_up.style.display="none";
+            this.order_btn_down.style.display="none";
         }
 
         // Values
@@ -62,6 +74,7 @@ export function define_task(html) {
             this.task = task;
             this.task_view.innerText = this.task_edit.innerText = task.description;
             this.pomo_counter_view.innerText = this.pomo_counter_edit.innerText = task.pomo_estimation;
+            this.pomo_actual_counter.innerText = task.cycles_completed;
         }
 
         // Buttons
@@ -87,6 +100,23 @@ export function define_task(html) {
 
         confirm() {
             self.task = this.task; // bind self task to this task
+            //Check for invalid inputs
+            if (this.task_edit.value === ""){
+                document.getElementById('c-modal').display_alert("Please enter an task description");
+                return;
+            }
+            else if (Number(this.pomo_counter_edit.value) === 0){
+                document.getElementById('c-modal').display_alert("The task cannot take more 0 cycles");
+                return;
+            }
+            else if (Number(this.pomo_counter_edit.value) < 0){
+                document.getElementById('c-modal').display_alert("The task cannot take negative cycles");
+                return;
+            }
+            else if (!Number.isInteger(Number(this.pomo_counter_edit.value))){
+                document.getElementById('c-modal').display_alert("The task cannot take non-integer cycles");
+                return;
+            }
             this.parentNode.removeChild(this); // remove this node, as it will be created when data updated
             let new_data = this.task === null ? {
                 "id": create_uid(10),
