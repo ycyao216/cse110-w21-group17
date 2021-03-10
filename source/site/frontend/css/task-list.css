@@ -1,141 +1,66 @@
-#task-list-header {
-  color: white;
-  text-align: center;
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background-color: black;
-  width: 100%;
-}
-
+/* ---- Task-List Side Bar ---- */
 .side-bar {
   position: absolute;
   margin: 0;
   padding: 0%;
-  background-color: rgb(88, 88, 88);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  background-color: rgba(201, 201, 201, 0.5);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   position: fixed;
-  height: 95%;
+  height: 90%;
   width: 40%;
   left: 100%;
   transition: left 0.5s;
   z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.task {
+/* 
+ * Main Header
+ */
+ #task-list-header {
+  color: rgb(0, 0, 0);
   text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 6;
-}
-
-.pomo-counter {
-  text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 2;
-}
-
-.pomo-cancel-btn {
-  text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 1;
-}
-
-.pomo-edit-btn {
-  text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 1;
-}
-
-.task-container {
-  display: flex;
-  border-style: solid;
-  border-color: white;
-  border-width: 2px;
-  flex-direction: row;
-  justify-content: center;
-  height: 5%;
-  margin: 5px;
-  transition: position 0.4s;
-  transition: background-color 0.3s;
-  transition: box-shadow 0.1s;
-}
-
-.task-container:hover {
-  background-color: rgb(207, 207, 207);
-  box-shadow: 4px 3px 5px #000;
-}
-
-.task-input-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.task-input {
-  text-align: center;
-  margin: 1em;
-  width: 80%;
-}
-
-.pomo-counter-input {
-  text-align: center;
-  margin: 1em;
-  width: 80%;
-}
-
-.task-input-btn-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.task-confirm-btn {
-  width: 50%;
-  height: fit-content;
-  font-size: medium;
-}
-
-.task-cancel-btn {
-  width: 50%;
-  height: fit-content;
-  font-size: medium;
-}
-
-#pending {
-  list-style: none;
-}
-
-#finished {
-  list-style: none;
-}
-
-#fold-button {
   margin: 0;
-  padding: 0;
-  width: fit-content;
-  height: 10%;
-  position: absolute;
-  right: 100%;
-  top: 40%;
+  border: 0;
+  padding: 10px;
+  width: 100%;
 }
 
-#add-task-button {
-  width: 100%;
+/* 
+ * Sub Headers
+ */
+ h3 {
+  margin-left: 2%;
+  margin-block-start: 1%;
+}
+
+/* 
+ * Task-List Section divs
+ */
+ .task-list-separator {
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+#pending-list {
+  margin: 1em;
+}
+
+/* 
+ * Add Task Button
+ */
+ #add-task-button {
+  align-self: center;
+  background-color: rgba(255, 255, 255, 0.534);
+  font-size: 31px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 100px;
+  width: 10%;
   height: 5%;
   position: relative;
   left: 0;
@@ -144,12 +69,13 @@
   padding: 0;
 }
 
-.task-list-button {
-  opacity: 40%;
-  background-color: grey;
-}
-
-.task-list-button:hover {
-  opacity: 100;
-  background-color: white;
+/*
+ * ul styling to have items centered
+ */
+ ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 1em;
+  list-style-type: none;
 }

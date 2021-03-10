@@ -2,22 +2,28 @@
 <div class="side-bar" id="side-bar">
   <h2 class="side-bar-header" id="task-list-header">Task list</h2>
 
-  <h3>Running Task:</h3>
-  <ul class="side-bar-division" id="running"></ul>
-
-  <h3>Pending Tasks:</h3>
-  <div id="pending-list">
-    <!-- This space is for pending tasks -->
-  </div>
-  <div>
-    <ul class="side-bar-division" id="pending-add">
-      <!-- This space is for pending adds -->
-      <button type="button" id="add-task-button">+</button>
-    </ul>
+  <div class="task-list-separator">
+    <h3>Running Task:</h3>
+    <ul class="side-bar-division" id="running"></ul>
   </div>
 
-  <h3>Finished Tasks:</h3>
-  <ul class="side-bar-division" id="finished"></ul>
+  <div class="task-list-separator">
+    <h3>Pending Tasks:</h3>
+    <div id="pending-list">
+      <!-- This space is for pending tasks -->
+    </div>
+    <div>
+      <ul class="side-bar-division" id="pending-add">
+        <!-- This space is for pending adds -->
+        <button type="button" id="add-task-button">+</button>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="task-list-separator">
+    <h3>Finished Tasks:</h3>
+    <ul class="side-bar-division" id="finished"></ul>
+  </div>
 
   <p id="curr_task_information">There is no task in running.</p>
 </div>

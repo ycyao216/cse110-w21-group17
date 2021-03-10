@@ -48,13 +48,13 @@ export function define_task(html) {
 
         // Display modes and animations
         mode_view() {
-            this.view_div.style.display = "initial";
+            this.view_div.style.display = "flex";
             this.edit_div.style.display = "none";
         }
 
         mode_edit() {
             this.view_div.style.display = "none";
-            this.edit_div.style.display = "initial";
+            this.edit_div.style.display = "flex";
         }
 
         // Values

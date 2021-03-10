@@ -1,28 +1,10 @@
-.task {
-  text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 4;
-}
-
-.pomo-counter {
-  text-align: center;
-  margin: 1mm;
-  border: 1mm;
-  height: 100%;
-  background-color: rgb(153, 153, 153);
-  font-size: medium;
-  flex-grow: 2;
-}
-
+/* ---- Task Item Container ---- */
 .task-container {
   display: flex;
   border-style: solid;
   border-color: white;
   border-width: 2px;
+  border-radius: 5px;
   flex-direction: row;
   justify-content: center;
   height: 5%;
@@ -37,6 +19,57 @@
   box-shadow: 4px 3px 5px #000;
 }
 
+/* ---- View Mode ---- */
+
+/* 
+ * View Mode Task Item Name & Pomo Count
+ */
+#task-view.task,
+#pomo-counter-view.pomo-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1mm;
+  border: 1mm;
+  border-radius: 5px;
+  line-height: 24px;
+  width: 35%;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: medium;
+  flex-grow: 4;
+}
+
+/* 
+ * View Mode Button Container
+ */ 
+ .order-btn-container{
+  display: flex;
+  flex-grow: 2;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/*
+ * View Mode Delete & Edit Buttons
+ */
+#pomo-delete-btn,
+#pomo-edit-btn {
+  height: 50%;
+}
+ 
+/*
+ * View Mode Button Container for Position Changes
+ */
+.position-btn-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+ * View Mode Position Order Buttons
+ */ 
 .order_btn {
   text-align: center;
   margin: 1mm;
@@ -47,8 +80,49 @@
   flex-grow: 1;
 }
 
-.order-btn-container {
-  flex-grow: 2;
-  flex-direction: row;
-  justify-content: center;
+/* ---- Edit Mode ---- */
+
+/* 
+ * Edit Mode Task Item Name
+ */
+ #task-edit.task {
+  text-align: center;
+  margin: 1mm;
+  border: 1mm;
+  border-radius: 5px;
+  line-height: 24px;
+  width: 35%;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: medium;
+  flex-grow: 4;
 }
+
+/* 
+ * Edit Mode Task Item Pomo Count
+ */
+ #pomo-counter-edit.pomo-counter {
+  text-align: center;
+  margin: 1mm;
+  border: 1mm;
+  border-radius: 5px;
+  line-height: 24px;
+  width: 35%;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: medium;
+  flex-grow: 2;
+}
+
+/*
+ * Edit Mode Confirm & Cancel Buttons
+ */
+#pomo-confirm-btn, 
+#pomo-cancel-btn {
+  margin: 1mm;
+  width: 20%;
+  height: 2em;
+  background-color: rgba(255, 255, 255, 0.534);
+  font-size: medium;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
