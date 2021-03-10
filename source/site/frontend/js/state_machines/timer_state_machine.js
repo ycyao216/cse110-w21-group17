@@ -32,6 +32,8 @@ export var timer_state_machine = {
             () => {
                 // should show
                 document.getElementById("start-button").style.display = 'initial';
+                document.getElementById("settings-btn").style.display = 'initial';
+                document.getElementById("tasklist-btn").style.display = 'initial';
                 document.getElementById("timer-label").innerHTML = "Waiting";
                 // should NOT show
                 document.getElementById("emergency-stop-button").style.display = 'none';
@@ -102,6 +104,8 @@ export var timer_state_machine = {
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("add-cycle-button").style.display = 'none';
+                document.getElementById("settings-btn").style.display = 'none';
+                document.getElementById("tasklist-btn").style.display = 'none';
                 document.getElementById("c-task-list").leave_animate();
                 // refreshes
                 window.update_status();
@@ -164,10 +168,14 @@ export var timer_state_machine = {
             () => console.log('[timer_break_countdown]'),
             // Update the page
             () => {
-                document.getElementById("start-button").style.display = 'none';
+                // should show
                 document.getElementById("add-cycle-button").style.display = 'initial';
+                document.getElementById("tasklist-btn").style.display = 'initial';
                 document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
+                // should NOT show
+                document.getElementById("start-button").style.display = 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
+                document.getElementById("settings-btn").style.display = 'none';
             },
             // decide between short or long break
             () => {

@@ -19,11 +19,11 @@
         <c-analysis id="c-analysis" style="display: none"></c-analysis>
         <c-task-list id="c-task-list" style="display: initial"></c-task-list>
         <div class="top-bar-buttons">
-          <c-control-button
+          <c-control-button id="settings-btn"
             onclick="transition(window.statelet, 'timer_open_settings')"
             >Settings</c-control-button
           >
-          <c-control-button
+          <c-control-button id="tasklist-btn"
             onclick="(window.statelet.current == 'timer_toggle_task_list') ? 
             rev_transition(window.statelet, 'timer_toggle_task_list'):
             transition(window.statelet, 'timer_toggle_task_list')"
