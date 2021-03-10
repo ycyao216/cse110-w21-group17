@@ -83,6 +83,11 @@ footer {
   background-color: rgba(230, 230, 230, 0.5);
 }
 
+.help {
+  margin-left: auto;
+  margin-right: 1vh;
+}
+
 #current-task {
   display: inline-block;
 }
