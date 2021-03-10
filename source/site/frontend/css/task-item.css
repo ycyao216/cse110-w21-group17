@@ -57,7 +57,10 @@
  */
 #pomo-delete-btn,
 #pomo-edit-btn {
-  height: 50%;
+  display: grid;
+  padding: 5%;
+  align-content: center;
+  justify-content: center;
 }
 
 /*
@@ -79,6 +82,14 @@
   background-color: rgb(153, 153, 153);
   font-size: medium;
   flex-grow: 1;
+}
+
+/*
+ * View Mode Button Icons
+ */
+.button-icon {
+  width: 100%;
+  height: auto;
 }
 
 /* ---- Edit Mode ---- */
