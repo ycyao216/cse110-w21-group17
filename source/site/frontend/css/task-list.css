@@ -1,6 +1,5 @@
 /* ---- Task-List Side Bar ---- */
 .side-bar {
-  position: absolute;
   margin: 0;
   padding: 0%;
   border: 1px solid rgb(0, 0, 0);
@@ -18,10 +17,10 @@
   transform: translateY(-50%);
 }
 
-/* 
+/*
  * Main Header
  */
- #task-list-header {
+#task-list-header {
   color: rgb(0, 0, 0);
   text-align: center;
   margin: 0;
@@ -30,18 +29,18 @@
   width: 100%;
 }
 
-/* 
+/*
  * Sub Headers
  */
- h3 {
+h3 {
   margin-left: 2%;
   margin-block-start: 1%;
 }
 
-/* 
+/*
  * Task-List Section divs
  */
- .task-list-separator {
+.task-list-separator {
   margin: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -51,10 +50,10 @@
   margin: 1em;
 }
 
-/* 
+/*
  * Add Task Button
  */
- #add-task-button {
+#add-task-button {
   align-self: center;
   background-color: rgba(255, 255, 255, 0.534);
   font-size: 31px;
@@ -72,7 +71,7 @@
 /*
  * ul styling to have items centered
  */
- ul {
+ul {
   display: flex;
   flex-direction: column;
   padding: 0;

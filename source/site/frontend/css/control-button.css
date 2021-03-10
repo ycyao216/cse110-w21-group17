@@ -20,9 +20,9 @@ button {
   background: #1a748e;
   box-sizing: border-box;
   border: 2px solid black;
-  opacity: .75;
+  opacity: 0.75;
   border-radius: 30px;
-  margin: 5vh .5vh 5vh .5vh;
+  margin: 5vh 0.5vh 5vh 0.5vh;
   width: fit-content;
   height: 5vh;
   padding: 0 1vh 0 1vh;
@@ -32,7 +32,7 @@ button {
 
 button:hover {
   background: #94d6e9;
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
 }
 
@@ -40,5 +40,3 @@ button:active {
   box-shadow: 0 4px #333;
   transform: translateY(3px);
 }
-
-

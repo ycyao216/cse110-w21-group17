@@ -4,7 +4,7 @@
 
 body {
   background: #473030;
-  font-family: "monospace";
+  font-family: monospace;
 }
 
 .settings-close {
@@ -16,6 +16,7 @@ body {
   position: absolute;
   top: 50%;
   left: 30%;
+
   /* transform: translate(-20%, -50%); */
   width: 1300px;
   height: 800px;
@@ -42,11 +43,6 @@ body {
   color: #888;
   cursor: pointer;
   padding-left: 10px;
-}
-
-.tabs .tab-header > div:hover,
-.tabs .tab-header > div.active {
-  color: #00acee;
 }
 
 .tabs .tab-header div i {
@@ -95,6 +91,11 @@ body {
   transition: all 500ms ease-in-out;
 }
 
+.tabs .tab-header > div:hover,
+.tabs .tab-header > div.active {
+  color: #00acee;
+}
+
 .tabs .tab-content > div.active {
   top: 0;
 }
@@ -136,9 +137,7 @@ body {
 
 /* options */
 
-
-
-/* Toggle buttons Start*/
+/* Toggle buttons Start */
 .switch {
   position: relative;
   display: inline-block;
@@ -152,8 +151,8 @@ body {
   width: 0;
   height: 0;
 }
-/* Toggle buttons End*/
 
+/* Toggle buttons End */
 
 /* The slider */
 .slider {
@@ -164,11 +163,11 @@ body {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-.slider:before {
+.slider::before {
   position: absolute;
   content: "";
   height: 26px;
@@ -176,19 +175,19 @@ body {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .slider:before {
+input:checked + .slider::before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -199,6 +198,6 @@ input:checked + .slider:before {
   border-radius: 34px;
 }
 
-.slider.round:before {
+.slider.round::before {
   border-radius: 50%;
 }

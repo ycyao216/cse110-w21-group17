@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
 }
@@ -26,6 +27,7 @@ body {
 
 /* style links */
 a {}
+
 /*
 footer {
   position: fixed;
@@ -46,7 +48,7 @@ footer {
   left: 0;
   bottom: 0;
   text-align: center;
-  opacity: .6;
+  opacity: 0.6;
   font-size: 2vh;
 }
 
@@ -92,13 +94,12 @@ footer {
   display: inline-block;
 }
 
-
-#c-task-list{
+#c-task-list {
   position: absolute;
   z-index: 1;
 }
 
-#c-settings{
+#c-settings {
   position: absolute;
   z-index: 1;
 }

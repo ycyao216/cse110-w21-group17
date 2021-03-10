@@ -21,7 +21,7 @@
 
 /* ---- View Mode ---- */
 
-/* 
+/*
  * View Mode Task Item Name & Pomo Count
  */
 #task-view.task,
@@ -39,10 +39,11 @@
   flex-grow: 4;
 }
 
-/* 
+/*
  * View Mode Button Container
- */ 
- .order-btn-container{
+ */
+
+.order-btn-container {
   display: flex;
   flex-grow: 2;
   flex-direction: row;
@@ -58,7 +59,7 @@
 #pomo-edit-btn {
   height: 50%;
 }
- 
+
 /*
  * View Mode Button Container for Position Changes
  */
@@ -67,9 +68,9 @@
   flex-direction: column;
 }
 
-/* 
+/*
  * View Mode Position Order Buttons
- */ 
+ */
 .order_btn {
   text-align: center;
   margin: 1mm;
@@ -82,10 +83,10 @@
 
 /* ---- Edit Mode ---- */
 
-/* 
+/*
  * Edit Mode Task Item Name
  */
- #task-edit.task {
+#task-edit.task {
   text-align: center;
   margin: 1mm;
   border: 1mm;
@@ -97,10 +98,10 @@
   flex-grow: 4;
 }
 
-/* 
+/*
  * Edit Mode Task Item Pomo Count
  */
- #pomo-counter-edit.pomo-counter {
+#pomo-counter-edit.pomo-counter {
   text-align: center;
   margin: 1mm;
   border: 1mm;
@@ -115,7 +116,7 @@
 /*
  * Edit Mode Confirm & Cancel Buttons
  */
-#pomo-confirm-btn, 
+#pomo-confirm-btn,
 #pomo-cancel-btn {
   margin: 1mm;
   width: 20%;
@@ -125,4 +126,3 @@
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
 }
-
