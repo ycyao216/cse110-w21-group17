@@ -62,7 +62,10 @@ app.post('/fetchuserdata', async function (request, response) {
           "user_log": [
             {
                 "login_timestamp": "",
-                "timer_state": "timer_init",
+                "timer_state": {
+                  "current": "timer_init",
+                  "previous": "timer_during_countdown"
+                },
                 "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
                 "break_status": {
                     "break": "short_break",
