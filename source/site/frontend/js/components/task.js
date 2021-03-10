@@ -44,6 +44,7 @@ export function define_task(html) {
             this.confirm.bind(this);
             this.cancel.bind(this);
             this.move.bind(this);
+            this.input_validation.bind(this);
         }
 
 
@@ -101,23 +102,12 @@ export function define_task(html) {
         confirm() {
             self.task = this.task; // bind self task to this task
             //Check for invalid inputs
-            if (this.task_edit.value === ""){
-                document.getElementById('c-modal').display_alert("Please enter an task description");
-                return;
+            if (!this.input_validation()){
+                return
             }
-            else if (Number(this.pomo_counter_edit.value) === 0){
-                document.getElementById('c-modal').display_alert("The task cannot take more 0 cycles");
-                return;
-            }
-            else if (Number(this.pomo_counter_edit.value) < 0){
-                document.getElementById('c-modal').display_alert("The task cannot take negative cycles");
-                return;
-            }
-            else if (!Number.isInteger(Number(this.pomo_counter_edit.value))){
-                document.getElementById('c-modal').display_alert("The task cannot take non-integer cycles");
-                return;
-            }
-            this.parentNode.removeChild(this); // remove this node, as it will be created when data updated
+            // remove this node, as it will be created when data updated
+            this.parentNode.removeChild(this);
+            // populate the modified task
             let new_data = this.task === null ? {
                 "id": create_uid(10),
                 "description": null,
@@ -174,6 +164,26 @@ export function define_task(html) {
             } else {
                 create_or_update([new_data]);
             }
+        }
+
+        input_validation(){
+            if (this.task_edit.value === ""){
+                document.getElementById('c-modal').display_alert("Please enter an task description");
+                return false;
+            }
+            else if (Number(this.pomo_counter_edit.value) === 0){
+                document.getElementById('c-modal').display_alert("The task cannot take more 0 cycles");
+                return false;
+            }
+            else if (Number(this.pomo_counter_edit.value) < 0){
+                document.getElementById('c-modal').display_alert("The task cannot take negative cycles");
+                return false;
+            }
+            else if (!Number.isInteger(Number(this.pomo_counter_edit.value))){
+                document.getElementById('c-modal').display_alert("The task cannot take non-integer cycles");
+                return false;
+            }
+            return true;
         }
     }
     customElements.define('c-task', CTask);
