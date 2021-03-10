@@ -29,6 +29,7 @@ export function transition(statelet, to_state_string) {
     statelet.previous = statelet.current;
     statelet.current = to_state_string;
     from_state = statelet.current;
+    window.update_state();
 
     // run all functions_enter of to_state
     window.timer_state_machine[statelet.current].functions_enter.forEach(f => (statelet.current == from_state) && (f.call(this)));

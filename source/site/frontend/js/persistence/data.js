@@ -102,6 +102,13 @@ export function advance_task() {
     upload_userdata();
 }
 
+export function update_state() {
+    window.active_userstate().timer_state = window.statelet;
+
+    // Sync
+    upload_userdata();
+}
+
 // Easy Access
 export function current_task() {
     return read_task(active_userstate().current_task);
