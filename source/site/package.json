@@ -24,28 +24,28 @@
   },
   "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
   "dependencies": {
+    "axios": "*",
+    "express": "*",
     "jest": "*",
     "js-beautify": "*",
-    "express": "*",
-    "mongodb": "*",
     "json-server": "*",
-    "axios": "*"
+    "mongodb": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
-    "@babel/preset-env": "*",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "*",
+    "@cypress/code-coverage": "^3.9.0",
+    "babel-eslint": "*",
+    "cypress": "^6.5.0",
     "eslint": "^7.19.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "html-validate": "*",
-    "stylelint": "*",
-    "stylelint-config-standard": "*",
     "jsdoc": "*",
-    "babel-eslint": "*",
-    "cypress": "^6.5.0",
     "nyc": "*",
-    "@cypress/code-coverage": "^3.9.0"
+    "stylelint": "*",
+    "stylelint-config-standard": "*"
   },
   "babel": {
     "presets": [
