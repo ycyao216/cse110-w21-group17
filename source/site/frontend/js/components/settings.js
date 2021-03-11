@@ -6,8 +6,7 @@ export function define_settings(html) {
                 mode: 'open'
             });
             shadow.innerHTML = html;
-
-
+            
             let self = this;
             function _class(name) {
                 return self.shadowRoot.querySelectorAll("." + name);
@@ -99,6 +98,12 @@ export function define_settings(html) {
             // bind
             this.refresh.bind(this);
             this.switch_tab.bind(this);
+            
+            //**  testing stuff, delete or comment if it breaks stuff
+            this.shadow = shadow;
+            this.document = document;
+            this.tabPanes = tabPanes;
+            //*/
         }
 
         refresh() {
@@ -117,8 +122,20 @@ export function define_settings(html) {
             _class("tab-content")[0].getElementsByClassName("active")[0].classList.remove("active");
             _class("tab-content")[0].getElementsByClassName("tabcontent")[tab_index].classList.add("active");
         }
+        //**  testing stuff, delete or comment if it breaks stuff
+        get_shadow() {
+            return this.shadow;
+        }
+        get_document() {
+            return this.document;
+        }
+        get_tabpanes() {
+            return this.tabPanes;
+        }
+        //*/
 
     }
+    
     customElements.define('c-settings', CSettings);
     return CSettings;
 }
