@@ -80,8 +80,9 @@ export var timer_state_machine = {
         'functions_enter': [
             () => console.log('[timer_toggle_task_list]'),
             // show task list
-            () => document.getElementById("c-task-list").enter_animate()
-            // change the behavior of the button
+            () => document.getElementById("c-task-list").enter_animate(),
+            // refreshes
+            () => document.getElementById('c-task-list').refresh_list()
         ],
         'functions_leave': [
             // hide task list
@@ -113,7 +114,7 @@ export var timer_state_machine = {
                 window.update_status();
             },
             // initiate countdown if not counting down, or return to init if no more tasks
-            () => { if (current_task() == null) transition(window.statelet, 'timer_init'); },
+            () => { if (current_task() == null) transition(window.statelet(), 'timer_init'); },
             () => {
                 if (!document.getElementById("timer-display").is_countingdown()) {
                     let time_limit = window.user_data.settings.working_sec;
@@ -121,7 +122,7 @@ export var timer_state_machine = {
                         // when done
                         current_task().cycles_completed += 1;
                         update_task(current_task());
-                        transition(window.statelet, 'timer_ringing');
+                        transition(window.statelet(), 'timer_ringing');
                     });
                 }
             },
@@ -152,7 +153,7 @@ export var timer_state_machine = {
             // Ring
             () => { document.getElementById("timer-display").ring(); },
             // Automatically go to break after 3 seconds
-            () => { setTimeout(() => transition(window.statelet, 'timer_break_countdown'), 3000); }
+            () => { setTimeout(() => transition(window.statelet(), 'timer_break_countdown'), 3000); }
 
         ],
         'functions_leave': [
@@ -189,7 +190,7 @@ export var timer_state_machine = {
                     document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
                         // advance 1 break cycle
                         window.advance_break_cycle();
-                        transition(window.statelet, 'timer_during_countdown');
+                        transition(window.statelet(), 'timer_during_countdown');
                     });
                 }
             },

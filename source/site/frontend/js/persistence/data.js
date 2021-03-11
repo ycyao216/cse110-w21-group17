@@ -61,6 +61,9 @@ export function upload_userdata() {
                 window.user_data = data; //data
             }) // JSON from `response.json()` call
             .catch(error => { console.error(error); })
+    } else{
+        // User logged in anonymously
+        localStorage.setItem('user_data', JSON.stringify(window.user_data));
     }
 }
 
@@ -103,7 +106,7 @@ export function advance_task() {
 }
 
 export function update_state() {
-    window.active_userstate().timer_state = window.statelet;
+    window.active_userstate().timer_state = window.statelet();
 
     // Sync
     upload_userdata();
@@ -112,6 +115,10 @@ export function update_state() {
 // Easy Access
 export function current_task() {
     return read_task(active_userstate().current_task);
+}
+
+export function statelet(){
+    return active_userstate().timer_state;
 }
 
 export function is_finished(task) {

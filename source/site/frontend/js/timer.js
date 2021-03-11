@@ -8,7 +8,7 @@ import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
 import { force_state, transition, rev_transition } from './state_machines/state_machine.js';
 import { timer_state_machine } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings,update_state } from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings, update_state, statelet } from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -26,6 +26,7 @@ window.TIME_UP_LONG_MSG = "You have done 4 pomos! Good job! Now take a long brea
 window.TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
 window.EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
 window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
+window.LOCAL_MSG = "You are currently logged in anonymously. Your data will be preserved locally and will NOT be syned.\n Please enter the website using http://127.0.0.1:3000/user/${your_access_token} in order to enable cloud sync."
 
 // Added example events to text compatibilities with event listener
 window.TIME_START_EVENT = 't_start';
@@ -53,6 +54,7 @@ window.is_running = is_running;
 window.advance_task = advance_task;
 window.update_settings = update_settings;
 window.update_state = update_state;
+window.statelet = statelet;
 let default_user_data = {
     "task_list_data": [
         {
@@ -71,7 +73,10 @@ let default_user_data = {
     "user_log": [
         {
             "login_timestamp": "",
-            "timer_state": "timer_init",
+            "timer_state": {
+                "current": "timer_init",
+                "previous": "timer_during_countdown"
+            },
             "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
             "break_status": {
                 "break": "short_break",
@@ -99,7 +104,7 @@ window.emergency_stop_btn = () => {
     document.getElementById('c-modal').display_confirm(EMERG_STOP_WARNING,
         () => {
             document.getElementById('timer-display').reset_countdown();
-            transition(window.statelet, 'timer_init');
+            transition(window.statelet(), 'timer_init');
         },
         () => { }
     )
@@ -112,7 +117,7 @@ window.finish_early_btn = () => {
 }
 window.start_btn = () => {
     if (current_task() == null) window.advance_task();
-    if (current_task() != null) transition(window.statelet, 'timer_during_countdown');
+    if (current_task() != null) transition(window.statelet(), 'timer_during_countdown');
     active_userstate().break_status.cycles = 0;
     active_userstate().break_status.break = "short_break";
 }
@@ -177,15 +182,18 @@ fetch("/html/components/settings.html")
                         .then(text => define_task_list(text))
                         .then(() => {
                             // set user data
-                            window.statelet = { 'current': 'timer_init', 'previous': null };
                             if (window.userid == "") {
                                 window.user_data = default_user_data;
-                                force_state(window.statelet);
+                                // User logged in anonymously
+                                if (localStorage.hasOwnProperty('user_data')) {
+                                    window.user_data = JSON.parse(localStorage.getItem('user_data'));
+                                    document.getElementById('c-modal').display_alert(LOCAL_MSG);
+                                }
+                                force_state(window.statelet());
                             } else {
                                 request_user_data_and_start().then(() => {
                                     // Initialize the timer state machine
-                                    window.statelet = window.active_userstate().timer_state;
-                                    force_state(window.statelet);
+                                    force_state(window.statelet());
                                 });
                             }
                         }))))));

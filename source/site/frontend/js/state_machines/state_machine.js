@@ -41,7 +41,8 @@ export function rev_transition(statelet) {
     transition(statelet, statelet.previous);
 }
 
-export function force_state(to_state) {
+export function force_state(statelet) {
     window.timer_state_machine[statelet.current].functions_enter.forEach(f => f.call(this));
+    window.update_state();
     return;
 }

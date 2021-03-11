@@ -20,13 +20,13 @@
         <c-task-list id="c-task-list" style="display: initial"></c-task-list>
         <div class="top-bar-buttons">
           <c-control-button id="settings-btn"
-            onclick="transition(window.statelet, 'timer_open_settings')"
+            onclick="transition(window.statelet(), 'timer_open_settings')"
             >Settings</c-control-button
           >
           <c-control-button id="tasklist-btn"
-            onclick="(window.statelet.current == 'timer_toggle_task_list') ? 
-            rev_transition(window.statelet, 'timer_toggle_task_list'):
-            transition(window.statelet, 'timer_toggle_task_list')"
+            onclick="(window.statelet().current == 'timer_toggle_task_list') ? 
+            rev_transition(window.statelet(), 'timer_toggle_task_list'):
+            transition(window.statelet(), 'timer_toggle_task_list')"
             >Tasklist</c-control-button
           >
         </div>
@@ -73,7 +73,7 @@
           <div class="help">
             <!-- TODO: Link directly to Help tab in settings -->
             <c-control-button id="help-button" class="finish" onclick="
-            transition(window.statelet, 'timer_open_settings');
+            transition(window.statelet(), 'timer_open_settings');
             document.getElementById('c-settings').switch_tab(2);
             ">Help</c-control-button>
           </div>
