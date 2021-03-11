@@ -6,6 +6,10 @@
       rel="SHORTCUT ICON"
       href="/assets/images/doodle-bob-background-placeholder.jpg"
     />
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    >
     <link rel="stylesheet" href="/css/timer.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tortellini Timer!</title>
@@ -32,7 +36,7 @@
         </div>
 
         <div class="container">
-          <div id="timer-labels">
+          <div class="timer-labels">
             <p id="early-prompt">
               Great job! Don't start the next task yet, reflect on your current
               task!
@@ -75,14 +79,14 @@
             <c-control-button id="help-button" class="finish" onclick="
             transition(window.statelet(), 'timer_open_settings');
             document.getElementById('c-settings').switch_tab(2);
-            ">Help</c-control-button>
+            "><span class="help-icon"></span>?</c-control-button>
           </div>
 
         </div>
       </main>
     </div>
     <footer>
-      <a href="https://github.com/ycyao216/cse110-w21-group17/wiki"
+      <a href="https://github.com/ycyao216/cse110-w21-group17/wiki" target="_blank"
         >Visit Team Tortellini@Github</a
       >
     </footer>
