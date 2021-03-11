@@ -34,6 +34,7 @@ export var timer_state_machine = {
                 document.getElementById("start-button").style.display = 'initial';
                 document.getElementById("settings-btn").style.display = 'initial';
                 document.getElementById("tasklist-btn").style.display = 'initial';
+                document.getElementById("help-button").style.display = 'initial';
                 document.getElementById("settings-btn").style.visibility = 'visible';
                 document.getElementById("tasklist-btn").style.visibility = 'visible';
                 document.getElementById("timer-label").innerHTML = "Waiting";
@@ -60,6 +61,7 @@ export var timer_state_machine = {
             // show settings
             () => {
                 document.getElementById("c-settings").style.display = 'block';
+                document.getElementById("help-button").style.display = 'initial';
                 document.getElementById("c-settings").refresh();
             }
         ],
@@ -82,7 +84,9 @@ export var timer_state_machine = {
             // show task list
             () => document.getElementById("c-task-list").enter_animate(),
             // refreshes
-            () => document.getElementById('c-task-list').refresh_list()
+            () => document.getElementById('c-task-list').refresh_list(),
+            // hide help button
+            () => document.getElementById("help-button").style.display = 'none',
         ],
         'functions_leave': [
             // hide task list
@@ -109,6 +113,7 @@ export var timer_state_machine = {
                 document.getElementById("add-cycle-button").style.display = 'none';
                 document.getElementById("settings-btn").style.visibility = 'hidden';
                 document.getElementById("tasklist-btn").style.visibility = 'hidden';
+                document.getElementById("help-button").style.display = 'none';
                 document.getElementById("c-task-list").leave_animate();
                 // refreshes
                 window.update_status();
@@ -179,6 +184,7 @@ export var timer_state_machine = {
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
                 document.getElementById("settings-btn").style.display = 'none';
+                document.getElementById("help-button").style.display = 'none';
             },
             // decide between short or long break
             () => {
