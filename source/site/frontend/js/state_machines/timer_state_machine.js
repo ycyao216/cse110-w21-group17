@@ -77,7 +77,8 @@ export var timer_state_machine = {
             // Task-list should ONLY open when the user is not working
             'timer_init',
             'timer_break_countdown',
-            'timer_during_countdown'
+            'timer_during_countdown',
+            'timer_open_settings'
         ],
         'functions_enter': [
             () => console.log('[timer_toggle_task_list]'),
@@ -87,6 +88,9 @@ export var timer_state_machine = {
             () => document.getElementById('c-task-list').refresh_list(),
             // hide help button
             () => document.getElementById("help-button").style.display = 'none',
+            () => document.getElementById("early-prompt").style.display = 'none',
+            () => document.getElementById("emergency-stop-button").style.display = 'none',
+            () => document.getElementById("overstudy-button").style.display = 'none',
         ],
         'functions_leave': [
             // hide task list
@@ -111,6 +115,7 @@ export var timer_state_machine = {
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("add-cycle-button").style.display = 'none';
+                document.getElementById("early-prompt").style.display = 'none';
                 document.getElementById("settings-btn").style.visibility = 'hidden';
                 document.getElementById("tasklist-btn").style.visibility = 'hidden';
                 document.getElementById("help-button").style.display = 'none';
@@ -153,6 +158,10 @@ export var timer_state_machine = {
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
                 document.getElementById("early-prompt").style.display = 'none';
+                document.getElementById("add-cycle-button").style.display = 'none';
+                document.getElementById("help-button").style.display = 'none';
+                document.getElementById("settings-btn").style.visibility = 'hidden';
+                document.getElementById("tasklist-btn").style.visibility = 'hidden';
                 // refreshes
             },
             // Ring
@@ -185,6 +194,7 @@ export var timer_state_machine = {
                 document.getElementById("overstudy-button").style.display = 'none';
                 document.getElementById("settings-btn").style.display = 'none';
                 document.getElementById("help-button").style.display = 'none';
+                document.getElementById("early-prompt").style.display = 'none';
             },
             // decide between short or long break
             () => {
