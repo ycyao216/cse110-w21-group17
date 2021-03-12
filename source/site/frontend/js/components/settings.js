@@ -6,7 +6,7 @@ export function define_settings(html) {
                 mode: 'open'
             });
             shadow.innerHTML = html;
-            
+
             let self = this;
             function _class(name) {
                 return self.shadowRoot.querySelectorAll("." + name);
@@ -28,6 +28,16 @@ export function define_settings(html) {
 
                 });
             }
+
+            // Tutorial Tab
+            var conv = new showdown.Converter();
+            fetch("/md/instructions.md")
+                .then(stream => stream.text())
+                .then(text => {
+                    console.log(text);
+                    this.shadowRoot.getElementById('instructions').innerHTML = conv.makeHtml(text);
+                });
+
 
             // light/dark mode buttons
 
@@ -98,7 +108,7 @@ export function define_settings(html) {
             // bind
             this.refresh.bind(this);
             this.switch_tab.bind(this);
-            
+
             //**  testing stuff, delete or comment if it breaks stuff
             this.shadow = shadow;
             this.document = document;
@@ -113,7 +123,7 @@ export function define_settings(html) {
             this.long_break_min.value = window.user_data.settings.long_break_sec / 60;
         }
 
-        switch_tab(tab_index){
+        switch_tab(tab_index) {
             let _class = (name) => this.shadowRoot.querySelectorAll("." + name);
             let tabPanes = _class("tab-header")[0].getElementsByTagName("div");
             _class("tab-header")[0].getElementsByClassName("active")[0].classList.remove("active");
@@ -135,7 +145,7 @@ export function define_settings(html) {
         //*/
 
     }
-    
+
     customElements.define('c-settings', CSettings);
     return CSettings;
 }
