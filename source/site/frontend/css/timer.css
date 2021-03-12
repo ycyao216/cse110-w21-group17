@@ -133,5 +133,9 @@ footer {
 
 #c-settings {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -30vh;
+  margin-left: -35vw;
   z-index: 1;
 }
