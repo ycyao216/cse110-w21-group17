@@ -2,5 +2,92 @@
   "userid": {
     "testuser@gmail.com": "1e250968-7a1b-11eb-9439-0242ac130002"
   },
-  "userdata": []
+  "userdata": [
+    {
+      "id": "10",
+      "task_list_data": [
+        {
+          "id": 3515323418,
+          "description": "2223 Part 1",
+          "pomo_estimation": 4,
+          "cycles_completed": 2
+        },
+        {
+          "id": 9016720436,
+          "description": "bbb",
+          "pomo_estimation": 2,
+          "cycles_completed": 0
+        },
+        {
+          "id": 2789054401,
+          "description": "2223 Part 2",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 5552982984,
+          "description": "2223 Part 3",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 3144340036,
+          "description": "2223 Part 4",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 6510630217,
+          "description": "2223 Part 5",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 1240838659,
+          "description": "2223 Part 6",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 2334750307,
+          "description": "2223 Part 7",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        },
+        {
+          "id": 6412110925,
+          "description": "2223 Part 8",
+          "pomo_estimation": 4,
+          "cycles_completed": 0
+        }
+      ],
+      "user_log": [
+        {
+          "login_timestamp": "",
+          "timer_state": {
+            "current": "timer_init",
+            "previous": "timer_during_countdown"
+          },
+          "current_task": 3515323418,
+          "break_status": {
+            "break": "short_break",
+            "cycles": 1
+          },
+          "log": [
+            "1579afed-2143-49e4-8768-b0d54eba43f8",
+            "short_break"
+          ],
+          "online": true
+        }
+      ],
+      "settings": {
+        "working_sec": 6,
+        "short_break_sec": 3,
+        "short_break_cycles": 3,
+        "long_break_sec": 5,
+        "long_break_cycles": 1,
+        "allow_emergency_stop": true
+      }
+    }
+  ]
 }

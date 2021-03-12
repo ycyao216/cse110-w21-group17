@@ -10,6 +10,17 @@ body {
 .settings-close {
   z-index: 4;
   position: absolute;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.settings-close:hover,
+.settings-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .tabs {

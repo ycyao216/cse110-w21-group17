@@ -1,16 +1,4 @@
-/*
-@font-face {
-  font-family: Gitaluevo;
-  src: url("../assets/fonts/Gitaluevo.ttf");
-}
-*/
-
 #timer-container {
-  /* background: #c5d1dd; */
-  background: #57c4d4;
-  box-sizing: border-box;
-  opacity: 0.8;
-  border-radius: 30px;
   width: 65vh;
   height: 30vh;
   display: flex;

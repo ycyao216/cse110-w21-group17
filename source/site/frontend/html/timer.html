@@ -6,10 +6,6 @@
       rel="SHORTCUT ICON"
       href="/assets/images/doodle-bob-background-placeholder.jpg"
     />
-    <link 
-      rel="stylesheet" 
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    >
     <link rel="stylesheet" href="/css/timer.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tortellini Timer!</title>
@@ -76,10 +72,10 @@
 
           <div class="help">
             <!-- TODO: Link directly to Help tab in settings -->
-            <c-control-button id="help-button" class="finish" onclick="
+            <button id="help-button" class="finish" onclick="
             transition(window.statelet(), 'timer_open_settings');
             document.getElementById('c-settings').switch_tab(2);
-            "><span class="help-icon"></span>?</c-control-button>
+            ">?</button>
           </div>
 
         </div>

@@ -5,14 +5,14 @@ body {
 }
 
 html {
-  /*background: url("/assets/images/web-background.jpg") no-repeat center center fixed;*/
-  /*background-color: #4a707a;
-  background: rgb(246,245,245);
-  */
   background: radial-gradient(circle, rgba(246,245,245,1) 0%, rgba(43,215,215,1) 100%);
   background: rgb(156,152,214);
   background: radial-gradient(circle, rgba(156,152,214,1) 0%, rgba(17,85,85,1) 100%);
-  background-size: cover;
+}
+
+html.dark-theme {
+  background: rgb(38,32,69);
+  background: radial-gradient(circle, rgba(38,32,69,1) 0%, rgba(44,53,69,1) 45%, rgba(48,69,69,1) 100%);  
 }
 
 @font-face {
@@ -39,30 +39,18 @@ body {
 }
 
 /* style links */
-a {}
-
-/*
-footer {
-  position: fixed;
-  display: inline-block;
-  left: 0;
-  margin-left: 2vw;
-  margin-bottom: 2vh;
-  bottom: 0;
-  width: 100%;
-  text-align: left;
+a {
+  color: #41357c;
 }
-*/
 
-footer {
-  position: fixed;
-  width: 100%;
-  background-color: #a2adc3;
-  left: 0;
-  bottom: 0;
-  text-align: center;
-  opacity: 0.6;
-  font-size: 2vh;
+a:hover {
+  color: #41357c;
+  opacity: .75;
+}
+
+a:active {
+  color: #1d173a;
+  opacity: 1;
 }
 
 .top-bar-buttons {
@@ -82,9 +70,6 @@ footer {
 }
 
 #early-prompt {
-  background: #5abdcc;
-  width: fit-content;
-  padding: .5vh 1.5vh .5vh 1.5vh;
   border-radius: 30px;
   text-align: center;
   font-size: 20px;
@@ -92,22 +77,13 @@ footer {
 }
 
 #timer-label {
-  background: #5abdcc;
-  width: fit-content;
-  padding: .5vh 1.5vh .5vh 1.5vh;
   border-radius: 30px;
   text-align: center;
   font-size: 20px;
   color: #0f373d;
 }
 
-.control-buttons {
-  
-}
-
 .task {
-  /*border: 2px solid black;*/
-  /*margin: 40px 0 20px;*/
   padding: 1vh;
   border-radius: 4px;
   text-align: center;
@@ -134,4 +110,41 @@ footer {
 #c-settings {
   position: absolute;
   z-index: 1;
+}
+
+#help-button {
+  font-family: "Exo2";
+  color: #dadadd;
+  background: rgba(17,85,85,1);
+  width: 4vh;
+  height: 4vh;
+  border: 2px solid #dadadd;
+  border-radius: 100%;
+  top: 1vh;
+  right: 1vh;
+  position: absolute;
+  font-size: 3vh;
+}
+
+#help-button:hover,
+#help-button:focus {
+  background: rgb(110, 108, 108);
+  outline-style: none;
+  cursor: pointer;
+}
+
+#help-button:active {
+  box-shadow: 0 4px #333;
+  transform: translateY(3px);
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  background-color: #a2adc3;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0.6;
+  font-size: 2vh;
 }
