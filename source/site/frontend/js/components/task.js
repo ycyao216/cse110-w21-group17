@@ -115,7 +115,7 @@ export function define_task(html) {
                 "cycles_completed": 0,
             } : this.task;
             new_data.description = this.task_edit.value;
-            new_data.pomo_estimation = this.pomo_counter_edit.value;
+            new_data.pomo_estimation = parseInt(this.pomo_counter_edit.value);
 
             function split_task(task_data, max_cycle) {
                 let list_of_tasks = [];
