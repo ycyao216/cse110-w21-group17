@@ -8,13 +8,23 @@
     "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
   },
   "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage/jest-coverage",
     "coverageReporters": [
-      "json-summary",
+      "json",
       "text",
       "lcov"
     ],
     "modulePathIgnorePatterns": [
       "/cypress/"
+    ]
+  },
+  "nyc": {
+    "report-dir": "coverage/cypress-coverage",
+    "reporter": [
+      "text",
+      "json",
+      "lcov"
     ]
   },
   "author": "",
