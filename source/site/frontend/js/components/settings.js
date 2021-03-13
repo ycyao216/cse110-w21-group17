@@ -62,8 +62,8 @@ export function define_settings(html) {
 
 
             function validate_durations() {
-                if (self.short_break_min.value < self.long_break_min.value &&
-                    self.long_break_min.value < self.working_min.value) {
+                if (parseInt(self.short_break_min.value) < parseInt(self.long_break_min.value) &&
+                parseInt(self.long_break_min.value) < parseInt(self.working_min.value)) {
                     return true;
                 }
                 return false;
