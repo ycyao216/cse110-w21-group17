@@ -1,4 +1,4 @@
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task,is_pending, update_settings } from './data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task,is_pending, update_settings, statelet,update_status, update_state } from './data.js';
 import { define_task } from '../components/task.js';
 import { define_task_list } from '../components/task-list.js';
 import { readFileSync } from 'fs';
@@ -35,6 +35,8 @@ window.next_task_id = next_task_id;
 window.is_finished = is_finished;
 window.is_running = is_running;
 window.advance_task = advance_task;
+window.update_state = update_state;
+window.statelet = statelet;
 
 window.update_status = () => {
     document.getElementById("current-task").innerText =
@@ -50,7 +52,10 @@ var Mock_user_data = {
     "user_log": [
         {
             "login_timestamp": "",
-            "timer_state": "timer_init",
+            "timer_state": {
+                "current": "timer_init",
+                "previous": "timer_during_countdown"
+            },
             "current_task": 1,
             "break_status": {
                 "break": "short_break",
@@ -226,4 +231,15 @@ test('settings',()=>{
     let called = jest.spyOn(document, 'getElementById');
     update_settings();
     expect(called).toBe('called');
+})
+
+test('statelet',()=>{
+    expect(statelet().current).toBe("timer_init");
+    expect(statelet().previous).toBe("timer_during_countdown");
+})
+
+test('update state',()=>{
+    update_state();
+    expect(window.user_data.user_log.timer_state.current).toBe("timer_init");
+    expect(window.user_data.user_log.timer_state.previous).toBe("timer_during_countdown");
 })

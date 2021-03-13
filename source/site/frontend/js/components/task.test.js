@@ -3,7 +3,7 @@ import { define_task } from './task.js';
 import { define_task_list } from './task-list.js';
 import { define_modal } from './modal.js';
 import { readFileSync } from 'fs';
-const fetch = require('node-fetch');
+var fetch = require('node-fetch');
 
 import { JSDOM } from "jsdom"
 import { create } from 'domain';
@@ -184,27 +184,83 @@ test("input validation",()=>{
     expect(test_cTask.input_validation()).toBe(true);
 })
 
+test("split task",()=>{
+    let test_cTask = new CTask();
+    let task_data = new Test_task(1,"More than 4",9,0);
+    let result = test_cTask.split_task(task_data,4);
+    expect(result.length).toBe(3);
+    expect(result[0].description).toBe("More than 4 Part 1");
+    expect(result[2].pomo_estimation).toBe(1);
+    let task_data2 = new Test_task(2,"less than 4",2,0);
+    result = test_cTask.split_task(task_data2,4);
+    expect(result.length).toBe(1);
+    expect(result[0].description).toBe("less than 4 Part 1");
+    let task_data3 = new Test_task(3,"zero",0,0);
+    result = test_cTask.split_task(task_data3,4);
+    expect(result.length).toBe(1);
+    expect(result[0].pomo_estimation).toBe(0);
+})
+
+test("create_or_update", ()=>{
+    let test_cTask = new CTask();
+    let task_data = new Test_task(1,"Task 1",4,0);
+    let task_data2 = new Test_task(2,"Task 2",3,0);
+    let list_of_tasks = [];
+    list_of_tasks.push(task_data);
+    list_of_tasks.push(task_data2);
+    test_cTask.create_or_update(list_of_tasks);
+    expect(window.user_data.task_list_data.length).toBe(2);
+    let task_data3 = new Test_task(2,"Task 2 update",2,0);
+    let new_list = [];
+    new_list.push(task_data3);
+    test_cTask.create_or_update(new_list);
+    expect(window.user_data.task_list_data.length).toBe(2);
+    expect(window.user_data.task_list_data[1].description).toBe("Task 2 update");
+    window.user_data.task_list_data = [];
+})
+
 test("confirm",()=>{
     window.user_data.task_list_data=[]
+    // Invalid task
     let test_cTask = new CTask();
     document.getElementById('c-task-list').appendChild(test_cTask);
     test_cTask.task_edit.value = "";
     test_cTask.confirm();
     expect(document.getElementById("c-task-list").childNodes.length).toBe(1);
     expect(window.user_data.task_list_data.length).toBe(0);
+    // Valid task less than 4
     test_cTask.task_edit.value = "valid description";
-    test_cTask.pomo_counter_edit.value = "1";
+    test_cTask.pomo_counter_edit.value = 1;
     test_cTask.confirm();
     expect(document.getElementById("c-task-list").childNodes.length).toBe(0);
     expect(window.user_data.task_list_data.length).toBe(1);
+    // Valid task more than 4 confirmed
     let test_cTask2 = new CTask();
     document.getElementById('c-task-list').appendChild(test_cTask2);
     test_cTask2.task_edit.value = "valid description";
-    test_cTask2.pomo_counter_edit.value = "9";
+    test_cTask2.pomo_counter_edit.value = 9;
     test_cTask2.confirm();
+    document.getElementById('c-modal').onclick_confirm_button();
     expect(document.getElementById("c-task-list").childNodes.length).toBe(0);
-    console.log(window.user_data.task_list_data);
     expect(window.user_data.task_list_data.length).toBe(4);
+    // Valid task more than 4 canceled
+    let test_cTask3 = new CTask();
+    document.getElementById('c-task-list').appendChild(test_cTask3);
+    test_cTask3.task_edit.value = "valid description";
+    test_cTask3.pomo_counter_edit.value = 7;
+    test_cTask3.confirm();
+    document.getElementById('c-modal').onclick_cancel_button();
+    expect(document.getElementById("c-task-list").childNodes.length).toBe(0);
+    expect(window.user_data.task_list_data.length).toBe(5);
+    // Valid task already exist
+    let test_cTask4 = new CTask();
+    document.getElementById('c-task-list').appendChild(test_cTask4);
+    test_cTask4.populate(new Test_task(100,"Already existing",2,0));
+    test_cTask4.task_edit.value = "valid description";
+    test_cTask4.pomo_counter_edit.value = 3;
+    test_cTask4.confirm();
+    expect(document.getElementById("c-task-list").childNodes.length).toBe(0);
+    expect(window.user_data.task_list_data.length).toBe(6);
     document.getElementById('c-task-list').innerHTML = "";
     window.user_data.task_list_data=[]
     expect(true).toBe(true);
