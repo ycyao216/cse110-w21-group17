@@ -90,6 +90,22 @@ export var timer_state_machine = {
             // hide
             () => document.getElementById("early-prompt").style.display = 'none',
             () => document.getElementById("overstudy-button").style.display = 'none',
+            // decide between what buttons show
+            () => {
+                if(window.statelet().previous == "timer_init") {
+                    document.getElementById("start-button").style.display = 'initial';
+                    document.getElementById("settings-btn").style.visibility = 'initial';
+                    document.getElementById("emergency-stop-button").style.display = 'none';
+                    document.getElementById("overstudy-button").style.display = 'none';
+                    document.getElementById("add-cycle-button").style.display = 'none';
+                } else {
+                    document.getElementById("add-cycle-button").style.display = 'initial';
+                    document.getElementById("emergency-stop-button").style.display = 'initial';
+                    document.getElementById("start-button").style.display = 'none';
+                    document.getElementById("overstudy-button").style.display = 'none';
+                    document.getElementById("settings-btn").style.display = 'none';
+                }
+            },
         ],
         'functions_leave': [
             // hide task list
