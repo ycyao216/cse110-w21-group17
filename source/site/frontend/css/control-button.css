@@ -6,6 +6,7 @@
   font-family: Exo2;
   src: url("../assets/fonts/Exo2-SemiBold.ttf");
 }
+
 /*
 button {
   font-family: "Exo2";
@@ -18,7 +19,7 @@ button {
   margin: 5vh 0.5vh 5vh 0.5vh;
   padding: .25vh 0 1vh 0;
   box-shadow: 0 6px rgb(85, 85, 85);
-}*/
+} */
 
 button {
   font-family: "Exo2";
@@ -31,7 +32,7 @@ button {
   height: 3vh;
   font-size: 2vh;
   border-radius: 30px;
-  padding: 0 0 1vh 0;;
+  padding: 0 0 1vh 0;
   margin: 5vh 0.5vh 5vh 0.5vh;
   box-shadow: 0 6px rgb(85, 85, 85);
 }

@@ -79,12 +79,10 @@
 #cancel-button:hover {
   cursor: pointer;
   background-color: rgba(179, 172, 172, 0.5);
-
 }
 
 #confirm-button:active,
 #cancel-button:active {
   cursor: pointer;
   background-color: rgba(131, 126, 126, 0.5);
-
 }
