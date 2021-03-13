@@ -24,7 +24,7 @@ Chosen option(s): "[Separate Files for Components]", we felt that this was the b
 
 ## Pros and Cons of the Options <!-- optional -->
 
-### ___
+### Separate Files for Components
 
 * Good, because it reduces the amount of merge conflicts on GitHub since files are separated and not combined
 * Good, because teams can work asynchrously 
