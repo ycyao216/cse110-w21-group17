@@ -1,3 +1,8 @@
+input,
+button {
+  font-family: inherit;
+}
+
 /* ---- Task Item Container ---- */
 .task-container {
   display: flex;

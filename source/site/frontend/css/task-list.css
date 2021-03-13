@@ -15,6 +15,7 @@
   z-index: 2;
   top: 50%;
   transform: translateY(-50%);
+  overflow: auto;
 }
 
 /*
@@ -97,4 +98,6 @@ ul {
  */
 p {
   margin: 2%;
+  margin-top: 5%;
+  margin-bottom: 10%;
 }
