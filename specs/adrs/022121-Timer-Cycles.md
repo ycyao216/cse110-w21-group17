@@ -6,7 +6,8 @@
 
 ## Context and Problem Statement
 
-We want to decide on what time intervals to use for the pomodoro timer. Which intervals would be most effective for helping the user focus on work?
+We want to decide on what time intervals to use for the pomodoro timer. Which intervals would be most effective for helping the user focus on work? **Note: Most of these decisions were made at the beginning/middle of the project on our Miro board(See link below).**
+
 
 ## Considered Options
 
@@ -23,3 +24,7 @@ Chosen option: "Standard", because the work time and short break are standard fo
 * Good, because it keeps user focused on task even while they're on a long break
 * Good, because follows the philosophy of the pomodoro timer
 * Bad, because if user has a lot of tasks they may get burnt out because breaks aren't long enough
+
+## Links
+
+* [Miro] [https://miro.com/app/board/o9J_lXA0iE0=/] <!-- example: Refined by [ADR-0005](0005-example.md) -->
