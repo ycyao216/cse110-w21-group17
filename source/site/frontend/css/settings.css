@@ -83,6 +83,13 @@ body {
   width: 100%;
   align-items: center;
   justify-content: center;
+  outline-style: none;
+}
+
+#light-mode-button:hover,
+#dark-mode-button:hover {
+  cursor: pointer;
+  opacity: .75;
 }
 
 .tabcontent {

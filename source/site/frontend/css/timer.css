@@ -91,6 +91,7 @@ a:active {
   height: fit-content;
   width: fit-content;
   background-color: rgba(230, 230, 230, 0.5);
+  color: #fbfbfbfa
 }
 
 .help {
@@ -125,7 +126,7 @@ a:active {
   border: 2px solid #dadadd;
   border-radius: 100%;
   top: 1vh;
-  right: 1vh;
+  left: 1vh;
   position: absolute;
   font-size: 3vh;
 }

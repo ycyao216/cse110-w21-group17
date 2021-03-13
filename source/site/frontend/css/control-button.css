@@ -7,27 +7,12 @@
   src: url("../assets/fonts/Exo2-SemiBold.ttf");
 }
 
-/*
 button {
   font-family: "Exo2";
   color: #f8f8ff;
   background: #1a748e;
   box-sizing: border-box;
   border: 2px solid black;
-  opacity: 0.75;
-  border-radius: 30px;
-  margin: 5vh 0.5vh 5vh 0.5vh;
-  padding: .25vh 0 1vh 0;
-  box-shadow: 0 6px rgb(85, 85, 85);
-} */
-
-button {
-  font-family: "Exo2";
-  color: #f8f8ff;
-  background: #1a748e;
-  box-sizing: border-box;
-  border: 2px solid black;
-  opacity: 0.75;
   width: 18vh;
   height: 3vh;
   font-size: 2vh;
@@ -39,7 +24,7 @@ button {
 
 button:hover {
   background: #94d6e9;
-  opacity: 0.5;
+  opacity: 0.75;
   cursor: pointer;
 }
 

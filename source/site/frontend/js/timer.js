@@ -135,13 +135,19 @@ window.update_status = () => {
 
 //// Themes
 window.light_mode = () => {
-    document.body.style.background = "#ffffff";
+    document.body.style.background = "radial-gradient(circle, rgba(246,245,245,1) 0%, rgba(43,215,215,1) 100%)";
+    document.body.style.background = "rgb(156,152,214)";
+    document.body.style.background = "radial-gradient(circle, rgba(156,152,214,1) 0%, rgba(17,85,85,1) 100%)";
+    document.getElementById("early-prompt").style.color = "#0f373d";
+    document.getElementById("timer-label").style.color = "#0f373d";
 }
 
 window.dark_mode = () => {
-    document.body.style.background = "#000000";
+    document.body.style.background = "rgb(38,32,69)";
+    document.body.style.background = "radial-gradient(circle, rgba(38,32,69,1) 0%, rgba(44,53,69,1) 45%, rgba(48,69,69,1) 100%)";
+    document.getElementById("early-prompt").style.color = "#89d9e6";
+    document.getElementById("timer-label").style.color = "#89d9e6";
 }
-
 
 //// Backend Sync
 let url_current = window.location.href.split("/");

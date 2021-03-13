@@ -9,14 +9,14 @@
         {
           "id": 3515323418,
           "description": "2223 Part 1",
-          "pomo_estimation": 4,
-          "cycles_completed": 2
+          "pomo_estimation": 3,
+          "cycles_completed": 5
         },
         {
           "id": 9016720436,
           "description": "bbb",
           "pomo_estimation": 2,
-          "cycles_completed": 0
+          "cycles_completed": 2
         },
         {
           "id": 2789054401,
@@ -66,12 +66,12 @@
           "login_timestamp": "",
           "timer_state": {
             "current": "timer_init",
-            "previous": "timer_during_countdown"
+            "previous": "timer_open_settings"
           },
-          "current_task": 3515323418,
+          "current_task": 2789054401,
           "break_status": {
-            "break": "short_break",
-            "cycles": 1
+            "break": "long_break",
+            "cycles": 0
           },
           "log": [
             "1579afed-2143-49e4-8768-b0d54eba43f8",
