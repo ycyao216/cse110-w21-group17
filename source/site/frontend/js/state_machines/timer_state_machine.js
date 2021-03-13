@@ -42,6 +42,7 @@ export var timer_state_machine = {
                 document.getElementById("emergency-stop-button").style.display = 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
                 document.getElementById("early-prompt").style.display = 'none';
+                document.getElementById("add-cycle-button").style.display = 'none';
                 // refreshes
                 window.update_status();
                 document.getElementById('c-task-list').refresh_list()
@@ -86,10 +87,8 @@ export var timer_state_machine = {
             () => document.getElementById("c-task-list").enter_animate(),
             // refreshes
             () => document.getElementById('c-task-list').refresh_list(),
-            // hide help button
-            () => document.getElementById("help-button").style.display = 'none',
+            // hide
             () => document.getElementById("early-prompt").style.display = 'none',
-            () => document.getElementById("emergency-stop-button").style.display = 'none',
             () => document.getElementById("overstudy-button").style.display = 'none',
         ],
         'functions_leave': [
