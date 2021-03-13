@@ -89,7 +89,7 @@ test("new add task",()=>{
     task_list.new_add_task();
     let child_count = 0;
     for (let eles of task_list.pendning_list.childNodes){
-        if (eles.nodeType !== Node.TEXT_NODE){
+        if (eles.nodeType == "C-TASK"){
             console.log(eles)
             child_count += 1;
         }
@@ -99,14 +99,21 @@ test("new add task",()=>{
 
 test("enter_animate",()=>{
     task_list.enter_animate();
-    expect(document.getElementById("side-bar").style.left).toBe("60%");
+    expect(document.getElementById("side-bar").shadowRoot.style.left).toBe("60%");
 })
 
 test("leave animate",()=>{
     task_list.leave_animate();
-    expect(document.getElementById("side-bar").style.left).toBe("100%");
+    expect(document.getElementById("side-bar").shadowRoot.style.left).toBe("100%");
 })
 
-test("refresh list",()=>{
-
+test('create task element',()=>{
+    let task_data = new Test_task(1,"test",3,0);
+    let result = task_list.create_task_element(task_data);
+    expect(result.task.id).toBe(1);
+    expect(result.task.description).toBe("test");
+    let task_data2 = new Test_task(2,"test 2",3,3);
+    result = task_list.create_task_element(task_data2);
+    expect(result.task.id).toBe(2);
+    expect(result.task.description).toBe("test 2");
 })
