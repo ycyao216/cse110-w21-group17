@@ -202,7 +202,12 @@ export var timer_state_machine = {
                     // get break status 
                     let break_string = window.active_userstate().break_status.break;
                     let sec_limit = window.user_data.settings[`${break_string}_sec`];
-                    document.getElementById("timer-label").innerHTML = break_string;
+                    // set label
+                    if(break_string == "short_break") {
+                        document.getElementById("timer-label").innerHTML = "Short Break";
+                    } else {
+                        document.getElementById("timer-label").innerHTML = "Long Break";
+                    }
                     document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
                         // advance 1 break cycle
                         window.advance_break_cycle();
