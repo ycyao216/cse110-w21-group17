@@ -31,12 +31,28 @@ export function define_timer_display(html) {
          */
         trigger_countdown(seconds, callback_f) {
             this.countdown = {
-                'endTime': Date.now() + seconds * 1000,
-                'timer': setInterval(() => this.update_countdown(), [200]), // update display every 500ms
+                'endTime': seconds,
+                'timer': setInterval(() => this.update_countdown(), [1000]), // update display every second
                 get callback_f() {
                     return callback_f
                 }
             }
+
+            // THE FIRST RUN
+            // update timer
+            let minutes = Math.floor(this.countdown.endTime / 60);
+            let timer_seconds = this.countdown.endTime - (minutes * 60);
+
+            if(minutes < 10)
+                minutes = "0" + minutes;
+
+            if(timer_seconds < 10)
+                timer_seconds = "0" + timer_seconds;
+
+            this.timer_display.innerHTML = minutes + ":" + timer_seconds;
+
+            // decrement time
+            this.countdown.endTime -= 1;
         }
 
         /**
@@ -49,20 +65,30 @@ export function define_timer_display(html) {
         update_countdown() {
             // prevent late updates
             if (this.countdown == null) return;
-            
-            // add 1,000 to start at desired time instead of 1 under
-            let remaining_ms = this.countdown.endTime - Date.now() + 1000;
 
             // stop the counter
-            if (remaining_ms < 0) {
+            if (this.countdown.endTime < 0) {
                 var callback_f = this.countdown.callback_f;
                 this.reset_countdown();
                 callback_f();
                 return;
             }
+            
 
             // update timer_display
-            this.timer_display.innerHTML = new Date(Math.ceil(remaining_ms)).toISOString().substr(14, 5)
+            let minutes = Math.floor(this.countdown.endTime / 60);
+            let seconds = this.countdown.endTime - (minutes * 60);
+
+            if(minutes < 10)
+                minutes = "0" + minutes;
+
+            if(seconds < 10)
+                seconds = "0" + seconds;
+
+            this.timer_display.innerHTML = minutes + ":" + seconds;
+
+            // decrement time
+            this.countdown.endTime -= 1;
         }
 
         /**
@@ -80,7 +106,7 @@ export function define_timer_display(html) {
                 this.countdown = null;
             }
             // update timer_display
-            this.timer_display.innerHTML = new Date(Math.ceil(seconds == null ? 10 : seconds)).toISOString().substr(14, 5)
+            this.timer_display.innerHTML = "00:00";
         }
 
         is_countingdown() {
