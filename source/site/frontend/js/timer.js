@@ -98,7 +98,7 @@ window.emergency_stop_btn = () => {
 }
 window.finish_early_btn = () => {
     document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
-    document.getElementById('early-prompt').style.display = 'initial';
+    document.getElementById('early-prompt').style.visibility = 'visible';
     current_task().pomo_estimation = current_task().cycles_completed + 1;
     update_task(current_task());
 }

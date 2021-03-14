@@ -41,7 +41,7 @@ export var timer_state_machine = {
                 // should NOT show
                 document.getElementById("emergency-stop-button").style.display = 'none';
                 document.getElementById("overstudy-button").style.display = 'none';
-                document.getElementById("early-prompt").style.display = 'none';
+                document.getElementById("early-prompt").style.visibility = 'hidden';
                 document.getElementById("add-cycle-button").style.display = 'none';
                 // refreshes
                 window.update_status();
@@ -88,7 +88,7 @@ export var timer_state_machine = {
             // refreshes
             () => document.getElementById('c-task-list').refresh_list(),
             // hide
-            () => document.getElementById("early-prompt").style.display = 'none',
+            () => document.getElementById("early-prompt").style.visibility = 'hidden',
             () => document.getElementById("overstudy-button").style.display = 'none',
             // decide between what buttons show
             () => {
@@ -100,7 +100,7 @@ export var timer_state_machine = {
                     document.getElementById("add-cycle-button").style.display = 'none';
                 } else {
                     document.getElementById("add-cycle-button").style.display = 'initial';
-                    document.getElementById("emergency-stop-button").style.display = 'initial';
+                    document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                     document.getElementById("start-button").style.display = 'none';
                     document.getElementById("overstudy-button").style.display = 'none';
                     document.getElementById("settings-btn").style.display = 'none';
@@ -126,11 +126,13 @@ export var timer_state_machine = {
                 // should show
                 document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                 document.getElementById("overstudy-button").style.display = 'initial';
+                document.getElementById("overstudy-button").style.visibility = 'visible';
                 document.getElementById("timer-label").innerHTML = "Work";
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
                 document.getElementById("add-cycle-button").style.display = 'none';
-                document.getElementById("early-prompt").style.display = 'none';
+                document.getElementById("add-cycle-button").style.visibility = 'visible';
+                document.getElementById("early-prompt").style.visibility = 'hidden';
                 document.getElementById("settings-btn").style.visibility = 'hidden';
                 document.getElementById("tasklist-btn").style.visibility = 'hidden';
                 document.getElementById("help-button").style.display = 'none';
@@ -171,8 +173,11 @@ export var timer_state_machine = {
                 document.getElementById("timer-label").innerHTML = "Ringing";
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
-                document.getElementById("overstudy-button").style.display = 'none';
-                document.getElementById("early-prompt").style.display = 'none';
+                if(window.user_data.settings.allow_emergency_stop) {
+                    document.getElementById("overstudy-button").style.display = 'none';
+                } else {
+                    document.getElementById("overstudy-button").style.visibility = 'hidden';
+                }
                 document.getElementById("add-cycle-button").style.display = 'none';
                 document.getElementById("help-button").style.display = 'none';
                 document.getElementById("settings-btn").style.visibility = 'hidden';
@@ -201,7 +206,12 @@ export var timer_state_machine = {
             // Update the page
             () => {
                 // should show
-                document.getElementById("add-cycle-button").style.display = 'initial';
+                if(window.user_data.settings.allow_emergency_stop) {
+                    document.getElementById("add-cycle-button").style.display = (document.getElementById('early-prompt').style.visibility == 'visible') ? 'none' : 'initial';
+                } else {
+                    document.getElementById("add-cycle-button").style.display = 'initial';
+                    document.getElementById("add-cycle-button").style.visibility = (document.getElementById('early-prompt').style.visibility == 'visible') ? 'hidden' : 'visible';
+                }
                 document.getElementById("tasklist-btn").style.visibility = 'visible';
                 document.getElementById("emergency-stop-button").style.display = window.user_data.settings.allow_emergency_stop ? 'initial' : 'none';
                 // should NOT show
@@ -209,7 +219,7 @@ export var timer_state_machine = {
                 document.getElementById("overstudy-button").style.display = 'none';
                 document.getElementById("settings-btn").style.display = 'none';
                 document.getElementById("help-button").style.display = 'none';
-                document.getElementById("early-prompt").style.display = 'none';
+                document.getElementById("early-prompt").style.visibility = 'hidden';
             },
             // decide between short or long break
             () => {
