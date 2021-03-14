@@ -79,10 +79,10 @@ app.post('/fetchuserdata', async function (request, response) {
             }
           ],
           "settings": {
-            "working_sec": 6,
-            "short_break_sec": 3,
+            "working_sec": 1500,
+            "short_break_sec": 300,
             "short_break_cycles": 3,
-            "long_break_sec": 5,
+            "long_break_sec": 480,
             "long_break_cycles": 1,
             "allow_emergency_stop": true
           }

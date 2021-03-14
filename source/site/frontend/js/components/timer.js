@@ -56,20 +56,7 @@ window.update_settings = update_settings;
 window.update_state = update_state;
 window.statelet = statelet;
 let default_user_data = {
-    "task_list_data": [
-        {
-            "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
-            "description": "example task 1",
-            "pomo_estimation": 4,
-            "cycles_completed": 0,
-        },
-        {
-            "id": "97bf356c-3910-45f5-950e-34acc6319b83",
-            "description": "example task 2",
-            "pomo_estimation": 2,
-            "cycles_completed": 0,
-        }
-    ],
+    "task_list_data": [],
     "user_log": [
         {
             "login_timestamp": "",
@@ -90,10 +77,10 @@ let default_user_data = {
         }
     ],
     "settings": {
-        "working_sec": 6,
-        "short_break_sec": 3,
+        "working_sec": 1500,
+        "short_break_sec": 300,
         "short_break_cycles": 3,
-        "long_break_sec": 5,
+        "long_break_sec": 480,
         "long_break_cycles": 1,
         "allow_emergency_stop": true
     }
