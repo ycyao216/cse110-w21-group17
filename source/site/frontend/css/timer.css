@@ -73,6 +73,7 @@ a:active {
   text-align: center;
   font-size: 20px;
   color: #0f373d;
+  visibility: hidden;
 }
 
 #timer-label {
