@@ -13,6 +13,8 @@ export function define_settings(html) {
             }
 
             let tabPanes = _class("tab-header")[0].getElementsByTagName("div");
+            // Hide the help message initially for not blocking mode buttons
+            _class('tab-content')[0].querySelector("#instructions").style.display = 'none';
 
             // for switching tabs
             for (let i = 0; i < tabPanes.length; i++) {
@@ -25,7 +27,13 @@ export function define_settings(html) {
 
                     _class("tab-content")[0].getElementsByClassName("active")[0].classList.remove("active");
                     _class("tab-content")[0].getElementsByClassName("tabcontent")[i].classList.add("active");
-
+                    // Toggle the display of help message
+                    if (_class('tabcontent.active')[0].querySelector('#instructions') !== null){
+                        _class("tab-content")[0].querySelector("#instructions").style.display = "block";
+                    }
+                    else {
+                        _class("tab-content")[0].querySelector("#instructions").style.display = "none";
+                    }
                 });
             }
 
