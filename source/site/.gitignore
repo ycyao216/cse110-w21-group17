@@ -625,3 +625,6 @@ dist/
 .nyc_output
 coverage
 frontend/js-trans
+**/*.idea
+**/*cypress/videos
+**/*cypress/screenshots

@@ -115,13 +115,6 @@ export function define_settings(html) {
 
             // bind
             this.refresh.bind(this);
-            this.switch_tab.bind(this);
-
-            //**  testing stuff, delete or comment if it breaks stuff
-            this.shadow = shadow;
-            this.document = document;
-            this.tabPanes = tabPanes;
-            //*/
         }
 
         refresh() {
@@ -130,28 +123,6 @@ export function define_settings(html) {
             this.short_break_min.value = window.user_data.settings.short_break_sec / 60;
             this.long_break_min.value = window.user_data.settings.long_break_sec / 60;
         }
-
-        switch_tab(tab_index) {
-            let _class = (name) => this.shadowRoot.querySelectorAll("." + name);
-            let tabPanes = _class("tab-header")[0].getElementsByTagName("div");
-            _class("tab-header")[0].getElementsByClassName("active")[0].classList.remove("active");
-            tabPanes[tab_index].classList.add("active");
-            _class("tab-indicator")[0].style.top = `calc(80px + ${tab_index * 50}px)`;
-            _class("tab-content")[0].getElementsByClassName("active")[0].classList.remove("active");
-            _class("tab-content")[0].getElementsByClassName("tabcontent")[tab_index].classList.add("active");
-        }
-        //**  testing stuff, delete or comment if it breaks stuff
-        get_shadow() {
-            return this.shadow;
-        }
-        get_document() {
-            return this.document;
-        }
-        get_tabpanes() {
-            return this.tabPanes;
-        }
-        //*/
-
     }
 
     customElements.define('c-settings', CSettings);

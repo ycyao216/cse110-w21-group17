@@ -14,8 +14,8 @@ npx nyc instrument --compact=false frontend/js/ frontend/js-trans
 ./node_modules/.bin/cypress run
 
 # merge reports
-mkdir coverage/merged-coverage
-mv coverage/jest-coverage/coverage-final.json coverage/merged-coverage/coverage-jest.json
-mv coverage/cypress-coverage/coverage-final.json coverage/merged-coverage/coverage-cypress.json
-npx nyc merge coverage/merged-coverage
-npx nyc report --reporter lcov --report-dir coverage/merged-coverage
+# mkdir coverage/merged-coverage
+# mv coverage/jest-coverage/coverage-final.json coverage/merged-coverage/coverage-jest.json
+# mv coverage/cypress-coverage/coverage-final.json coverage/merged-coverage/coverage-cypress.json
+# npx nyc merge coverage/merged-coverage coverage/merged-coverage/coverage.json
+# npx nyc report --reporter lcov --report-dir coverage/merged-coverage

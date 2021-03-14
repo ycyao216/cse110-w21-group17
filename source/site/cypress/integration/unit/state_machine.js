@@ -49,7 +49,7 @@ let mock_data = {
   context('Window', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3000');
-      cy.wait(3000);
+      cy.wait(100);
       // cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
       //   .click();
     })
@@ -58,38 +58,8 @@ let mock_data = {
     it('cy.window() - test modifying the global window object', () => {
       cy.window().then((win) => {
         win.user_data = mock_data;
+        win.transition(win.statelet(), 'timer_break_countdown');
       }).then(() => {
-        cy.window().should('have.property', 'user_data');
-        cy.title().should('include', 'Tortellini Timer!');
-        cy.window().its('user_data.settings.working_sec')
-          .should('equal', 6);
-      })
-    })
-  
-  
-    it('test settings', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-        console.log(win.active_userstate());
-      }).then(() => {
-        cy.get('#settings-btn').click();
-      }).then(() => {
-        cy.get('#c-settings').should('have.css', 'display', 'block');
-      })
-    })
-  
-    it('test appearance', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-        console.log(win.active_userstate());
-      }).then(() => {
-        cy.get('#settings-btn').click();
-      }).then(() => {
-        //cy.get('#instructions').should(innerHTML, "/md/instructions.md");
-        //cy.get('#help-button').click()
-        cy.get('#c-settings').click()//.should('have.css', 'display', 'block');  
-      }).then(() => {
-        cy.get("dark-mode-button").click();
       })
     })
   })

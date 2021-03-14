@@ -1,13 +1,13 @@
 // Example State Data Structure
-var example_state = {
-    'next_states': {
-        get some_state() { return some_state; },
-    },
-    'functions_enter': [
-        () => console.log("test")
-    ],
-    'functions_leave': [],
-}
+// var example_state = {
+//     'next_states': {
+//         get some_state() { return some_state; },
+//     },
+//     'functions_enter': [
+//         () => console.log("test")
+//     ],
+//     'functions_leave': [],
+// }
 
 // TODO Ready For Testing
 // State Utils
