@@ -99,6 +99,42 @@ export function define_task(html) {
             }
         }
 
+        split_task(task_data, max_cycle) {
+            let list_of_tasks = [];
+            let remaining_pomo_estimation = task_data.pomo_estimation;
+            let remaining_cycles_completed = task_data.cycles_completed;
+            while (remaining_pomo_estimation > 0) {
+                let this_pomo_estimation = Math.min(remaining_pomo_estimation, max_cycle);
+                let this_cycles_completed = Math.min(remaining_cycles_completed, max_cycle);
+                list_of_tasks.push({
+                    "id": create_uid(10),
+                    "description": `${task_data.description} Part ${list_of_tasks.length + 1}`,
+                    "pomo_estimation": this_pomo_estimation,
+                    "cycles_completed": this_cycles_completed,
+                })
+                remaining_pomo_estimation -= this_pomo_estimation;
+                remaining_cycles_completed -= this_cycles_completed;
+            }
+            if (list_of_tasks.length == 0) {
+                list_of_tasks.push(task_data); //rarely happens when user expects 0 cycles for a task
+            } else {
+                list_of_tasks[0].id = task_data.id // preserve the original data id as the first array element
+            }
+            return list_of_tasks;
+        }
+
+        create_or_update(list_of_tasks) {
+            list_of_tasks.forEach(x => {
+                if (read_task(x.id) == null) {
+                    // perform create in data
+                    window.create_task(x);
+                } else {
+                    // perform edit in data
+                    window.update_task(x);
+                }
+            });
+        }
+
         confirm() {
             self.task = this.task; // bind self task to this task
             //Check for invalid inputs
@@ -117,54 +153,20 @@ export function define_task(html) {
             new_data.description = this.task_edit.value;
             new_data.pomo_estimation = parseInt(this.pomo_counter_edit.value);
 
-            function split_task(task_data, max_cycle) {
-                let list_of_tasks = [];
-                let remaining_pomo_estimation = task_data.pomo_estimation;
-                let remaining_cycles_completed = task_data.cycles_completed;
-                while (remaining_pomo_estimation > 0) {
-                    let this_pomo_estimation = Math.min(remaining_pomo_estimation, max_cycle);
-                    let this_cycles_completed = Math.min(remaining_cycles_completed, max_cycle);
-                    list_of_tasks.push({
-                        "id": create_uid(10),
-                        "description": `${task_data.description} Part ${list_of_tasks.length + 1}`,
-                        "pomo_estimation": this_pomo_estimation,
-                        "cycles_completed": this_cycles_completed,
-                    })
-                    remaining_pomo_estimation -= this_pomo_estimation;
-                    remaining_cycles_completed -= this_cycles_completed;
-                }
-                if (list_of_tasks.length == 0) {
-                    list_of_tasks.push(task_data); //rarely happens when user expects 0 cycles for a task
-                } else {
-                    list_of_tasks[0].id = task_data.id // preserve the original data id as the first array element
-                }
-                return list_of_tasks;
-            }
-
-            function create_or_update(list_of_tasks) {
-                list_of_tasks.forEach(x => {
-                    if (read_task(x.id) == null) {
-                        // perform create in data
-                        window.create_task(x);
-                    } else {
-                        // perform edit in data
-                        window.update_task(x);
-                    }
-                });
-            }
-
             if (new_data.pomo_estimation > 4) {
                 document.getElementById('c-modal').display_confirm("The task takes too many cycles. Do you want to split it into more tasks?",
                     () => {
-                        create_or_update(split_task(new_data, 4));
+                        this.create_or_update(this.split_task(new_data, 4));
                     },
                     () => {
-                        create_or_update([new_data])
+                        this.create_or_update([new_data])
                     });
             } else {
-                create_or_update([new_data]);
+                this.create_or_update([new_data]);
             }
         }
+
+        
 
         input_validation(){
             if (this.task_edit.value === ""){
