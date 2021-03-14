@@ -89,7 +89,7 @@ body {
 #light-mode-button:hover,
 #dark-mode-button:hover {
   cursor: pointer;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 .tabcontent {
