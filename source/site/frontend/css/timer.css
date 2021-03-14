@@ -5,14 +5,14 @@ body {
 }
 
 html {
-  background: radial-gradient(circle, rgba(246,245,245,1) 0%, rgba(43,215,215,1) 100%);
-  background: rgb(156,152,214);
-  background: radial-gradient(circle, rgba(156,152,214,1) 0%, rgba(17,85,85,1) 100%);
+  background: radial-gradient(circle, rgba(246, 245, 245, 1) 0%, rgba(43, 215, 215, 1) 100%);
+  background: rgb(156, 152, 214);
+  background: radial-gradient(circle, rgba(156, 152, 214, 1) 0%, rgba(17, 85, 85, 1) 100%);
 }
 
 html.dark-theme {
-  background: rgb(38,32,69);
-  background: radial-gradient(circle, rgba(38,32,69,1) 0%, rgba(44,53,69,1) 45%, rgba(48,69,69,1) 100%);  
+  background: rgb(38, 32, 69);
+  background: radial-gradient(circle, rgba(38, 32, 69, 1) 0%, rgba(44, 53, 69, 1) 45%, rgba(48, 69, 69, 1) 100%);
 }
 
 @font-face {
@@ -34,8 +34,7 @@ body {
     "Apple Color Emoji",
     "Segoe UI Emoji",
     "Segoe UI Symbol";
-
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
 }
 
 /* style links */
@@ -45,7 +44,7 @@ a {
 
 a:hover {
   color: #41357c;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 a:active {
@@ -91,7 +90,7 @@ a:active {
   height: fit-content;
   width: fit-content;
   background-color: rgba(230, 230, 230, 0.5);
-  color: #fbfbfbfa
+  color: #fbfbfbfa;
 }
 
 .help {
@@ -103,7 +102,7 @@ a:active {
   display: inline-block;
 }
 
-#c-task-list{
+#c-task-list {
   position: absolute;
   z-index: 1;
 }
@@ -120,7 +119,7 @@ a:active {
 #help-button {
   font-family: "Exo2";
   color: #dadadd;
-  background: rgba(17,85,85,1);
+  background: rgba(17, 85, 85, 1);
   width: 4vh;
   height: 4vh;
   border: 2px solid #dadadd;
