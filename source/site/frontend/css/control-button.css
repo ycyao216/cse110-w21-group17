@@ -8,7 +8,7 @@
 }
 
 button {
-  font-family: "Exo2";
+  font-family: "Exo2", sans-serif;
   color: #f8f8ff;
   background: #1a748e;
   box-sizing: border-box;

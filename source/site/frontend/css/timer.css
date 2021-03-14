@@ -117,7 +117,7 @@ a:active {
 }
 
 #help-button {
-  font-family: "Exo2";
+  font-family: "Exo2", sans-serif;
   color: #dadadd;
   background: rgba(17, 85, 85, 1);
   width: 4vh;
