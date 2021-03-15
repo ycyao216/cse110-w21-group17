@@ -28,16 +28,11 @@ let mock_data = {
       "current": "timer_init",
       "previous": "timer_during_countdown"
     },
-    "current_task": "",
+    "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
     "break_status": {
       "break": "short_break",
       "cycles": 0
-    },
-    "log": [
-      "1579afed-2143-49e4-8768-b0d54eba43f8",
-      "short_break",
-    ],
-    "online": true
+    }
   },
   "settings": {
     "working_sec": 2400,
@@ -202,6 +197,7 @@ context('Login Anonymously', () => {
 
   it('data.js - test active_userstate', () => {
     cy.window().then((win) => {
+      win.active_userstate().last_active = mock_data.user_log.last_active;
       expect(JSON.stringify(win.active_userstate())).to.equal(JSON.stringify(mock_data.user_log));
     });
   });

@@ -92,7 +92,7 @@ app.post('/uploaduserdata', async function (request, response) {
   }
 });
 
-app.get('/online', async function (request, response) {
+app.post('/online', async function (request, response) {
   let timestamp_thres = Date.now() - 2 * 60 * 1000; // being active at most 2 minutes ago
   axios.get(`http://localhost:5000/userdata?user_log.last_active_gte=${timestamp_thres}`)
     .then(res => response.send(res.data.map((x) => {

@@ -1,3 +1,4 @@
+import { postData } from '../utils.js';
 /**
  * Enacts the settings element constructor
  * @param {*} html - html component of the settings
@@ -37,12 +38,14 @@ export function define_settings(html) {
                     _class("tab-content")[0].getElementsByClassName("active")[0].classList.remove("active");
                     _class("tab-content")[0].getElementsByClassName("tabcontent")[i].classList.add("active");
                     // Toggle the display of help message
-                    if (_class('tabcontent.active')[0].querySelector('#instructions') !== null){
+                    if (_class('tabcontent.active')[0].querySelector('#instructions') !== null) {
                         _class("tab-content")[0].querySelector("#instructions").style.display = "block";
                     }
                     else {
                         _class("tab-content")[0].querySelector("#instructions").style.display = "none";
                     }
+
+                    window.update_settings();
                 });
             }
 
@@ -87,6 +90,11 @@ export function define_settings(html) {
                 window.update_settings();
             });
 
+            /**
+             * Show people currently online
+             */
+            // people_online
+            this.people_online = this.shadowRoot.getElementById("people-online");
 
 
             /**
@@ -96,7 +104,7 @@ export function define_settings(html) {
              */
             function validate_durations() {
                 if (parseFloat(self.short_break_min.value) < parseFloat(self.long_break_min.value) &&
-                parseFloat(self.long_break_min.value) < parseFloat(self.working_min.value)) {
+                    parseFloat(self.long_break_min.value) < parseFloat(self.working_min.value)) {
                     return true;
                 }
                 return false;
@@ -164,6 +172,11 @@ export function define_settings(html) {
             this.working_min.value = window.user_data.settings.working_sec / 60;
             this.short_break_min.value = window.user_data.settings.short_break_sec / 60;
             this.long_break_min.value = window.user_data.settings.long_break_sec / 60;
+            postData('/online', {
+                "token": window.userid,
+            }).then(data => {
+                this.people_online.innerText = "\nCurrently Online:\n" + data.map((x) => `${x.id} @${x.state}`).join('\n');
+            })
         }
 
         /**
