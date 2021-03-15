@@ -26,11 +26,14 @@ jobs:
       - name: Install modules
         run: cd source/site && npx yarn start-server &
 
-      - name: Run Cypress tests
+      - name: Generate Jsdocs
+        run: cd source/site && npx yarn docs    
+
+      - name: Run all tests
         run: cd source/site && npx yarn coverage    
 
       - name: Codecov
-        run: cd source/site && npx codecov
+        run: cd source/site && bash <(curl -s https://codecov.io/bash)
 
       # # now run the tests from the subfolder
       # - name: Cypress run
