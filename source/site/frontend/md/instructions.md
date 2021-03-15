@@ -13,3 +13,8 @@ The pomodoro method is a time management technique in order to increase producti
 *   While the timer is running, at all points the user can break out of the pomodoro cycles by clicking "Emergency Stop" if they have it enabled. This will completely break the user out of the rhythm. The amount of cycles completed will reset and if the user stopped in the middle of a work cycle, it will not count.
 *   During work cycles, the user can move onto the next task in the next work cycle before reaching the estimation by clicking "Finished Early".
 *   During the break the user can open the tasklist, but if they wish to quickly extend their current task estimation by one, they can click "Add Cycle".
+  
+### How to Login to Cloud Sync
+
+If you are currently logged in anonymously, your data will be preserved locally and will NOT be synced.
+You can enter the website using http://127.0.0.1:3000/user/${your_access_token} in order to enable cloud sync.
