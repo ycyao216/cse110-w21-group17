@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json",
-    "coverage": "yarn coverage:clean && yarn coverage:cypress  || yarn coverage:jest || yarn coverage:merge && yarn coverage:merge-report",
+    "coverage": "yarn coverage:clean && yarn coverage:cypress; yarn coverage:jest; yarn coverage:merge && yarn coverage:merge-report",
     "coverage:jest": "jest --coverage",
     "coverage:instrument": "npx nyc instrument --compact=false frontend/js/ frontend/js-trans",
     "coverage:cypress": "yarn coverage:instrument && npx cypress run",
