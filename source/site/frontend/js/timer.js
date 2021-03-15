@@ -180,6 +180,7 @@ fetch("/html/components/settings.html")
                                 // User logged in anonymously
                                 if (localStorage.hasOwnProperty('user_data')) {
                                     window.user_data = JSON.parse(localStorage.getItem('user_data'));
+                                } else {
                                     document.getElementById('c-modal').display_alert(LOCAL_MSG);
                                 }
                                 force_state(window.statelet());
