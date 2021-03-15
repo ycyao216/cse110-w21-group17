@@ -2,8 +2,6 @@ context('Window', () => {
     beforeEach(() => {
         cy.visit('http://localhost:3000');
         cy.wait(100);
-        // cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        //   .click();
     })
 
 

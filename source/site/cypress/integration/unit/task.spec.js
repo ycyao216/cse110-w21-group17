@@ -50,9 +50,14 @@ function cycle_input(idx) { return cy.get('#c-task-list').shadow().find('#pendin
 function description_input(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#task-edit'); }
 function confirm_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-confirm-btn'); }
 function cancel_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-cancel-btn'); }
-function modal_close() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close'); }
 function modal_confirm() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#confirm-button'); }
 function modal_cancel() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#cancel-button'); }
+function close_modal() {
+  return cy.get("#c-modal").shadow().find("#close").click();
+}
+
+
+
 
 
 
@@ -61,10 +66,11 @@ context('Window', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('user_data', JSON.stringify(mock_data))
       cy.visit('http://localhost:3000');
-      cy.wait(100);
+      cy.wait(500);
       cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
-      cy.get('#tasklist-btn').click();
+        .click().then(() => {
+          cy.get('#tasklist-btn').click();
+        });
     })
   })
 
@@ -91,7 +97,7 @@ context('Window', () => {
       edit_btn(0).click()
       cycle_input(0).type(-1);
       confirm_btn(0).click();
-      modal_close().click();
+      close_modal();
     });
   });
 
@@ -101,7 +107,7 @@ context('Window', () => {
       cycle_input(0).type(0);
       description_input(0).type('task1');
       confirm_btn(0).click();
-      modal_close().click();
+      close_modal();
     });
   });
 
@@ -111,7 +117,7 @@ context('Window', () => {
       cycle_input(0).type(-1);
       description_input(0).type('task1');
       confirm_btn(0).click();
-      modal_close().click();
+      close_modal();
     });
   });
 
@@ -121,7 +127,7 @@ context('Window', () => {
       cycle_input(0).type(1.5);
       description_input(0).type('task1');
       confirm_btn(0).click();
-      modal_close().click();
+      close_modal();
     });
   });
 
@@ -130,7 +136,7 @@ context('Window', () => {
       edit_btn(0).click();
       cycle_input(0).type(10);
       confirm_btn(0).click();
-      modal_close().click();
+      close_modal();
     });
   });
 

@@ -46,15 +46,31 @@ let mock_data = {
 }
 
 
+function close_modal() {
+  return cy.get("#c-modal").shadow().find("#close").click();
+}
+
+
+
 context('Window', () => {
   beforeEach(() => {
     cy.window().then((win) => {
       win.localStorage.setItem('user_data', JSON.stringify(mock_data))
       cy.visit('http://localhost:3000');
-      cy.wait(100);
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
-      cy.get('#settings-btn').click();
+      cy.wait(500);
+      close_modal().then(() => {
+        cy.get('#settings-btn').click();
+      });
+    })
+  })
+
+  it('settings.js - test help page', () => {
+    cy.window().then((win) => {
+      win.user_data = mock_data;
+      cy.get('#c-settings').shadow().find('.settings-close').eq(0).click({ force: true }).then(() => {
+        cy.get('#help-button').click();
+      });
+      cy.get('#c-settings').shadow().find('.tab-header>.active').eq(0).find('i').eq(0).should('have.class', 'help-tab')
     })
   })
 
@@ -134,7 +150,7 @@ context('Window', () => {
     })
   })
 
-  it('cy.window() - test modifying the global window object', () => {
+  it('settings.js - test modifying the global window object', () => {
     cy.window().then((win) => {
       win.user_data = mock_data;
     }).then(() => {
@@ -143,4 +159,5 @@ context('Window', () => {
       cy.get('#c-settings').shadow().find('.about-tab').eq(0).click({ force: true });
     })
   })
+
 })

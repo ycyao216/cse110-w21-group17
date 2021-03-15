@@ -42,14 +42,18 @@ let mock_data = {
   }
 }
 
+function close_modal() {
+  return cy.get("#c-modal").shadow().find("#close").click();
+}
+
+
 context('Window', () => {
   beforeEach(() => {
     cy.window().then((win) => {
       win.localStorage.setItem('user_data', JSON.stringify(mock_data))
       cy.visit('http://localhost:3000');
-      cy.wait(100);
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
+      cy.wait(500);
+      close_modal();
     })
   })
 

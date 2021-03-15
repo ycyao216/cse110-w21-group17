@@ -29,5 +29,6 @@ export function postData(url, data) {
  * @param {*} length - length of id
  */
 export function create_uid(length) {
-    return Math.trunc(Math.random() * Math.pow(10, length));
+    if (length <= 0) return null;
+    return (Math.random() * Math.pow(10, length+1)).toString().substring(0,length);
 }

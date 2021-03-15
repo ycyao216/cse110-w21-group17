@@ -1,111 +1,256 @@
 /// <reference types="cypress" />
-
+import { create_uid } from "../../../frontend/js/utils.js";
 
 let mock_data = {
-    "task_list_data": [
-      {
-        "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
-        "description": "task 1",
-        "pomo_estimation": 4,
-        "cycles_completed": 0,
-      },
-      {
-        "id": "97bf356c-3910-45f5-950e-34acc6319b83",
-        "description": "task 2",
-        "pomo_estimation": 2,
-        "cycles_completed": 0,
-      }
-    ],
-    "user_log": [
-      {
-        "login_timestamp": "",
-        "timer_state": {
-          "current": "timer_init",
-          "previous": "timer_during_countdown"
-        },
-        "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-        "break_status": {
-          "break": "short_break",
-          "cycles": 0
-        },
-        "log": [
-          "1579afed-2143-49e4-8768-b0d54eba43f8",
-          "short_break",
-        ],
-        "online": true
-      }
-    ],
-    "settings": {
-      "working_sec": 2400,
-      "short_break_sec": 600,
-      "short_break_cycles": 3,
-      "long_break_sec": 1800,
-      "long_break_cycles": 1,
-      "allow_emergency_stop": true
+  "task_list_data": [
+    {
+      "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
+      "description": "task 1",
+      "pomo_estimation": 4,
+      "cycles_completed": 0,
+    },
+    {
+      "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+      "description": "task 2",
+      "pomo_estimation": 2,
+      "cycles_completed": 0,
+    },
+    {
+      "id": "12345678-3910-45f5-950e-34acc6319b83",
+      "description": "task 3",
+      "pomo_estimation": 3,
+      "cycles_completed": 0,
     }
+  ],
+  "user_log": [{
+    "login_timestamp": "",
+    "timer_state": {
+      "current": "timer_init",
+      "previous": "timer_during_countdown"
+    },
+    "current_task": "",
+    "break_status": {
+      "break": "short_break",
+      "cycles": 0
+    },
+    "log": [
+      "1579afed-2143-49e4-8768-b0d54eba43f8",
+      "short_break",
+    ],
+    "online": true
+  },
+  {
+    "login_timestamp": "",
+    "timer_state": {
+      "current": "timer_init",
+      "previous": "timer_during_countdown"
+    },
+    "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+    "break_status": {
+      "break": "short_break",
+      "cycles": 0
+    },
+    "log": [
+      "1579afed-2143-49e4-8768-b0d54eba43f8",
+      "short_break",
+    ],
+    "online": true
   }
-  
-function edit_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-edit-btn'); }
-function cycle_input(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-counter-edit'); }
-function description_input(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#task-edit'); }
-function confirm_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-confirm-btn'); }
-function cancel_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-cancel-btn'); }
-function add_btn() { return cy.get('#c-task-list').shadow().find('#add-task-button'); }
-function modal_close() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close'); }
-function modal_confirm() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#confirm-button'); }
-function modal_cancel() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#cancel-button'); }
+  ],
+  "settings": {
+    "working_sec": 2400,
+    "short_break_sec": 600,
+    "short_break_cycles": 2,
+    "long_break_sec": 1800,
+    "long_break_cycles": 1,
+    "allow_emergency_stop": true
+  }
+}
 
-
-
-  context('Window', () => {
-    beforeEach(() => {
-      cy.window().then((win) => {
-        win.localStorage.setItem('user_data', JSON.stringify(mock_data))
-        cy.visit('http://localhost:3000');
-        cy.wait(100);
-        cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-          .click();
-          cy.get('#tasklist-btn').click();
-      })
+context('Login Anonymously', () => {
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
+      cy.visit('http://localhost:3000');
+      cy.wait(100);
     })
-  
-
-    it('data.js - test read', () => {
-      cy.window().then((win) => {
-        edit_btn(0).click();
-        cycle_input(0).type(3);
-        description_input(0).type('dd3');
-        confirm_btn(0).click();
-      });
-    });
-  
-  
-    it('data.js - test update', () => {
-      cy.window().then((win) => {
-        cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-          .find('#order-btn-up').click();
-        cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-          .find('#order-btn-down').click();
-        cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-          .find('#pomo-delete-btn').click();
-        cy.get('#c-task-list').shadow().find('.side-bar-division').find('c-task').invoke('attr', 'mode_view');
-      });
-    });
-  
-    it('data.js - test delete task', () => {
-      cy.window().then((win) => {
-        cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-          .find('#pomo-delete-btn').click();
-      });
-    });
-
-
-    it('data.js - test create task', () => {
-      cy.window().then((win) => {
-        cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-          .find('#pomo-delete-btn').click();
-      });
-    });
-
   })
-  
+
+
+  it('data.js - test read', () => {
+    cy.window().then((win) => {
+      expect(win.read_task('1579afed-2143-49e4-8768-b0d54eba43f8').id).to.equal('1579afed-2143-49e4-8768-b0d54eba43f8');
+      expect(win.read_task('1579afed-2143-49e4-8768-b0d54eba43f8').description).to.equal('task 1');
+      expect(win.read_task('1579afed-2143-49e4-8768-b0d54eba43f8').pomo_estimation).to.equal(4);
+      expect(win.read_task('1579afed-2143-49e4-8768-b0d54eba43f8').cycles_completed).to.equal(0);
+    });
+  });
+
+
+  it('data.js - test update', () => {
+    cy.window().then((win) => {
+      win.update_task({
+        "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+        "description": "update",
+        "pomo_estimation": 3,
+        "cycles_completed": 0,
+      });
+      expect(win.user_data.task_list_data[1].id).to.equal('97bf356c-3910-45f5-950e-34acc6319b83');
+      expect(win.user_data.task_list_data[1].description).to.equal('update');
+      expect(win.user_data.task_list_data[1].pomo_estimation).to.equal(3);
+      expect(win.user_data.task_list_data[1].cycles_completed).to.equal(0);
+    });
+  });
+
+  it('data.js - test delete task', () => {
+    cy.window().then((win) => {
+      win.delete_task('97bf356c-3910-45f5-950e-34acc6319b83');
+    }).then(() => {
+      cy.window().then((win) => {
+        expect(win.user_data.task_list_data.length).to.equal(2);
+      });
+    })
+  });
+
+
+  it('data.js - test create task', () => {
+    cy.window().then((win) => {
+      let net_task = {
+        "id": create_uid(10),
+        "description": "create",
+        "pomo_estimation": 3,
+        "cycles_completed": 0,
+      }
+      win.create_task(net_task);
+      cy.wait(300);
+      expect(win.user_data.task_list_data[3].description).to.equal('create');
+      expect(win.user_data.task_list_data[3].pomo_estimation).to.equal(3);
+      expect(win.user_data.task_list_data[3].cycles_completed).to.equal(0);
+    });
+    cy.window().then((win) => {
+      let net_task = {
+        "id": create_uid(10),
+        "description": "create",
+        "pomo_estimation": 3,
+        "cycles_completed": 0,
+      }
+      win.create_task(net_task, "97bf356c-3910-45f5-950e-34acc6319b83");
+      cy.wait(300);
+      expect(win.user_data.task_list_data[2].description).to.equal('create');
+      expect(win.user_data.task_list_data[2].pomo_estimation).to.equal(3);
+      expect(win.user_data.task_list_data[2].cycles_completed).to.equal(0);
+    });
+  });
+
+  it('data.js - test move task', () => {
+    cy.window().then((win) => {
+      win.move_task('12345678-3910-45f5-950e-34acc6319b83', -1);
+      expect(win.user_data.task_list_data[1].id).to.equal('12345678-3910-45f5-950e-34acc6319b83');
+      expect(win.user_data.task_list_data[1].description).to.equal('task 3');
+      expect(win.user_data.task_list_data[1].pomo_estimation).to.equal(3);
+      expect(win.user_data.task_list_data[1].cycles_completed).to.equal(0);
+    });
+  });
+
+  it('data.js - test advance_break_cycle', () => {
+    cy.window().then((win) => {
+      win.advance_break_cycle();
+      expect(win.active_userstate().break_status.break).to.equal('short_break');
+      expect(win.active_userstate().break_status.cycles).to.equal(1);
+      win.advance_break_cycle();
+      expect(win.active_userstate().break_status.break).to.equal('long_break');
+      expect(win.active_userstate().break_status.cycles).to.equal(0);
+      win.advance_break_cycle();
+      expect(win.active_userstate().break_status.break).to.equal('short_break');
+      expect(win.active_userstate().break_status.cycles).to.equal(0);
+      win.advance_break_cycle();
+      expect(win.active_userstate().break_status.break).to.equal('short_break');
+      expect(win.active_userstate().break_status.cycles).to.equal(1);
+    });
+  });
+
+
+  it('data.js - test advance_task', () => {
+    cy.window().then((win) => {
+      win.advance_task();
+      cy.wait(300);
+      expect(win.current_task().id).to.equal('97bf356c-3910-45f5-950e-34acc6319b83');
+    });
+  });
+
+  it('data.js - test update_state', () => {
+    cy.window().then((win) => {
+      let state = win.statelet();
+      win.update_state();
+      cy.wait(300);
+      let userstate = JSON.parse(win.localStorage.getItem('user_data')).user_log
+      expect(userstate[userstate.length - 1].timer_state.previous).to.equal(state.previous);
+      expect(userstate[userstate.length - 1].timer_state.current).to.equal(state.current);
+    });
+  });
+
+  it('data.js - test update_settings', () => {
+    cy.window().then((win) => {
+      let actual_settings = JSON.stringify(mock_data.settings);
+      win.update_settings();
+      cy.wait(300);
+      let userstate = JSON.parse(win.localStorage.getItem('user_data')).settings;
+      expect(JSON.stringify(userstate)).to.equal(actual_settings);
+    });
+  });
+
+  it('data.js - test is_running', () => {
+    cy.window().then((win) => {
+      expect(win.is_running(win.read_task('1579afed-2143-49e4-8768-b0d54eba43f8'))).to.be.true;
+      expect(win.is_running(win.read_task("12345678-3910-45f5-950e-34acc6319b83"))).to.be.false;
+      expect(win.is_running(null)).to.be.false;
+    });
+  });
+
+  it('data.js - test next_task_id', () => {
+    cy.window().then((win) => {
+      expect(win.next_task_id()).to.equal("97bf356c-3910-45f5-950e-34acc6319b83");
+    });
+    cy.window().then((win) => {
+      win.delete_task('97bf356c-3910-45f5-950e-34acc6319b83');
+      win.delete_task("12345678-3910-45f5-950e-34acc6319b83");
+      expect(win.next_task_id()).to.equal(null);
+    });
+  });
+
+  it('data.js - test active_userstate', () => {
+    cy.window().then((win) => {
+      let actal_userstate = mock_data.user_log[mock_data.user_log.length - 1];
+      expect(JSON.stringify(win.active_userstate())).to.equal(JSON.stringify(actal_userstate));
+    });
+  });
+
+})
+
+
+context('Login as user', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000/user/bo');
+    cy.wait(500);
+  })
+
+  it('data.js - test upload', () => {
+    cy.window().then((win) => {
+      win.create_task({
+        "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+        "description": "update",
+        "pomo_estimation": 3,
+        "cycles_completed": 0,
+      });
+    });
+  });
+
+  it('data.js - test download', () => {
+    cy.window().then((win) => {
+      expect(win.read_task('97bf356c-3910-45f5-950e-34acc6319b83').id).to.equal('97bf356c-3910-45f5-950e-34acc6319b83');
+      expect(win.read_task('97bf356c-3910-45f5-950e-34acc6319b83').description).to.equal('update');
+      expect(win.read_task('97bf356c-3910-45f5-950e-34acc6319b83').pomo_estimation).to.equal(3);
+      expect(win.read_task('97bf356c-3910-45f5-950e-34acc6319b83').cycles_completed).to.equal(0);
+    });
+  });
+})

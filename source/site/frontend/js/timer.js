@@ -181,8 +181,7 @@ function request_user_data_and_start() {
         .then(data => {
             // data ready
             window.user_data = data; //data
-        }) // JSON from `response.json()` call
-        .catch(error => { console.error(error); })
+        })
 }
 
 // This Section Imports Requires Components

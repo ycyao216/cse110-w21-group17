@@ -86,8 +86,7 @@ export function upload_userdata() {
                 console.log("Sync Successful");
                 // data ready
                 window.user_data = data; //data
-            }) // JSON from `response.json()` call
-            .catch(error => { console.error(error); })
+            })
     } else{
         // User logged in anonymously
         localStorage.setItem('user_data', JSON.stringify(window.user_data));
