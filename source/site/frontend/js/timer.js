@@ -118,7 +118,6 @@ window.start_btn = () => {
     if (current_task() == null){
         window.advance_task();
     }
-    /* istanbul ignore else */
     if (current_task() != null){
         transition(window.statelet(), 'timer_during_countdown');
     }

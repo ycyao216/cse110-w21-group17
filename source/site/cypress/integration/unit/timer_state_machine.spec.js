@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-
+import { force_state } from "../../../frontend/js/state_machines/state_machine.js";
 
 let mock_data = {
   "task_list_data": [
@@ -84,6 +84,21 @@ context('Window', () => {
   })
 
 
+  it('timer_state_machine - test timer_init <-> timer_toggle_task_list no emergency stop', () => {
+    cy.window().then((win) => {
+      cy.get('#settings-btn').click();
+      cy.get('#c-settings').shadow().find('.timer-tab').eq(0).click({ force: true });
+      cy.get('#c-settings').shadow().find('#allow-emergency-stop').uncheck({ force: true });
+      cy.get('#c-settings').shadow().find('.settings-close').eq(0).click().then(() => {
+        cy.get('#start-button').click().then(() => {
+          cy.get('#tasklist-btn',{ timeout: 15000 }).click({ timeout: 15000 }).then(() => {
+            expect(win.statelet().current).to.equal('timer_toggle_task_list');
+          });
+        });
+      });
+    })
+  })
+
   it('timer_state_machine - test timer_init <-> timer_during_countdown', () => {
     cy.window().then((win) => {
       cy.get('#start-button').click().then(() => {
@@ -101,6 +116,24 @@ context('Window', () => {
       });
     })
   });
+
+  it('timer_state_machine - test timer_init -> timer_during_countdown -> timer_break_countdown', () => {
+    cy.window().then((win) => {
+      cy.get('#start-button').click().then(() => {
+        expect(win.statelet().current).to.equal('timer_during_countdown');
+      }).then(() => {
+        cy.get('#overstudy-button').click().then(() => {
+          cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
+            .click().then(() => {
+              cy.wait(30000).then(() => {
+                expect(win.statelet().current).to.equal('timer_init');
+              });
+            });
+        });
+      });
+    });
+  })
+
 
   it('timer_state_machine - test timer_init <-> timer_during_countdown no emergency stop', () => {
     cy.window().then((win) => {
