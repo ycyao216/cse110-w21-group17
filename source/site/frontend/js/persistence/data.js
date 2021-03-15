@@ -77,6 +77,7 @@ export function update_settings(settings) {
  * @function
  */
 export function upload_userdata() {
+    window.active_userstate().last_active = Date.now();
     if (window.userid !== "") {
         postData('/uploaduserdata', {
             "token": window.userid,
@@ -87,7 +88,7 @@ export function upload_userdata() {
                 // data ready
                 window.user_data = data; //data
             })
-    } else{
+    } else {
         // User logged in anonymously
         localStorage.setItem('user_data', JSON.stringify(window.user_data));
     }
@@ -105,8 +106,8 @@ export function move_task(task_id, offset) {
     let toidx = fromidx;
     // traverse the task list, and stop at the next running task, or at the ends
     do {
-        toidx += offset/Math.abs(offset);
-    }while (toidx < window.user_data.task_list_data.length-1 && toidx > 0 && !is_pending(window.user_data.task_list_data[toidx]))
+        toidx += offset / Math.abs(offset);
+    } while (toidx < window.user_data.task_list_data.length - 1 && toidx > 0 && !is_pending(window.user_data.task_list_data[toidx]))
     // to protect the tast from being out of bound
     toidx = Math.min(Math.max(toidx, 0), window.user_data.task_list_data.length - 1)
     // swap
@@ -171,7 +172,7 @@ export function current_task() {
  * @function
  * @returns state of timer
  */
-export function statelet(){
+export function statelet() {
     return active_userstate().timer_state;
 }
 
@@ -223,6 +224,5 @@ export function next_task_id() {
  * @returns current user's data
  */
 export function active_userstate() {
-    let log = window.user_data.user_log;
-    return log[log.length - 1];
+    return window.user_data.user_log;
 }

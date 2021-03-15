@@ -59,25 +59,18 @@ app.post('/fetchuserdata', async function (request, response) {
         axios.post(`http://localhost:5000/userdata/`, {
           "id": access_token,
           "task_list_data": [],
-          "user_log": [
-            {
-                "login_timestamp": "",
-                "timer_state": {
-                  "current": "timer_init",
-                  "previous": "timer_during_countdown"
-                },
-                "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-                "break_status": {
-                    "break": "short_break",
-                    "cycles": 0
-                },
-                "log": [
-                    "1579afed-2143-49e4-8768-b0d54eba43f8",
-                    "short_break",
-                ],
-                "online": true
-            }
-          ],
+          "user_log": {
+            "last_active": Date.now(),
+            "timer_state": {
+              "current": "timer_init",
+              "previous": null
+            },
+            "current_task": null,
+            "break_status": {
+              "break": "short_break",
+              "cycles": 0
+            },
+          },
           "settings": {
             "working_sec": 1500,
             "short_break_sec": 300,
@@ -92,6 +85,14 @@ app.post('/fetchuserdata', async function (request, response) {
 });
 
 app.post('/uploaduserdata', async function (request, response) {
+  let fetch_request = request.body;
+  if ('data' in fetch_request && 'token' in fetch_request) {
+    let access_token = fetch_request["token"];
+    axios.put(`http://localhost:5000/userdata/${access_token}`, fetch_request["data"]).then(res => response.send(res.data));
+  }
+});
+
+app.post('/online', async function (request, response) {
   let fetch_request = request.body;
   if ('data' in fetch_request && 'token' in fetch_request) {
     let access_token = fetch_request["token"];

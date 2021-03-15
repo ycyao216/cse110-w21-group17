@@ -22,8 +22,8 @@ let mock_data = {
       "cycles_completed": 0,
     }
   ],
-  "user_log": [{
-    "login_timestamp": "",
+  "user_log": {
+    "last_active": "",
     "timer_state": {
       "current": "timer_init",
       "previous": "timer_during_countdown"
@@ -39,24 +39,6 @@ let mock_data = {
     ],
     "online": true
   },
-  {
-    "login_timestamp": "",
-    "timer_state": {
-      "current": "timer_init",
-      "previous": "timer_during_countdown"
-    },
-    "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-    "break_status": {
-      "break": "short_break",
-      "cycles": 0
-    },
-    "log": [
-      "1579afed-2143-49e4-8768-b0d54eba43f8",
-      "short_break",
-    ],
-    "online": true
-  }
-  ],
   "settings": {
     "working_sec": 2400,
     "short_break_sec": 600,
@@ -184,8 +166,8 @@ context('Login Anonymously', () => {
       win.update_state();
       cy.wait(300);
       let userstate = JSON.parse(win.localStorage.getItem('user_data')).user_log
-      expect(userstate[userstate.length - 1].timer_state.previous).to.equal(state.previous);
-      expect(userstate[userstate.length - 1].timer_state.current).to.equal(state.current);
+      expect(userstate.timer_state.previous).to.equal(state.previous);
+      expect(userstate.timer_state.current).to.equal(state.current);
     });
   });
 
@@ -220,8 +202,7 @@ context('Login Anonymously', () => {
 
   it('data.js - test active_userstate', () => {
     cy.window().then((win) => {
-      let actal_userstate = mock_data.user_log[mock_data.user_log.length - 1];
-      expect(JSON.stringify(win.active_userstate())).to.equal(JSON.stringify(actal_userstate));
+      expect(JSON.stringify(win.active_userstate())).to.equal(JSON.stringify(mock_data.user_log));
     });
   });
 

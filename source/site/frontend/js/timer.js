@@ -57,25 +57,18 @@ window.update_state = update_state;
 window.statelet = statelet;
 let default_user_data = {
     "task_list_data": [],
-    "user_log": [
-        {
-            "login_timestamp": "",
-            "timer_state": {
-                "current": "timer_init",
-                "previous": "timer_during_countdown"
-            },
-            "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-            "break_status": {
-                "break": "short_break",
-                "cycles": 0
-            },
-            "log": [
-                "1579afed-2143-49e4-8768-b0d54eba43f8",
-                "short_break",
-            ],
-            "online": true
-        }
-    ],
+    "user_log": {
+        "last_active": Date.now(),
+        "timer_state": {
+            "current": "timer_init",
+            "previous": null
+        },
+        "current_task": null,
+        "break_status": {
+            "break": "short_break",
+            "cycles": 0
+        },
+    },
     "settings": {
         "working_sec": 1500,
         "short_break_sec": 300,
@@ -115,10 +108,10 @@ window.finish_early_btn = () => {
  * @function
  */
 window.start_btn = () => {
-    if (current_task() == null){
+    if (current_task() == null) {
         window.advance_task();
     }
-    if (current_task() != null){
+    if (current_task() != null) {
         transition(window.statelet(), 'timer_during_countdown');
     }
     active_userstate().break_status.cycles = 0;

@@ -15,25 +15,23 @@ let mock_data = {
             "cycles_completed": 0,
         }
     ],
-    "user_log": [
-        {
-            "login_timestamp": "",
-            "timer_state": {
-                "current": "timer_init",
-                "previous": "timer_during_countdown"
-            },
-            "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-            "break_status": {
-                "break": "short_break",
-                "cycles": 0
-            },
-            "log": [
-                "1579afed-2143-49e4-8768-b0d54eba43f8",
-                "short_break",
-            ],
-            "online": true
-        }
-    ],
+    "user_log": {
+        "last_active": "",
+        "timer_state": {
+            "current": "timer_init",
+            "previous": "timer_during_countdown"
+        },
+        "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+        "break_status": {
+            "break": "short_break",
+            "cycles": 0
+        },
+        "log": [
+            "1579afed-2143-49e4-8768-b0d54eba43f8",
+            "short_break",
+        ],
+        "online": true
+    },
     "settings": {
         "working_sec": 6,
         "short_break_sec": 3,
@@ -46,9 +44,9 @@ let mock_data = {
 
 function close_modal() {
     return cy.get("#c-modal").shadow().find("#close").click();
-  }
-  
-  
+}
+
+
 
 
 context('Window', () => {
@@ -121,7 +119,7 @@ context('Window', () => {
     beforeEach(() => {
         cy.window().then((win) => {
             let mock_data_no_running = mock_data;
-            mock_data_no_running.user_log[mock_data_no_running.user_log.length - 1].current_task = null;
+            mock_data_no_running.user_log.current_task = null;
             win.localStorage.setItem('user_data', JSON.stringify(mock_data))
             cy.visit('http://localhost:3000');
             cy.wait(500);

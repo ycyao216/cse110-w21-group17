@@ -13,25 +13,23 @@ let mock_data = {
       "cycles_completed": 0,
     }
   ],
-  "user_log": [
-    {
-      "login_timestamp": "",
-      "timer_state": {
-        "current": "timer_init",
-        "previous": "timer_during_countdown"
-      },
-      "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
-      "break_status": {
-        "break": "short_break",
-        "cycles": 0
-      },
-      "log": [
-        "1579afed-2143-49e4-8768-b0d54eba43f8",
-        "short_break",
-      ],
-      "online": true
-    }
-  ],
+  "user_log": {
+    "last_active": "",
+    "timer_state": {
+      "current": "timer_init",
+      "previous": "timer_during_countdown"
+    },
+    "current_task": "1579afed-2143-49e4-8768-b0d54eba43f8",
+    "break_status": {
+      "break": "short_break",
+      "cycles": 0
+    },
+    "log": [
+      "1579afed-2143-49e4-8768-b0d54eba43f8",
+      "short_break",
+    ],
+    "online": true
+  },
   "settings": {
     "working_sec": 6,
     "short_break_sec": 3,
