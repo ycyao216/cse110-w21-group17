@@ -23,10 +23,16 @@ jobs:
           runTests: false
           working-directory: source/site
 
-      # now run the tests from the subfolder
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          install: false
-          working-directory: source/site
-          start: yarn start-server
+      - name: Install modules
+        run: cd source/site && npx yarn start-server &
+
+      - name: Run Cypress tests
+        run: cd source/site && npx yarn coverage      
+
+      # # now run the tests from the subfolder
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     install: false
+      #     working-directory: source/site
+      #     start: yarn start-server
