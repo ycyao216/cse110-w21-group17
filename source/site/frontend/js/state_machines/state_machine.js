@@ -20,6 +20,7 @@ export function transition(statelet, to_state_string) {
     let from_state = statelet.current;
 
     // Obtain next state
+    /* istanbul ignore else */
     if (!window.timer_state_machine[statelet.current].next_states.includes(to_state_string)) {
         console.error(`invalid state trainsition: ${from_state} -> ${to_state_string} detected!!`);
         return null;

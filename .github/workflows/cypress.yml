@@ -26,8 +26,8 @@ jobs:
       - name: Install modules
         run: cd source/site && npx yarn start-server &
 
-      - name: Generate Jsdocs
-        run: cd source/site && npx yarn docs    
+      # - name: Generate Jsdocs
+      #   run: cd source/site && npx yarn docs    
 
       - name: Run all tests
         run: cd source/site && npx yarn coverage    
