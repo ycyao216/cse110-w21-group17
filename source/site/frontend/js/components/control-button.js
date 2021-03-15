@@ -1,5 +1,13 @@
-// TODO Ready For Testing
+/**
+ * Enacts the control button element's constructor
+ * @param {*} html - The html component of a control button
+ * @function
+ */
 export function define_control_button(html) {
+    /**
+     * attaches the shadow dom to the control button's html and initializes it
+     * @class
+     */
     class CControlButton extends HTMLElement {
         constructor() {
             super();

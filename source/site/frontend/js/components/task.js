@@ -1,7 +1,15 @@
 
 import { create_uid } from "../utils.js";
-
+/**
+ * Enacts the constructor for the task element
+ * @param {*} html - html component of task
+ * @function
+ */
 export function define_task(html) {
+    /**
+     * Attaches the html for a task to the shadow dom and initializes it and its functions
+     * @class
+     */
     class CTask extends HTMLElement {
         constructor() {
             super();
@@ -49,18 +57,30 @@ export function define_task(html) {
 
 
         // Display modes and animations
+        /**
+         * Change task to view mode
+         * @function
+         */
         mode_view() {
             this.view_div.style.display = "flex";
             this.edit_div.style.display = "none";
         }
 
+        /**
+         * Change task to edit mode
+         * @function
+         */
         mode_edit() {
             this.view_div.style.display = "none";
             this.edit_div.style.display = "flex";
             this.task_edit.focus();
             this.task_edit.select();
         }
-
+        
+        /**
+         * Move task to non_pending mode
+         * @function
+         */
         mode_non_pending(){
             this.pomo_actual_counter.style.display = "flex";
             this.edit_div.style.display = "none";
@@ -71,6 +91,11 @@ export function define_task(html) {
         }
 
         // Values
+        /**
+         * Populate CTask with information
+         * @param {*} task - task information to populate
+         * @function
+         */
         populate(task) {
             this.task = task;
             this.task_view.innerText = this.task_edit.innerText = task.description;
@@ -79,6 +104,10 @@ export function define_task(html) {
         }
 
         // Buttons
+        /**
+         * Remove task from list entirely
+         * @function
+         */
         remove_task() {
             if (this.task !== null) {
                 // perform delete in data
@@ -87,10 +116,19 @@ export function define_task(html) {
             this.parentNode.removeChild(this)
         }
 
+        /**
+         * Move task in the list by the amount passed
+         * @param {*} offset - amount to move task in list (usually 1)
+         * @function
+         */
         move(offset) {
             window.move_task(this.task.id, offset);
         }
 
+        /**
+         * Remove task from list when user cancels input
+         * @function
+         */
         cancel() {
             if (this.task !== null) {
                 this.mode_view();
@@ -99,6 +137,13 @@ export function define_task(html) {
             }
         }
 
+        /**
+         * After user confirms task splitting, split task into multiple parts and add back to list
+         * @param {*} task_data - data of task to split up
+         * @param {*} max_cycle - max amount of cycles per part
+         * @function
+         * @returns the list of tasks
+         */
         split_task(task_data, max_cycle) {
             let list_of_tasks = [];
             let remaining_pomo_estimation = task_data.pomo_estimation;
@@ -123,6 +168,11 @@ export function define_task(html) {
             return list_of_tasks;
         }
 
+        /**
+         * create's a list if doesn't exist or causes an update to list
+         * @param {*} list_of_tasks - tasklist to check
+         * @function
+         */
         create_or_update(list_of_tasks) {
             list_of_tasks.forEach(x => {
                 if (read_task(x.id) == null) {
@@ -135,6 +185,10 @@ export function define_task(html) {
             });
         }
 
+        /**
+         * Bind task to tasklist when user confirms input
+         * @function
+         */
         confirm() {
             self.task = this.task; // bind self task to this task
             //Check for invalid inputs
@@ -167,7 +221,11 @@ export function define_task(html) {
         }
 
 
-
+        /**
+         * Validates the input user confirmed in the task to check before adding to list
+         * @function
+         * @returns boolean matching whether or not valid input
+         */
         input_validation(){
             if (this.task_edit.value === ""){
                 document.getElementById('c-modal').display_alert("Please enter an task description");

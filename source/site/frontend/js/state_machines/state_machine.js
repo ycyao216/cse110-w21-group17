@@ -9,8 +9,13 @@
 //     'functions_leave': [],
 // }
 
-// TODO Ready For Testing
 // State Utils
+/**
+ * Controls state transitions and checking for valid transitions
+ * @param {*} statelet - current/previous state information
+ * @param {*} to_state_string - string of state of transition to
+ * @function
+ */
 export function transition(statelet, to_state_string) {
     let from_state = statelet.current;
 
@@ -37,10 +42,18 @@ export function transition(statelet, to_state_string) {
     return;
 }
 
+/**
+ * Transition to the previous state
+ * @param {*} statelet - information on current/previous state
+ */
 export function rev_transition(statelet) {
     transition(statelet, statelet.previous);
 }
 
+/**
+ * Force state transition (no checks)
+ * @param {*} statelet - information on wanted current/previous state
+ */
 export function force_state(statelet) {
     window.timer_state_machine[statelet.current].functions_enter.forEach(f => f.call(this));
     window.update_state();

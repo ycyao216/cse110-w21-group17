@@ -14,7 +14,11 @@
 ////timer_ringing;
 ////timer_during_countdown;
 ////timer_break_countdown;
-
+/**
+ * One giant variable containing all transitions, valid next states, functions to call when entering,
+ * and functions to call when exiting
+ * @var
+ */
 export var timer_state_machine = {
     // init page when user enters website
     "timer_init": {

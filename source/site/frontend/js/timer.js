@@ -87,6 +87,10 @@ let default_user_data = {
 }
 
 //// Macros
+/**
+ * Controls state transition and sends prompt for emergency stop button
+ * @function
+ */
 window.emergency_stop_btn = () => {
     document.getElementById('c-modal').display_confirm(EMERG_STOP_WARNING,
         () => {
@@ -96,22 +100,38 @@ window.emergency_stop_btn = () => {
         () => { }
     )
 }
+/**
+ * Controls prompt for finished early button and edits current task to get finished
+ * @function
+ */
 window.finish_early_btn = () => {
     document.getElementById('c-modal').display_alert(OVERSTUDY_MSG);
     document.getElementById('early-prompt').style.visibility = 'visible';
     current_task().pomo_estimation = current_task().cycles_completed + 1;
     update_task(current_task());
 }
+/**
+ * Controls state transition and timer resetting after clicking start button
+ * @function
+ */
 window.start_btn = () => {
     if (current_task() == null) window.advance_task();
     if (current_task() != null) transition(window.statelet(), 'timer_during_countdown');
     active_userstate().break_status.cycles = 0;
     active_userstate().break_status.break = "short_break";
 }
+/**
+ * Controls adding a cycle to current task for add cycle button
+ * @function
+ */
 window.add_cycle_btn = () => {
     window.current_task().pomo_estimation += 1;
     window.update_task(current_task());
 }
+/**
+ * Updates the task box underneath the timer
+ * @function
+ */
 window.update_status = () => {
     document.getElementById("current-task").innerText =
         window.current_task() == null ? "Please add a task" :
@@ -121,6 +141,10 @@ window.update_status = () => {
 }
 
 //// Themes
+/**
+ * Sets the css style for light mode
+ * @function
+ */
 window.light_mode = () => {
     document.body.style.background = "radial-gradient(circle, rgba(246,245,245,1) 0%, rgba(43,215,215,1) 100%)";
     document.body.style.background = "rgb(156,152,214)";
@@ -129,6 +153,9 @@ window.light_mode = () => {
     document.getElementById("timer-label").style.color = "#0f373d";
 }
 
+/**
+ * Sets the css style for dark mode
+ */
 window.dark_mode = () => {
     document.body.style.background = "rgb(38,32,69)";
     document.body.style.background = "radial-gradient(circle, rgba(38,32,69,1) 0%, rgba(44,53,69,1) 45%, rgba(48,69,69,1) 100%)";
@@ -140,6 +167,11 @@ window.dark_mode = () => {
 let url_current = window.location.href.split("/");
 console.log(url_current);
 window.userid = url_current[url_current.length - 1]
+/**
+ * Grabs the user data when user logs in
+ * @function
+ * @returns the user grabbed from postData()
+ */
 function request_user_data_and_start() {
     //// This Section fetches user data from the server and start state machine
     //// wait a while for the content to load

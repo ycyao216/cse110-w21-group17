@@ -1,6 +1,13 @@
 /** Messages to display to the user */
-
+/**
+ * Enacts construction for timer display element
+ * @param {*} html - html component of timer display
+ */
 export function define_timer_display(html) {
+    /**
+     * Attaches the html of the timer display to the shadow dom and initialzies it and its functions
+     * @class
+     */
     class CTimerDisplay extends HTMLElement {
         constructor() {
             super();
@@ -109,6 +116,11 @@ export function define_timer_display(html) {
             this.timer_display.innerHTML = "00:00";
         }
 
+        /**
+         * Checks if timer is counting down
+         * @function 
+         * @returns boolean matching counting state
+         */
         is_countingdown() {
             return this.countdown != null;
         }
