@@ -92,12 +92,3 @@ ul {
   margin: 1em;
   list-style-type: none;
 }
-
-/*
- * Running task information text styling
- */
-p {
-  margin: 2%;
-  margin-top: 5%;
-  margin-bottom: 10%;
-}
