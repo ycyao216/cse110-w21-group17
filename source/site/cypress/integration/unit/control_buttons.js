@@ -43,145 +43,125 @@ let mock_data = {
 }
 
 context('Window', () => {
-    beforeEach(() => {
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
       cy.visit('http://localhost:3000');
-      
+      cy.wait(100);
+      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
+        .click();
     })
+  })
 
-    it('test finish-early-button', () => {
-      cy.wait(4000);
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-      }).then(() => {
-        cy.get('#start-button').click();
-      }).then(() => {
-        cy.get('#overstudy-button').click();
-      })
-        cy.get('#early-prompt').should('be.hidden');
-    })
+  it('test finish-early-button', () => {
+    cy.get('#start-button').click();
+    cy.get('#overstudy-button').click();
 
-    it('test add-cycle', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-      }).then(() => {
-        cy.get('#start-button').click();
-      }).then(() => {
-        cy.wait(6000);
-        cy.get('#add-cycle-button').click();
-      }).then(() => {
-        cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 1 of 5');
-      })
-    })  
+    cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
+      .click();
+    cy.get('#c-modal').should('be.hidden');
+  })
 
-    it('test emergency-stop-button with confirm', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-      }).then(() => {
-        cy.get('#start-button').click();
-      }).then(() => {
-        cy.get('#emergency-stop-button').click();     
-      }) .then(() => {
-        cy.on('window:confirm', msg => {
-         expect(msg).to.eq("Are you sure? If you stop now, you will lose these sessions!");
-        });
-        cy.wait(1000);
-        cy.get("#c-modal").shadow().find("#confirm-button").click();
-        cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
-        cy.get('#start-button').should('be.visible');
-        cy.get('#settings-btn').should('be.visible');
-        cy.get('#tasklist-btn').should('be.visible');
-        cy.get('#emergency-stop-button').should('not.be.visible');
-        cy.get('#overstudy-button').should('not.be.visible');
-      })
-      })
+  it('test add-cycle', () => {
+    cy.get('#start-button').click();
+    cy.get('#add-cycle-button').click({ timeout: 15000 });
+    cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 1 of 5');
+  })
 
-    it('test emergency-stop-button with cancel', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-      }).then(() => {
-        cy.get('#start-button').click();
-      }).then(() => {
-        cy.get('#emergency-stop-button').click();     
-      }) .then(() => {
-        cy.wait(1000);
-        cy.get("#c-modal").shadow().find("#cancel-button").click();
-        cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
-        cy.get('#start-button').should('not.be.visible');
-        cy.get('#settings-btn').should('not.be.visible');
-        cy.get('#tasklist-btn').should('not.be.visible');
-        cy.get('#emergency-stop-button').should('be.visible');
-        cy.get('#overstudy-button').should('be.visible');
-      })
-    })
+  it('test emergency-stop-button with confirm', () => {
 
-    it('test start-button', () => {
-      cy.window().then((win) => {
-        win.user_data = mock_data;
-      }).then(() => {
-        cy.get('#start-button').click();
-      }).then(() => {
-          cy.get('#timer-label').then(($el) => {
-            expect($el).to.have.prop('innerHTML',"Work");           
-          })
-          cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
-          cy.get('#start-button').should('not.be.visible');
-          cy.get('#settings-btn').should('not.be.visible');
-          cy.get('#tasklist-btn').should('not.be.visible');
-          cy.get('#emergency-stop-button').should('be.visible');
-          cy.get('#overstudy-button').should('be.visible');
+    cy.get('#start-button').click();
 
-          cy.wait(7000);
-          cy.get('#timer-label').then(($el) => {
-            expect($el).to.have.prop('innerHTML',"Ringing");
-          })
-          cy.get('#start-button').should('not.be.visible');
-          cy.get('#settings-btn').should('not.be.visible');
-          cy.get('#tasklist-btn').should('not.be.visible');
-          cy.get('#emergency-stop-button').should('be.visible');
-          cy.get('#overstudy-button').should('not.be.visible');
+    cy.get('#emergency-stop-button').click();
 
-          cy.wait(3000);
-          cy.get('#timer-label').then(($el) => {
-            expect($el).to.have.prop('innerHTML',"Short Break");
-          })
-          cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 1 of 4');
-          cy.get('#start-button').should('not.be.visible');
-          cy.get('#settings-btn').should('not.be.visible');
-          cy.get('#tasklist-btn').should('be.visible');
-          cy.get('#emergency-stop-button').should('be.visible');
-          cy.get('#overstudy-button').should('not.be.visible');
-
-          cy.wait(42000);
-          cy.get('#timer-label').then(($el) => {
-            expect($el).to.have.prop('innerHTML',"Long Break");
-          })
-          cy.get('#start-button').should('not.be.visible');
-          cy.get('#settings-btn').should('not.be.visible');
-          cy.get('#tasklist-btn').should('be.visible');
-          cy.get('#emergency-stop-button').should('be.visible');
-          cy.get('#overstudy-button').should('not.be.visible');
-
-          cy.wait(5000);
-          cy.get('#current-task').should('have.text', 'Task Name: task 2Done: 0 of 2');
-          cy.get('#start-button').should('not.be.visible');
-          cy.get('#settings-btn').should('not.be.visible');
-          cy.get('#tasklist-btn').should('not.be.visible');
-          cy.get('#emergency-stop-button').should('be.visible');
-          cy.get('#overstudy-button').should('be.visible');
-
-          cy.wait(30000);
-          cy.get('#timer-label').then(($el) => {
-            expect($el).to.have.prop('innerHTML',"Waiting");
-          })
-          cy.get('#current-task').should('have.text', 'Please add a task');
-          cy.get('#settings-btn').should('be.visible');
-          cy.get('#tasklist-btn').should('be.visible');
-          cy.get('#start-button').should('be.visible');
-          cy.get('#emergency-stop-button').should('not.be.visible');
-          cy.get('#overstudy-button').should('not.be.visible');
-      })
-    })
-
+    cy.on('window:confirm', msg => {
+      expect(msg).to.eq("Are you sure? If you stop now, you will lose these sessions!");
+    });
+    cy.wait(1000);
+    cy.get("#c-modal").shadow().find("#confirm-button").click();
+    cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
+    cy.get('#start-button').should('be.visible');
+    cy.get('#settings-btn').should('be.visible');
+    cy.get('#tasklist-btn').should('be.visible');
+    cy.get('#emergency-stop-button').should('not.be.visible');
+    cy.get('#overstudy-button').should('not.be.visible');
 
   })
-  
+
+  it('test emergency-stop-button with cancel', () => {
+    cy.get('#start-button').click();
+    cy.get('#emergency-stop-button').click();
+    cy.wait(1000);
+    cy.get("#c-modal").shadow().find("#cancel-button").click();
+    cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('not.be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('be.visible');
+  })
+
+
+  it('test start-button', () => {
+    cy.get('#start-button').click();
+    cy.get('#timer-label').then(($el) => {
+      expect($el).to.have.prop('innerHTML', "Work");
+    })
+    cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 0 of 4');
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('not.be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('be.visible');
+
+    cy.wait(7000);
+    cy.get('#timer-label').then(($el) => {
+      expect($el).to.have.prop('innerHTML', "Ringing");
+    })
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('not.be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('not.be.visible');
+
+    cy.wait(3000);
+    cy.get('#timer-label').then(($el) => {
+      expect($el).to.have.prop('innerHTML', "Short Break");
+    })
+    cy.get('#current-task').should('have.text', 'Task Name: task 1Done: 1 of 4');
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('not.be.visible');
+
+    cy.wait(42000);
+    cy.get('#timer-label').then(($el) => {
+      expect($el).to.have.prop('innerHTML', "Long Break");
+    })
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('not.be.visible');
+
+    cy.wait(5000);
+    cy.get('#current-task').should('have.text', 'Task Name: task 2Done: 0 of 2');
+    cy.get('#start-button').should('not.be.visible');
+    cy.get('#settings-btn').should('not.be.visible');
+    cy.get('#tasklist-btn').should('not.be.visible');
+    cy.get('#emergency-stop-button').should('be.visible');
+    cy.get('#overstudy-button').should('be.visible');
+
+    cy.wait(30000);
+    cy.get('#timer-label').then(($el) => {
+      expect($el).to.have.prop('innerHTML', "Waiting");
+    })
+    cy.get('#current-task').should('have.text', 'Please add a task');
+    cy.get('#settings-btn').should('be.visible');
+    cy.get('#tasklist-btn').should('be.visible');
+    cy.get('#start-button').should('be.visible');
+    cy.get('#emergency-stop-button').should('not.be.visible');
+    cy.get('#overstudy-button').should('not.be.visible');
+  })
+})
