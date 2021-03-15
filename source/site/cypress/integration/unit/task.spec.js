@@ -45,94 +45,120 @@ let mock_data = {
   }
 }
 
+function edit_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-edit-btn'); }
+function cycle_input(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-counter-edit'); }
+function description_input(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#task-edit'); }
+function confirm_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-confirm-btn'); }
+function cancel_btn(idx) { return cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(idx).shadow().find('#pomo-cancel-btn'); }
+function modal_close() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close'); }
+function modal_confirm() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#confirm-button'); }
+function modal_cancel() { return cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#cancel-button'); }
+
+
 
 context('Window', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
-    cy.wait(100);
-    // cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-    //   .click();
+    cy.window().then((win) => {
+      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
+      cy.visit('http://localhost:3000');
+      cy.wait(100);
+      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
+        .click();
+      cy.get('#tasklist-btn').click();
+    })
   })
 
-
-  it('cy.window() - test modifying the global window object', () => {
+  it('task.js - test click edit then cancel', () => {
     cy.window().then((win) => {
-      win.user_data = mock_data;
-    }).then(() => {
-      cy.get('#tasklist-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-cancel-btn').click();
+      edit_btn(0).click();
+      cancel_btn(0).click();
+    });
+  });
 
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(10);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#task-edit').type('task1');
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#confirm-button')
-        .click();
+  it('task.js - test split tasks', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(10);
+      description_input(0).type('task1');
+      confirm_btn(0).click();
+      modal_confirm().click();
+    });
+  });
 
 
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(0);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#task-edit').type('task1');
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(-1); //TODO not working
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(10);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#confirm-button')
-        .click();
+  it('task.js - test negative cycle count', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click()
+      cycle_input(0).type(-1);
+      confirm_btn(0).click();
+      modal_close().click();
+    });
+  });
 
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(2);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-        .click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#task-edit').type('dd');
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
+  it('task.js - test invalid cycle count 0', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(0);
+      description_input(0).type('task1');
+      confirm_btn(0).click();
+      modal_close().click();
+    });
+  });
 
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(11);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#task-edit').type('dd2');
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
-      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('#cancel-button')
-        .click();
+  it('task.js - test invalid cycle count -1', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(-1);
+      description_input(0).type('task1');
+      confirm_btn(0).click();
+      modal_close().click();
+    });
+  });
 
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-edit-btn').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-counter-edit').type(3);
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#task-edit').type('dd3');
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
-        .find('#pomo-confirm-btn').click();
+  it('task.js - test invalid cycle count 1.5', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(1.5);
+      description_input(0).type('task1');
+      confirm_btn(0).click();
+      modal_close().click();
+    });
+  });
 
+  it('task.js - test invalid task description nothing', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(10);
+      confirm_btn(0).click();
+      modal_close().click();
+    });
+  });
+
+
+
+  it('task.js - test many cycles but not split input', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(11);
+      description_input(0).type('dd2');
+      confirm_btn(0).click();
+      modal_cancel().click();
+    });
+  });
+
+
+  it('task.js - test valid input', () => {
+    cy.window().then((win) => {
+      edit_btn(0).click();
+      cycle_input(0).type(3);
+      description_input(0).type('dd3');
+      confirm_btn(0).click();
+    });
+  });
+
+
+  it('task.js - test moving task up and down', () => {
+    cy.window().then((win) => {
       cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
         .find('#order-btn-up').click();
       cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
@@ -140,10 +166,21 @@ context('Window', () => {
       cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
         .find('#pomo-delete-btn').click();
       cy.get('#c-task-list').shadow().find('.side-bar-division').find('c-task').invoke('attr', 'mode_view');
+    });
+  });
 
+  it('task.js - test delete task', () => {
+    cy.window().then((win) => {
+      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(0).shadow()
+        .find('#pomo-delete-btn').click();
+    });
+  });
+
+  it('task.js - test cancel task right after add', () => {
+    cy.window().then((win) => {
       cy.get('#c-task-list').shadow().find('#add-task-button').click();
-      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(4).shadow()
+      cy.get('#c-task-list').shadow().find('#pending-list').find('c-task').eq(1).shadow()
         .find('#pomo-cancel-btn').click();
-    })
-  })
+    });
+  });
 })

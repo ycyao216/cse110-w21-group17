@@ -50,16 +50,24 @@ let mock_data = {
     beforeEach(() => {
       cy.visit('http://localhost:3000');
       cy.wait(100);
-      // cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
-      //   .click();
+      cy.get('#c-modal').shadow().find('.modal').find('.modal-content').find('.close')
+        .click();
     })
   
   
-    it('cy.window() - test modifying the global window object', () => {
+    it('cy.window() - test invalid state transition', () => {
       cy.window().then((win) => {
         win.user_data = mock_data;
         win.transition(win.statelet(), 'timer_break_countdown');
-      }).then(() => {
+        expect(win.statelet().current).to.equal('timer_init');
+      })
+    })
+
+    it('cy.window() - test valid state transition', () => {
+      cy.window().then((win) => {
+        win.user_data = mock_data;
+        win.transition(win.statelet(), 'timer_toggle_task_list');
+        expect(win.statelet().current).to.equal('timer_toggle_task_list');
       })
     })
   })

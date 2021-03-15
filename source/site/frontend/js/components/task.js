@@ -160,11 +160,8 @@ export function define_task(html) {
                 remaining_pomo_estimation -= this_pomo_estimation;
                 remaining_cycles_completed -= this_cycles_completed;
             }
-            if (list_of_tasks.length == 0) {
-                list_of_tasks.push(task_data); //rarely happens when user expects 0 cycles for a task
-            } else {
-                list_of_tasks[0].id = task_data.id // preserve the original data id as the first array element
-            }
+
+            list_of_tasks[0].id = task_data.id // preserve the original data id as the first array element
             return list_of_tasks;
         }
 
