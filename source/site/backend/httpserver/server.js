@@ -92,10 +92,10 @@ app.post('/uploaduserdata', async function (request, response) {
   }
 });
 
-app.post('/online', async function (request, response) {
-  let fetch_request = request.body;
-  if ('data' in fetch_request && 'token' in fetch_request) {
-    let access_token = fetch_request["token"];
-    axios.put(`http://localhost:5000/userdata/${access_token}`, fetch_request["data"]).then(res => response.send(res.data));
-  }
+app.get('/online', async function (request, response) {
+  let timestamp_thres = Date.now() - 2 * 60 * 1000; // being active at most 2 minutes ago
+  axios.get(`http://localhost:5000/userdata?user_log.last_active_gte=${timestamp_thres}`)
+    .then(res => response.send(res.data.map((x) => {
+      return { "id": x.id, "state": x.user_log.timer_state.current };
+    })));
 });

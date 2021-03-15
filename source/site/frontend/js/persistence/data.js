@@ -140,6 +140,9 @@ export function advance_break_cycle() {
  */
 export function advance_task() {
     window.active_userstate().current_task = window.next_task_id();
+    if (window.current_task() !== null){
+        window.current_task().pomo_estimation_start = window.current_task().pomo_estimation;
+    }
     document.getElementById('c-task-list').refresh_list();
 
     // Sync

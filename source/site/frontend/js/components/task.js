@@ -100,7 +100,7 @@ export function define_task(html) {
             this.task = task;
             this.task_view.innerText = this.task_edit.innerText = task.description;
             this.pomo_counter_view.innerText = this.pomo_counter_edit.innerText = task.pomo_estimation;
-            this.pomo_actual_counter.innerText = task.cycles_completed;
+            this.pomo_actual_counter.innerText = task.pomo_estimation > task.pomo_estimation_start ? 'LATE' : '';
         }
 
         // Buttons
@@ -199,6 +199,7 @@ export function define_task(html) {
                 "id": create_uid(10),
                 "description": null,
                 "pomo_estimation": null,
+                "pomo_estimation_start": null,
                 "cycles_completed": 0,
             } : this.task;
             new_data.description = this.task_edit.value;
