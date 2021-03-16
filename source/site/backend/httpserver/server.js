@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
 
 app.use('/', express.static(root_dir));
 
-app.listen(httpport, () => console.log(`http server running on port ${httpport}!`));
+app.listen(httpport, '0.0.0.0', () => console.log(`http server running on port ${httpport}!`));
 
 
 
