@@ -7,14 +7,12 @@ let mock_data = {
       "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
       "description": "task 1",
       "pomo_estimation": 4,
-      "pomo_for_display":4,
       "cycles_completed": 0,
     },
     {
       "id": "97bf356c-3910-45f5-950e-34acc6319b83",
       "description": "task 2",
       "pomo_estimation": 2,
-      "pomo_for_display":2,
       "cycles_completed": 0,
     }
   ],
