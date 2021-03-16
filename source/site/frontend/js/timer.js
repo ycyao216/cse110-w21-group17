@@ -110,10 +110,10 @@ window.finish_early_btn = () => {
  * @function
  */
 window.start_btn = () => {
-    if (current_task() == null) {
+    if (current_task() === null) {
         window.advance_task();
     }
-    if (current_task() != null) {
+    else{
         transition(window.statelet(), 'timer_during_countdown');
     }
     active_userstate().break_status.cycles = 0;

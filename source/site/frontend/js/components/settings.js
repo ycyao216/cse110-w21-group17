@@ -54,7 +54,6 @@ export function define_settings(html) {
             fetch("/md/instructions.md")
                 .then(stream => stream.text())
                 .then(text => {
-                    console.log(text);
                     this.shadowRoot.getElementById('instructions').innerHTML = conv.makeHtml(text);
                 });
 
