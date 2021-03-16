@@ -11,12 +11,12 @@
     "coverage:instrument": "npx nyc instrument --compact=false frontend/js/ frontend/js-trans",
     "coverage:cypress": "yarn coverage:instrument && npx cypress run",
     "coverage:clean": "rm -rf .nyc_output && rm -rf coverage",
-    "coverage:merge": "istanbul-merge --out coverage/merged/coverage-final.json ./coverage/jest-coverage/coverage-final.json  ./coverage/cypress-coverage/coverage-final.json",
-    "coverage:merge-report": "nyc report --reporter=lcov --reporter=text --temp-dir=./coverage/merged --report-dir=./coverage/merged"
+    "coverage:merge": "istanbul-merge --out ../coverage/merged/coverage-final.json ../coverage/jest-coverage/coverage-final.json  ../coverage/cypress-coverage/coverage-final.json",
+    "coverage:merge-report": "nyc report --reporter=lcov --reporter=text --temp-dir=../coverage/merged --report-dir=../coverage/merged"
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "coverage/jest-coverage",
+    "coverageDirectory": "../coverage/jest-coverage",
     "coverageReporters": [
       "json",
       "text"
@@ -26,7 +26,7 @@
     ]
   },
   "nyc": {
-    "report-dir": "coverage/cypress-coverage",
+    "report-dir": "../coverage/cypress-coverage",
     "reporter": [
       "text",
       "json",

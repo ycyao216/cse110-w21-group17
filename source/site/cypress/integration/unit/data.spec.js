@@ -198,6 +198,7 @@ context('Login Anonymously', () => {
   it('data.js - test active_userstate', () => {
     cy.window().then((win) => {
       win.active_userstate().last_active = mock_data.user_log.last_active;
+      win.active_userstate().timer_state = mock_data.user_log.timer_state;
       expect(JSON.stringify(win.active_userstate())).to.equal(JSON.stringify(mock_data.user_log));
     });
   });

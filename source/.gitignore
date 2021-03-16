@@ -622,9 +622,9 @@ dist/
 ### test result
 **/*jest.results.json
 **/*docs
-.nyc_output
+**/.nyc_output
 **/*coverage
-frontend/js-trans
+site/frontend/js-trans
 **/*.idea
 **/*cypress/videos
 **/*cypress/screenshots
