@@ -15,8 +15,6 @@ name: linter
 #############################
 on:
   push:
-    branches-ignore: [main]
-    # Remove the line above to run when pushing to main
   pull_request:
     branches: [main]
 
