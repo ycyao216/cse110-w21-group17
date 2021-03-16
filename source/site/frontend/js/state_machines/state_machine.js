@@ -55,9 +55,7 @@ export function rev_transition(statelet) {
  * @param {*} statelet - information on wanted current/previous state
  */
 export function force_state(statelet) {
-    statelet.previous = statelet.current;
-    statelet.current = statelet.current;
-    window.update_state();
+    window.active_userstate().timer_state = statelet
     window.timer_state_machine[statelet.current].functions_enter.forEach(f => f.call(this));
     window.update_state();
     return;
