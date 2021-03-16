@@ -239,8 +239,8 @@ fetch("/html/components/settings.html")
                                 if (localStorage.hasOwnProperty('user_data')) {
                                     window.user_data = JSON.parse(localStorage.getItem('user_data'));
                                 }
-                                document.getElementById('c-modal').display_alert(LOCAL_MSG);
                                 force_state(window.statelet());
+                                document.getElementById('c-modal').display_alert(LOCAL_MSG);
                             } else {
                                 request_user_data_and_start().then(() => {
                                     // Initialize the timer state machine

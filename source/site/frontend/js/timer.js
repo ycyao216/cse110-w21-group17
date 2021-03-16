@@ -8,7 +8,7 @@ import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
 import { force_state, transition, rev_transition } from './state_machines/state_machine.js';
 import { timer_state_machine } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings, update_state, statelet, analysis, delete_user_data} from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings, update_state, statelet, analysis, delete_user_data } from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -113,7 +113,7 @@ window.start_btn = () => {
     if (current_task() === null) {
         window.advance_task();
     }
-    else{
+    else {
         transition(window.statelet(), 'timer_during_countdown');
     }
     active_userstate().break_status.cycles = 0;
@@ -183,6 +183,13 @@ function request_user_data_and_start() {
         })
 }
 
+function state_entry() {
+    force_state({
+        "current": "timer_init",
+        "previous": null
+    });
+}
+
 // This Section Imports Requires Components
 // Settings Component
 fetch("/html/components/settings.html")
@@ -211,12 +218,12 @@ fetch("/html/components/settings.html")
                                 if (localStorage.hasOwnProperty('user_data')) {
                                     window.user_data = JSON.parse(localStorage.getItem('user_data'));
                                 }
+                                state_entry();
                                 document.getElementById('c-modal').display_alert(LOCAL_MSG);
-                                force_state(window.statelet());
                             } else {
                                 request_user_data_and_start().then(() => {
                                     // Initialize the timer state machine
-                                    force_state(window.statelet());
+                                    state_entry()
                                 });
                             }
                         }))))));
