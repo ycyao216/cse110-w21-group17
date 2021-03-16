@@ -99,8 +99,8 @@ export function define_task(html) {
         populate(task) {
             this.task = task;
             this.task_view.innerText = this.task_edit.innerText = task.description;
-            this.pomo_counter_view.innerText = this.pomo_counter_edit.innerText = task.pomo_estimation;
-            this.pomo_actual_counter.innerText = task.pomo_estimation > task.pomo_estimation_start ? 'LATE' : '';
+            this.pomo_counter_view.innerText = this.pomo_counter_edit.innerText = task.pomo_estimation_start;
+            this.pomo_actual_counter.innerText = task.cycles_completed;
         }
 
         // Buttons
@@ -155,6 +155,7 @@ export function define_task(html) {
                     "id": create_uid(10),
                     "description": `${task_data.description} Part ${list_of_tasks.length + 1}`,
                     "pomo_estimation": this_pomo_estimation,
+                    "pomo_estimation_start": this_pomo_estimation,
                     "cycles_completed": this_cycles_completed,
                 })
                 remaining_pomo_estimation -= this_pomo_estimation;
@@ -204,7 +205,7 @@ export function define_task(html) {
             } : this.task;
             new_data.description = this.task_edit.value;
             new_data.pomo_estimation = parseInt(this.pomo_counter_edit.value);
-
+            new_data.pomo_estimation_start = parseInt(this.pomo_counter_edit.value);
             if (new_data.pomo_estimation > 4) {
                 document.getElementById('c-modal').display_confirm("The task takes too many cycles. Do you want to split it into more tasks?",
                     () => {

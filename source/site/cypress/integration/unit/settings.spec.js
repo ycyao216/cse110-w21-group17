@@ -3,18 +3,6 @@
 
 let mock_data = {
   "task_list_data": [
-    {
-      "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
-      "description": "task 1",
-      "pomo_estimation": 4,
-      "cycles_completed": 0,
-    },
-    {
-      "id": "97bf356c-3910-45f5-950e-34acc6319b83",
-      "description": "task 2",
-      "pomo_estimation": 2,
-      "cycles_completed": 0,
-    }
   ],
   "user_log": {
     "last_active": "",
@@ -59,6 +47,38 @@ context('Window', () => {
       close_modal().then(() => {
         cy.get('#settings-btn').click();
       });
+    })
+  })
+
+  it('settings.js - test delete_data anonymous', ()=>{
+    cy.window().then((win)=>{
+      cy.get('#c-settings').shadow().find('.about-tab').eq(0).click({ force: true });
+      cy.get('#c-settings').shadow().find('.tab-content').scrollTo(0,500);
+      cy.get('#c-settings').shadow().find('#delete-data').click();
+      cy.get('#c-modal').shadow().find('#confirm-button').click();
+    })
+    cy.wait(1000);
+    cy.window().then(($win) => {
+      expect($win.user_data.task_list_data).to.have.length(0);
+    })
+  })
+
+  it('settings.js - test delete_data with user id', ()=>{
+    cy.window().then((win) => {
+      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
+      cy.visit('http://localhost:3000/user/test_user');
+      cy.wait(500);
+      cy.get('#settings-btn').click();
+    });
+    cy.window().then((win)=>{
+      cy.get('#c-settings').shadow().find('.about-tab').eq(0).click({ force: true });
+      cy.get('#c-settings').shadow().find('.tab-content').scrollTo(0,500);
+      cy.get('#c-settings').shadow().find('#delete-data').click();
+      cy.get('#c-modal').shadow().find('#confirm-button').click();
+    })
+    cy.wait(1000);
+    cy.window().then(($win) => {
+      expect($win.user_data.task_list_data).to.have.length(0);
     })
   })
 
@@ -157,5 +177,6 @@ context('Window', () => {
       cy.get('#c-settings').shadow().find('.about-tab').eq(0).click({ force: true });
     })
   })
+
 
 })

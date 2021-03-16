@@ -230,4 +230,26 @@ context('Login as user', () => {
       expect(win.read_task('97bf356c-3910-45f5-950e-34acc6319b83').cycles_completed).to.equal(0);
     });
   });
+
+  
+  it('datajs - test remove userdata exist',()=>{
+    cy.window().then((win)=>{
+      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
+      cy.visit('http://localhost:3000/user/test');
+      cy.wait(100);
+      win.create_task({
+        "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+        "description": "update",
+        "pomo_estimation": 3,
+        "cycles_completed": 0,
+      });
+      win.delete_user_data();
+      cy.wait(1000);
+      cy.visit('http://localhost:3000/user/test');
+      cy.wait(100);
+      cy.window().then((win)=>{
+        expect(win.user_data.task_list_data).to.have.length(0);
+      })
+    })
+  })
 })
