@@ -99,3 +99,12 @@ app.post('/online', async function (request, response) {
       return { "id": x.id, "state": x.user_log.timer_state.current };
     })));
 });
+
+app.post('/delete_user', async function (request, response) {
+  let fetch_request = request.body;
+  console.log(fetch_request);
+  if ('token' in fetch_request) {
+    let access_token = fetch_request["token"];
+    axios.delete('http://localhost:5000/userdata/' + access_token);
+  }
+});

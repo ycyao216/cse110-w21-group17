@@ -8,7 +8,7 @@ import { define_task_list } from './components/task-list.js';
 import { define_task } from './components/task.js';
 import { force_state, transition, rev_transition } from './state_machines/state_machine.js';
 import { timer_state_machine } from './state_machines/timer_state_machine.js';
-import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings, update_state, statelet, analysis } from './persistence/data.js';
+import { create_task, delete_task, read_task, update_task, current_task, move_task, active_userstate, advance_break_cycle, next_task_id, is_running, is_finished, advance_task, update_settings, update_state, statelet, analysis, delete_user_data} from './persistence/data.js';
 // set global variables
 
 //// state machine
@@ -56,6 +56,7 @@ window.update_settings = update_settings;
 window.update_state = update_state;
 window.statelet = statelet;
 window.analysis = analysis;
+window.delete_user_data = delete_user_data;
 let default_user_data = {
     "task_list_data": [],
     "user_log": {

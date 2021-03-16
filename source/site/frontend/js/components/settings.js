@@ -102,6 +102,21 @@ export function define_settings(html) {
             // analysis
             this.analysis = this.shadowRoot.getElementById("analysis");
 
+            /**
+             * Deletes all user data
+             */
+            // delete_data
+            this.delete_data = this.shadowRoot.getElementById("delete-data");
+            this.delete_data.addEventListener("click", function () {
+                document.getElementById('c-modal').display_confirm("YOU WILL LOSE EVERYTHING!!",
+                    () => {
+                        window.delete_user_data();
+                        window.location.reload(); 
+                    },
+                    () => { }
+                )
+            });
+
 
             /**
              * Validates the values user typed in for work/break durations. Upholds work > long > short.

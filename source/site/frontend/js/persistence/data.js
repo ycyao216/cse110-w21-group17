@@ -93,6 +93,20 @@ export function upload_userdata() {
         localStorage.setItem('user_data', JSON.stringify(window.user_data));
     }
 }
+/**
+ * Deletes entire user data
+ * @function
+ */
+export function delete_user_data() {
+    if (window.userid !== "") {
+        postData('/delete_user', {
+            "token": window.userid,
+        })
+    } else {
+        // User logged in anonymously
+        localStorage.removeItem('user_data');
+    }
+}
 
 // Macros
 /**
