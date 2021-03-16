@@ -113,9 +113,7 @@ window.start_btn = () => {
     if (current_task() === null) {
         window.advance_task();
     }
-    else {
-        transition(window.statelet(), 'timer_during_countdown');
-    }
+    transition(window.statelet(), 'timer_during_countdown');
     active_userstate().break_status.cycles = 0;
     active_userstate().break_status.break = "short_break";
 }
