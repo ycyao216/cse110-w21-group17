@@ -14,6 +14,40 @@ jobs:
           which yarn
           yarn --version
 
+      - name: Install modules
+        run: npm install --prefix source/site
+
+      - name: Start server
+        run: cd source/site && npx yarn start-server &
+
+      - name: Run all tests
+        run: cd source/site && npx yarn coverage:jest
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./source/site/coverage/jest-coverage
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
+
+
+
+
+
+
+
+
+
+        
+      # - name: Cypress install
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     runTests: false
+      #     working-directory: source/site
+
+
+
       # - name: Cache node modules
       #   uses: actions/cache@v2
       #   env:
@@ -26,18 +60,7 @@ jobs:
       #       ${{ runner.os }}-build-${{ env.cache-name }}-
       #       ${{ runner.os }}-build-
       #       ${{ runner.os }}-
-            
-      - name: Install modules
-        run: npm install --prefix source/site
-        
-      # - name: Cypress install
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     runTests: false
-      #     working-directory: source/site
 
-      - name: Start server
-        run: cd source/site && npx yarn start-server &
 
       # - name: Generate Jsdocs
       #   run: cd source/site && npx yarn docs    
@@ -56,19 +79,6 @@ jobs:
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
       #     branch: ${{ github.ref }}    
-
-
-      - name: Run all tests
-        run: cd source/site && npx yarn coverage:jest
-
-
-      - name: Upload coverage to Codecov
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          directory: ./source/site/coverage/jest-coverage
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
 
       # # now run the tests from the subfolder
       # - name: Cypress run
