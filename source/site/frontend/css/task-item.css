@@ -29,7 +29,7 @@ button {
   flex-direction: column;
 }
 
-#task-name-container, 
+#task-name-container,
 #estimated-cycle-container,
 #actual-cycle-container {
   flex-grow: 2;
