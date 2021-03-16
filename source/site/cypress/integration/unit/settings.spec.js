@@ -3,6 +3,24 @@
 
 let mock_data = {
   "task_list_data": [
+    {
+      "id": "1579afed-2143-49e4-8768-b0d54eba43f8",
+      "description": "task 1",
+      "pomo_estimation": 4,
+      "cycles_completed": 0,
+    },
+    {
+      "id": "97bf356c-3910-45f5-950e-34acc6319b83",
+      "description": "task 2",
+      "pomo_estimation": 2,
+      "cycles_completed": 0,
+    },
+    {
+      "id": "12345678-3910-45f5-950e-34acc6319b83",
+      "description": "task 3",
+      "pomo_estimation": 3,
+      "cycles_completed": 0,
+    }
   ],
   "user_log": {
     "last_active": "",
@@ -55,7 +73,16 @@ context('Window', () => {
       cy.get('#c-settings').shadow().find('.about-tab').eq(0).click({ force: true });
       cy.get('#c-settings').shadow().find('.tab-content').scrollTo(0,500);
       cy.get('#c-settings').shadow().find('#delete-data').click();
-      cy.get('#c-modal').shadow().find('#confirm-button').click();
+      cy.get('#c-modal').shadow().find('#cancel-button').click().then(() => {
+        expect(win.user_data.task_list_data).to.have.length(3);
+      });
+      cy.get('#c-settings').shadow().find('#delete-data').click();
+      cy.get('#c-modal').shadow().find('#confirm-button').click().then(() => {
+        cy.visit('http://localhost:3000');
+        cy.wait(500).then(() => {
+          expect(win.user_data.task_list_data).to.have.length(0);
+        });
+      });
     })
     cy.wait(1000);
     cy.window().then(($win) => {
