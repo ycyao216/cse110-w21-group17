@@ -43,23 +43,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add --force source/site/coverage
           git commit -m "generated coverage"
-
-      - name: Swap directory
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
-      - name: JSDoc Action
-        uses: andstor/jsdoc-action@v1.2.0
-        with:
-          source_dir: ./source/site/frontend/js
-          recurse: true
-          output_dir: ./docs
-      - name: Commit files
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs
-          git commit -m "generated jsdocs"
+          
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
