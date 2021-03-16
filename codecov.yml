@@ -1,6 +1,6 @@
 codecov:
   require_ci_to_pass: yes
-  token: e1a7dlce-c45e-4d57-9712-8b080935512a
+  token: e1a7d1ce-c45e-4d57-9712-8b080935512a
 
 coverage:
   precision: 2
