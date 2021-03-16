@@ -1,0 +1,27 @@
+export function define_control_button(html) {
+    class CControlButton extends HTMLElement {
+        constructor() {
+            super();
+            var shadow = this.attachShadow({ mode: 'open' });
+            shadow.innerHTML = html;
+
+            let document = this.shadowRoot;
+
+
+
+            // Use value in the custom tag to be the display text in the button
+            document.getElementById('button').innerText = this.textContent
+
+            // Put you initialization code here
+            // some code
+        }
+    }
+    customElements.define('c-control-button', CControlButton);
+    return CControlButton;
+}
+
+
+export function pop_task_element(ele) {
+    let document = ele.getRootNode();
+    // Do whatever you like with the document(which is the shadow root\)
+}

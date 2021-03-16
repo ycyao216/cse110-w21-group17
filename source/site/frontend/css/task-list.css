@@ -1,0 +1,117 @@
+/* ---- Task-List Side Bar ---- */
+.side-bar {
+  margin: 0;
+  padding: 0%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  background-color: rgba(219, 237, 236, 0.72);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  position: fixed;
+  height: 90%;
+  width: 40%;
+  left: 100%;
+  transition: left 0.5s;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: auto;
+}
+
+/*
+ * Main Header
+ */
+#task-list-header {
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin: 0;
+  border: 0;
+  padding: 10px 0 10px;
+  width: 100%;
+}
+
+/*
+ * Sub Headers
+ */
+h3 {
+  margin-left: 2%;
+  margin-block-start: 1%;
+}
+
+/*
+ * Column header container
+ */
+.column-headings {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin: 1.3em;
+  margin-bottom: 0;
+}
+
+/*
+ * Headings
+ */
+.heading {
+  margin-bottom: 0;
+  width: 33%;
+}
+
+/*
+ * Task-List Section divs
+ */
+.task-list-separator {
+  margin: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.task-list-separator:hover {
+  background-color: rgba(230, 252, 255, 0.219);
+}
+
+#pending-list {
+  margin: 1em;
+}
+
+/*
+ * Add Task Button
+ * Inspired by Ivan Villa - https://codepen.io/ivanvillacreative/pen/wawXdZ
+ */
+#add-task-button {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgb(93, 147, 161);
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+  padding-bottom: 3px;
+  margin: 2mm;
+  transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#add-task-button:hover {
+  width: 100px;
+  background-color: rgb(230, 245, 245);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+#add-task-button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: 0.05s;
+}
+
+/*
+ * ul styling to have items centered
+ */
+ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 1em;
+  list-style-type: none;
+}

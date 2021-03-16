@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/css/settings.css">
+<button class="settings-close" onclick="transition(window.statelet(), 'timer_init')">&times;</button>
+<div class="tabs">
+    <div class="tab-header">
+        <div class="active">
+            <i class="appearence-tab"></i> Appearance
+        </div>
+        <div>
+            <i class="timer-tab"></i> Timer
+        </div>
+        <div>
+            <i class="help-tab"></i> Help
+        </div>
+        <div>
+            <i class="about-tab"></i> About
+        </div>
+    </div>
+    <div class="tab-indicator"></div>
+    
+    <div class="tab-content">
+
+        <div class="tabcontent active">
+            <div class="cover-contianer">
+                <button id="light-mode-button" type="button" style="align-self:center;">
+                    <img src="/assets/settings/light.png" alt="light mode example" style="height: 100px;"></button>
+                <button id="dark-mode-button" type="button" style="align-self:center;">
+                    <img src="/assets/settings/dark.png" alt="dark mode example" style="height: 100px;"></button>
+            </div>
+            <div class="option-list">
+
+            </div>
+        </div>
+
+        <div class="tabcontent">
+            <div class="option-list">
+                <div class="option-container">
+                    <div class="option-name">
+                        Emergency Stop
+                    </div>
+                    <div class="option-control">
+                        <label class="switch">
+                            <input type="checkbox" id="allow-emergency-stop">
+                            <span class="slider round"></span>
+                          </label>
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
+                        Duration of each working session
+                    </div>
+                    <div class="option-control">
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="working-min" min="0" max="60" step="1">
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
+                        Duration of each short break
+                    </div>
+                    <div class="option-control">
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="short-break-min" min="0" max="60" step="1">
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option-name">
+                        Duration of each long break
+                    </div>
+                    <div class="option-control">
+                        <!-- <c-time-picker></c-time-picker> -->
+                        <input type="number" id="long-break-min" min="0" max="60" step="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="tabcontent">
+            <p id="instructions"></p>
+        </div>
+        
+        <div class="tabcontent">
+            <div class="cover-contianer">
+                <img src="/assets/settings/logo.jfif" alt="team logo" style="height: 150px;">
+            </div>
+            <p style="font-size: x-large; font-weight: bold;">
+                Team Tortellini
+            </p>
+            <p style="font-size: small;">
+                © 2021 Team Tortellini All Rights Reserved.
+            </p>
+            
+            <p id="analysis" style="font-size: small;"></p>
+
+            <p id="people-online" style="font-size: small;">
+            </p>
+
+            <button id="delete-data">Delete All My Data</button>
+        </div>
+    </div>
+</div>

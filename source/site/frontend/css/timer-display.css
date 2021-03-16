@@ -1,0 +1,10 @@
+#timer-container {
+  width: 65vh;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 25vh;
+  color: whitesmoke;
+}

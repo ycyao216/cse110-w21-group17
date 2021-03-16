@@ -1,0 +1,216 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #473030;
+  font-family: monospace;
+}
+
+.settings-close {
+  z-index: 4;
+  position: absolute;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.settings-close:hover,
+.settings-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tabs {
+  position: absolute;
+  width: 70vw;
+  height: 60vh;
+  padding: 30px 20px;
+  background: #f5f5f5;
+  box-shadow: 4px 5px 5px #ccc;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.tabs .tab-header {
+  float: left;
+  width: 180px;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  padding: 50px 0;
+}
+
+.tabs .tab-header > div {
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.tabs .tab-header div i {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.tabs .tab-content {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.tabs .tab-content > div > i {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background: #555;
+  color: #f5f5f5;
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+}
+
+.cover-contianer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  outline-style: none;
+}
+
+#light-mode-button:hover,
+#dark-mode-button:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.tabcontent {
+  display: inline-block;
+  width: 100%;
+}
+
+.tabs .tab-content > div {
+  position: absolute;
+  padding: 40px 20px;
+  top: -300%;
+  transition: all 500ms ease-in-out;
+}
+
+.tabs .tab-header > div:hover,
+.tabs .tab-header > div.active {
+  color: #00acee;
+}
+
+.tabs .tab-content > div.active {
+  top: 0;
+}
+
+.tabs .tab-indicator {
+  position: absolute;
+  width: 4px;
+  height: 50px;
+  background: #00acee;
+  left: 198px;
+  top: 80px;
+  transition: all 500ms ease-in-out;
+}
+
+/* options */
+.option-list {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-top: 40px;
+}
+
+.option-container {
+  line-height: normal;
+}
+
+.option-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  height: 50px;
+}
+
+.option-control {
+  float: right;
+  width: 10em;
+}
+
+/* options */
+
+/* Toggle buttons Start */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Toggle buttons End */
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider::before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round::before {
+  border-radius: 50%;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/css/task-list.css" />
+<div class="side-bar" id="side-bar">
+  <h2 class="side-bar-header" id="task-list-header">Task list</h2>
+
+  <div class="task-list-separator">
+    <h3>Running Task:</h3>
+    <div class="column-headings">
+      <p class="heading">Task Name:</p>
+      <p class="heading">Estimated Cycles:</p>
+      <p class="heading">Actual Cycles:</p>
+    </div>
+    <ul class="side-bar-division" id="running"></ul>
+  </div>
+
+  <div class="task-list-separator">
+    <h3>Pending Tasks:</h3>
+    <div id="pending-list">
+      <!-- This space is for pending tasks -->
+    </div>
+    <div>
+      <ul class="side-bar-division" id="pending-add">
+        <!-- This space is for pending adds -->
+        <button type="button" id="add-task-button">
+          <img src="../../assets/images/add-task.png" alt="Add Task Button">
+        </button>
+      </ul>
+    </div>
+  </div>
+
+  <div class="task-list-separator">
+    <h3>Finished Tasks:</h3>
+    <div class="column-headings">
+      <p class="heading">Task Name:</p>
+      <p class="heading">Estimated Cycles:</p>
+      <p class="heading">Actual Cycles:</p>
+    </div>
+    <ul class="side-bar-division" id="finished"></ul>
+  </div>
+</div>

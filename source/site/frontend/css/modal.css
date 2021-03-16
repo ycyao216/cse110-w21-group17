@@ -1,0 +1,88 @@
+/* Styling for modal */
+.modal {
+  display: none;
+
+  /* Hidden by default */
+  position: fixed;
+
+  /* Stay in place */
+  z-index: 4;
+
+  /* Sit on top */
+  padding-top: 100px;
+
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  /* Full width */
+  height: 100%;
+
+  /* Full height */
+  overflow: auto;
+
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+
+  /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 15px;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Cancel and Confirm buttons */
+#emergency-stop-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#confirm-button,
+#cancel-button {
+  margin: 0 20px;
+  border-radius: 4px;
+  height: 35px;
+  font-weight: bold;
+  width: 100px;
+  background-color: rgba(230, 230, 230, 0.5);
+  flex-direction: row;
+}
+
+#confirm-button:hover,
+#cancel-button:hover {
+  cursor: pointer;
+  background-color: rgba(179, 172, 172, 0.5);
+}
+
+#confirm-button:active,
+#cancel-button:active {
+  cursor: pointer;
+  background-color: rgba(131, 126, 126, 0.5);
+}

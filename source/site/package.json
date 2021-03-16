@@ -1,0 +1,78 @@
+{
+  "name": "pomodoro-timer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json",
+    "start-server": "yarn coverage:instrument && node ./backend/httpserver/server.js",
+    "coverage": "yarn coverage:clean && yarn coverage:jest && yarn coverage:cypress && yarn coverage:merge && yarn coverage:merge-report",
+    "coverage:jest": "jest --coverage",
+    "coverage:instrument": "npx nyc instrument --compact=false frontend/js/ frontend/js-trans",
+    "coverage:cypress": "yarn coverage:instrument && npx cypress run",
+    "coverage:clean": "rm -rf .nyc_output && rm -rf coverage",
+    "coverage:merge": "istanbul-merge --out ../coverage/merged/coverage-final.json ../coverage/jest-coverage/coverage-final.json  ../coverage/cypress-coverage/coverage-final.json",
+    "coverage:merge-report": "nyc report --reporter=lcov --reporter=text --temp-dir=../coverage/merged --report-dir=../coverage/merged"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "../coverage/jest-coverage",
+    "coverageReporters": [
+      "json",
+      "text"
+    ],
+    "modulePathIgnorePatterns": [
+      "/cypress/"
+    ]
+  },
+  "nyc": {
+    "report-dir": "../coverage/cypress-coverage",
+    "reporter": [
+      "text",
+      "json",
+      "lcov"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ycyao216/cse110-w21-group17/issues"
+  },
+  "homepage": "https://github.com/ycyao216/cse110-w21-group17#readme",
+  "dependencies": {
+    "jest": "*",
+    "js-beautify": "*",
+    "express": "*",
+    "mongodb": "*",
+    "json-server": "*",
+    "axios": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "*",
+    "@cypress/code-coverage": "^3.9.0",
+    "babel-eslint": "*",
+    "cypress": "^6.5.0",
+    "cypress-intellij-reporter": "0.0.6",
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "html-validate": "*",
+    "istanbul-merge": "*",
+    "jsdoc": "*",
+    "nyc": "^15.1.0",
+    "stylelint": "*",
+    "stylelint-config-standard": "*",
+    "yarn": "*",
+    "codecov": "*"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  }
+}

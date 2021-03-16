@@ -1,0 +1,166 @@
+/* place holder */
+html {
+  background: url("media/web-background.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+  font-family:
+    "ArialRounded",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+}
+
+footer {
+  position: fixed;
+  display: inline-block;
+  left: 0;
+  margin-left: 2vw;
+  margin-bottom: 2vh;
+  bottom: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#timer-container {
+  background-color: rgba(230, 230, 230, 0.5);
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 0;
+  margin: 10vh auto;
+  width: 50vh;
+  height: 25vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 100px;
+}
+
+.control {
+  border: 2px solid black;
+  margin: 20px 0 20px;
+  padding: 0 12px;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 0;
+  font-size: 22px;
+  height: 55px;
+  font-weight: bold;
+  width: 200px;
+  background-color: rgba(230, 230, 230, 0.5);
+}
+
+.task {
+  border: 2px solid black;
+  margin: 40px 0 20px;
+  padding: 0 12px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 22px;
+  height: 55px;
+  width: 200px;
+  background-color: rgba(230, 230, 230, 0.5);
+}
+
+.control-buttons {
+  flex-direction: row;
+}
+
+#current-task {
+  display: inline-block;
+}
+
+/* Styling for modal */
+.modal {
+  display: none;
+
+  /* Hidden by default */
+  position: fixed;
+
+  /* Stay in place */
+  z-index: 1;
+
+  /* Sit on top */
+  padding-top: 100px;
+
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  /* Full width */
+  height: 100%;
+
+  /* Full height */
+  overflow: auto;
+
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+
+  /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 15px;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Cancel and Confirm buttons */
+#emergency-stop-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#confirm-button,
+#cancel-button {
+  margin: 0 20px;
+  border-radius: 4px;
+  height: 35px;
+  font-weight: bold;
+  width: 100px;
+  background-color: rgba(230, 230, 230, 0.5);
+  flex-direction: row;
+}

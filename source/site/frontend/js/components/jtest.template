@@ -1,0 +1,9 @@
+// for example component file, see ./modal.js
+// for example component file, see ./modal.test.js
+// in summary, you need to:
+// 0. search for // TODO Ready For Testing
+// 1. export all the funtions you like to test (module.export...)
+// 2. create a x.test.js file
+// 3. run 5-run-jtest.sh in manual-workflow
+
+

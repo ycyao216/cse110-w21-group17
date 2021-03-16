@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/timer-display.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/timer-display.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Messages to display to the user */
+/**
+ * Enacts construction for timer display element
+ * @param {*} html - html component of timer display
+ */
+export function define_timer_display(html) {
+    /**
+     * Attaches the html of the timer display to the shadow dom and initialzies it and its functions
+     * @class
+     */
+    class CTimerDisplay extends HTMLElement {
+        constructor() {
+            super();
+            var shadow = this.attachShadow({
+                mode: 'open'
+            });
+            shadow.innerHTML = html;
+
+            this.timer_display = this.shadowRoot.getElementById("timer-string");
+            this.alarm_sound = this.shadowRoot.getElementById("alarm-sound");
+
+            // bind
+            this.trigger_countdown.bind(this);
+            this.update_countdown.bind(this);
+            this.reset_countdown.bind(this);
+            this.is_countingdown.bind(this);
+            this.ring.bind(this);
+            this.stop_ring.bind(this);
+        }
+
+        /**
+         * sets up the time interval for update_countdown() and the
+         * callback function. Keeps track of the work cycle time.
+         * @function
+         * @param {Number} seconds - max time of the countdown
+         * @param {function} callback_f - function to call once timer reaches 0
+         * @returns callback_f
+         */
+        trigger_countdown(seconds, callback_f) {
+            this.countdown = {
+                'endTime': seconds,
+                'timer': setInterval(() => this.update_countdown(), [1000]), // update display every second
+                get callback_f() {
+                    return callback_f
+                }
+            }
+
+            // THE FIRST RUN
+            // update timer
+            let minutes = Math.floor(this.countdown.endTime / 60);
+            let timer_seconds = this.countdown.endTime - (minutes * 60);
+
+            if(minutes &lt; 10)
+                minutes = "0" + minutes;
+
+            if(timer_seconds &lt; 10)
+                timer_seconds = "0" + timer_seconds;
+
+            this.timer_display.innerHTML = minutes + ":" + timer_seconds;
+
+            // decrement time
+            this.countdown.endTime -= 1;
+        }
+
+        /**
+         * Does the actual counting from the time set to 0.
+         * Updates timer display.
+         * At 0 calls the callback function to change states.
+         * @function
+         * @returns when timer hits 0
+         */
+        update_countdown() {
+            // prevent late updates
+            if (this.countdown == null) return;
+
+            // stop the counter
+            if (this.countdown.endTime &lt; 0) {
+                var callback_f = this.countdown.callback_f;
+                this.reset_countdown();
+                callback_f();
+                return;
+            }
+            
+
+            // update timer_display
+            let minutes = Math.floor(this.countdown.endTime / 60);
+            let seconds = this.countdown.endTime - (minutes * 60);
+
+            if(minutes &lt; 10)
+                minutes = "0" + minutes;
+
+            if(seconds &lt; 10)
+                seconds = "0" + seconds;
+
+            this.timer_display.innerHTML = minutes + ":" + seconds;
+
+            // decrement time
+            this.countdown.endTime -= 1;
+        }
+
+        /**
+         * If a countdown was set, clear its interval and
+         * and set it to null. Also sets the counter to the last
+         * work cycle time set.
+         * @function
+         */
+        reset_countdown(seconds = null) {
+            //reset to default value 
+
+
+            if (this.countdown != null) {
+                clearInterval(this.countdown.timer);
+                this.countdown = null;
+            }
+            // update timer_display
+            this.timer_display.innerHTML = "00:00";
+        }
+
+        /**
+         * Checks if timer is counting down
+         * @function 
+         * @returns boolean matching counting state
+         */
+        is_countingdown() {
+            return this.countdown != null;
+        }
+
+        /**
+         * Sets the volume of the audio tag and plays it.
+         * @function
+         */
+        ring() {
+            this.alarm_sound.volume = 0.1;
+            this.alarm_sound.play();
+            console.log("The Timer is RINGING!");
+        }
+
+        /**
+         * Stops the audio
+         * @function
+         */
+        stop_ring() {
+            this.alarm_sound.volume = 0;
+        }
+    }
+    customElements.define('c-timer-display', CTimerDisplay);
+    return CTimerDisplay;
+}
+
+// for testing
+/*module.exports = {
+    define_timer_display,
+}*/</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CControlButton.html">CControlButton</a></li><li><a href="CModal.html">CModal</a></li><li><a href="CSettings.html">CSettings</a></li><li><a href="CTask.html">CTask</a></li><li><a href="CTaskList.html">CTaskList</a></li><li><a href="CTimerDisplay.html">CTimerDisplay</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:-Changeinputforlongbreakduration">- Change input for long break duration</a></li><li><a href="global.html#event:-Changeinputforshortbreakduration">- Change input for short break duration</a></li><li><a href="global.html#event:-Changeinputforworkingduration">- Change input for working duration</a></li><li><a href="global.html#event:-clickaddtask">- click add task</a></li><li><a href="global.html#event:-clickdarkmode">- click dark mode</a></li><li><a href="global.html#event:-clicklightmode">- click light mode</a></li><li><a href="global.html#event:-toggleemergencystopbutton">- toggle emergency stop button</a></li></ul><h3>Global</h3><ul><li><a href="global.html#active_userstate">active_userstate</a></li><li><a href="global.html#advance_break_cycle">advance_break_cycle</a></li><li><a href="global.html#advance_task">advance_task</a></li><li><a href="global.html#analysis">analysis</a></li><li><a href="global.html#create_task">create_task</a></li><li><a href="global.html#create_uid">create_uid</a></li><li><a href="global.html#current_task">current_task</a></li><li><a href="global.html#define_control_button">define_control_button</a></li><li><a href="global.html#define_modal">define_modal</a></li><li><a href="global.html#define_settings">define_settings</a></li><li><a href="global.html#define_task">define_task</a></li><li><a href="global.html#define_task_list">define_task_list</a></li><li><a href="global.html#define_timer_display">define_timer_display</a></li><li><a href="global.html#delete_task">delete_task</a></li><li><a href="global.html#delete_user_data">delete_user_data</a></li><li><a href="global.html#force_state">force_state</a></li><li><a href="global.html#is_finished">is_finished</a></li><li><a href="global.html#is_pending">is_pending</a></li><li><a href="global.html#is_running">is_running</a></li><li><a href="global.html#move_task">move_task</a></li><li><a href="global.html#next_task_id">next_task_id</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#read_task">read_task</a></li><li><a href="global.html#request_user_data_and_start">request_user_data_and_start</a></li><li><a href="global.html#rev_transition">rev_transition</a></li><li><a href="global.html#statelet">statelet</a></li><li><a href="global.html#timer_state_machine">timer_state_machine</a></li><li><a href="global.html#transition">transition</a></li><li><a href="global.html#update_settings">update_settings</a></li><li><a href="global.html#update_state">update_state</a></li><li><a href="global.html#update_task">update_task</a></li><li><a href="global.html#upload_userdata">upload_userdata</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Mar 16 2021 20:04:53 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

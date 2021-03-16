@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="SHORTCUT ICON"
+      href="/assets/images/page-icon.png"
+    />
+    <link rel="stylesheet" href="/css/timer.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tortellini Timer!</title>
+  </head>
+
+  <body>
+    <div class="background-img">
+      <main>
+        <c-modal id="c-modal"></c-modal>
+        <c-settings id="c-settings" style="display: none"></c-settings>
+        <c-analysis id="c-analysis" style="display: none"></c-analysis>
+        <c-task-list id="c-task-list" style="display: initial"></c-task-list>
+        <div class="top-bar-buttons">
+          <c-control-button id="settings-btn"
+            onclick="transition(window.statelet(), 'timer_open_settings')"
+            >Settings</c-control-button
+          >
+          <c-control-button id="tasklist-btn"
+            onclick="(window.statelet().current == 'timer_toggle_task_list') ? 
+            rev_transition(window.statelet(), 'timer_toggle_task_list'):
+            transition(window.statelet(), 'timer_toggle_task_list')"
+            >Tasklist</c-control-button
+          >
+        </div>
+
+        <div class="container">
+          <div class="timer-labels">
+            <p id="early-prompt">
+              Great job! Don't start the next task yet, reflect on your current
+              task!
+            </p>
+            <p id="timer-label">Waiting</p>
+          </div>
+          <c-timer-display id="timer-display"></c-timer-display>
+          <div class="control-buttons">
+            <c-control-button
+              id="start-button"
+              class="start"
+              onclick="window.start_btn()"
+              >Start</c-control-button
+            >
+            <c-control-button
+              id="emergency-stop-button"
+              class="finish"
+              onclick="window.emergency_stop_btn()"
+              >Emergency Stop</c-control-button
+            >
+            <c-control-button
+              id="overstudy-button"
+              class="finish"
+              onclick="window.finish_early_btn()"
+              >Finished Early</c-control-button
+            >
+            <c-control-button
+              id="add-cycle-button"
+              class="finish"
+              onclick="window.add_cycle_btn()"
+              >Add Cycle</c-control-button
+            >
+          </div>
+          <div class="task">
+            <span id="current-task">Waiting to load task...</span>
+          </div>
+
+          <div class="help">
+            <!-- TODO: Link directly to Help tab in settings -->
+            <button id="help-button" class="finish" onclick="
+            transition(window.statelet(), 'timer_open_settings');
+            document.getElementById('c-settings').switch_tab(2);
+            ">?</button>
+          </div>
+
+        </div>
+      </main>
+    </div>
+    <footer>
+      <a href="https://github.com/ycyao216/cse110-w21-group17/wiki" target="_blank"
+        >Visit Team Tortellini@Github</a
+      >
+    </footer>
+
+    <!-- External Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.0/showdown.min.js"></script>
+
+    <!-- Internal Dependencies -->
+    <script type="module" src="/js-trans/timer.js"></script>
+  </body>
+</html>
