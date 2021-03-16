@@ -251,13 +251,13 @@ export function active_userstate() {
 export function analysis() {
     let num_early = window.user_data.task_list_data
         .filter((x) => x.pomo_estimation_start !== null)
-        .filter((x) => x.pomo_estimation_start > x.pomo_estimation_start).length;
+        .filter((x) => x.pomo_estimation_start > x.pomo_estimation).length;
     let num_ontime = window.user_data.task_list_data
         .filter((x) => x.pomo_estimation_start !== null)
-        .filter((x) => x.pomo_estimation_start == x.pomo_estimation_start).length;
+        .filter((x) => x.pomo_estimation_start == x.pomo_estimation).length;
     let num_late = window.user_data.task_list_data
         .filter((x) => x.pomo_estimation_start !== null)
-        .filter((x) => x.pomo_estimation_start < x.pomo_estimation_start).length;
+        .filter((x) => x.pomo_estimation_start < x.pomo_estimation).length;
     let total = num_early + num_ontime + num_late;
     let ana = `\n${window.userid}'s analysis:`
     ana += `\nCompleted ${num_early} tasks early,  ${num_ontime} tasks on time, ${num_late} tasks late`
