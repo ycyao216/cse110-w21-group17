@@ -89,8 +89,8 @@ context('Window', () => {
   it('task.js - test split tasks', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(10);
-      description_input(0).type('task1');
+      cycle_input(0).clear().type(10, {force: true});
+      description_input(0).clear().type('task1', {force: true});
       confirm_btn(0).click();
       modal_confirm().click();
     });
@@ -100,7 +100,7 @@ context('Window', () => {
   it('task.js - test negative cycle count', () => {
     cy.window().then((win) => {
       edit_btn(0).click()
-      cycle_input(0).type(-1);
+      cycle_input(0).clear().type(-1, {force: true});
       confirm_btn(0).click();
       close_modal();
     });
@@ -109,8 +109,8 @@ context('Window', () => {
   it('task.js - test invalid cycle count 0', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(0);
-      description_input(0).type('task1');
+      cycle_input(0).clear().type(0, {force: true});
+      description_input(0).clear().type('task1', {force: true});
       confirm_btn(0).click();
       close_modal();
     });
@@ -119,8 +119,8 @@ context('Window', () => {
   it('task.js - test invalid cycle count -1', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(-1);
-      description_input(0).type('task1');
+      cycle_input(0).clear().type(-1, {force: true});
+      description_input(0).clear().type('task1', {force: true});
       confirm_btn(0).click();
       close_modal();
     });
@@ -129,8 +129,8 @@ context('Window', () => {
   it('task.js - test invalid cycle count 1.5', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(1.5);
-      description_input(0).type('task1');
+      cycle_input(0).clear().type(1.5, {force: true});
+      description_input(0).clear().type('task1', {force: true});
       confirm_btn(0).click();
       close_modal();
     });
@@ -139,7 +139,7 @@ context('Window', () => {
   it('task.js - test invalid task description nothing', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(10);
+      description_input(0).clear({force: true});
       confirm_btn(0).click();
       close_modal();
     });
@@ -150,8 +150,8 @@ context('Window', () => {
   it('task.js - test many cycles but not split input', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(11);
-      description_input(0).type('dd2');
+      cycle_input(0).clear().type(11, {force: true});
+      description_input(0).clear().type('dd2', {force: true});
       confirm_btn(0).click();
       modal_cancel().click();
     });
@@ -161,8 +161,8 @@ context('Window', () => {
   it('task.js - test valid input', () => {
     cy.window().then((win) => {
       edit_btn(0).click();
-      cycle_input(0).type(3);
-      description_input(0).type('dd3');
+      cycle_input(0).clear().type(3, {force: true});
+      description_input(0).clear().type('dd3', {force: true});
       confirm_btn(0).click();
     });
   });

@@ -623,7 +623,7 @@ dist/
 **/*jest.results.json
 **/*docs
 .nyc_output
-coverage
+**/*coverage
 frontend/js-trans
 **/*.idea
 **/*cypress/videos
