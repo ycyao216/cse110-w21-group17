@@ -168,7 +168,7 @@ context('Window', () => {
     })
   })
 
-  it('settings.js - test modifying the global window object', () => {
+  it('settings.js - test help tab and about page', () => {
     cy.window().then((win) => {
       win.user_data = mock_data;
     }).then(() => {

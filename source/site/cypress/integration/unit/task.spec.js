@@ -14,6 +14,13 @@ let mock_data = {
       "description": "task 2",
       "pomo_estimation": 2,
       "cycles_completed": 0,
+    },
+    {
+      "id": "98239348-3910-45f5-950e-34acc6319b83",
+      "description": "finished task",
+      "pomo_estimation_start": 1,
+      "pomo_estimation": 3,
+      "cycles_completed": 3,
     }
   ],
   "user_log": {

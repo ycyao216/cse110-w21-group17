@@ -202,6 +202,16 @@ context('Login Anonymously', () => {
     });
   });
 
+  it('datajs - test remove userdata',()=>{
+    cy.window().then((win)=>{
+      win.delete_user_data();
+      cy.visit('http://localhost:3000');
+      cy.wait(500);
+      cy.window().then((win)=>{
+        expect(win.user_data.task_list_data).to.have.length(0);
+      })
+    })
+  })
 })
 
 
@@ -232,11 +242,8 @@ context('Login as user', () => {
   });
 
   
-  it('datajs - test remove userdata exist',()=>{
+  it('datajs - test remove userdata (logged in as user)',()=>{
     cy.window().then((win)=>{
-      win.localStorage.setItem('user_data', JSON.stringify(mock_data))
-      cy.visit('http://localhost:3000/user/test');
-      cy.wait(100);
       win.create_task({
         "id": "97bf356c-3910-45f5-950e-34acc6319b83",
         "description": "update",
@@ -244,9 +251,8 @@ context('Login as user', () => {
         "cycles_completed": 0,
       });
       win.delete_user_data();
-      cy.wait(1000);
-      cy.visit('http://localhost:3000/user/test');
-      cy.wait(100);
+      cy.visit('http://localhost:3000/user/bo');
+      cy.wait(500);
       cy.window().then((win)=>{
         expect(win.user_data.task_list_data).to.have.length(0);
       })
