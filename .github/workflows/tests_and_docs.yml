@@ -44,6 +44,13 @@ jobs:
           git add --force source/coverage
           git commit -m "generated coverage"
 
+#### Push to repo ####
+      - name: Push changes for coverage
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}    
+
 ##### Jsdocs Section ####
 
       - name: Swap directory
@@ -64,7 +71,7 @@ jobs:
           git commit -m "generated jsdocs"
 
 #### Push to repo ####
-      - name: Push changes
+      - name: Push changes for jsdoc
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
