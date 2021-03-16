@@ -261,6 +261,6 @@ export function analysis() {
     let total = num_early + num_ontime + num_late;
     let ana = `\n${window.userid}'s analysis:`
     ana += `\nCompleted ${num_early} tasks early,  ${num_ontime} tasks on time, ${num_late} tasks late`
-    ana += `\nThe chance being late finishing a task is ${parseFloat(num_late / total).toFixed(2) + "%"}`
+    ana += `\nThe chance being late finishing a task is ${parseFloat(100 * num_late / total).toFixed(2) + "%"}`
     return ana;
 }
