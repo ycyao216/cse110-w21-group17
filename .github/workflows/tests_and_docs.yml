@@ -33,6 +33,7 @@ jobs:
       - name: Start server
         run: cd source/site && npx yarn start-server &
 
+##### Testing Section ####
       - name: Run all tests
         run: cd source/site && npx yarn coverage
         
@@ -43,6 +44,48 @@ jobs:
           git add --force source/site/coverage
           git commit -m "generated coverage"
 
+      - name: Swap directory
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: JSDoc Action
+        uses: andstor/jsdoc-action@v1.2.0
+        with:
+          source_dir: ./source/site/frontend/js
+          recurse: true
+          output_dir: ./docs
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs
+          git commit -m "generated jsdocs"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+##### Jsdocs Section ####
+
+      - name: Swap directory
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: JSDoc Action
+        uses: andstor/jsdoc-action@v1.2.0
+        with:
+          source_dir: ./source/site/frontend/js
+          recurse: true
+          output_dir: ./docs
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs
+          git commit -m "generated jsdocs"
+
+#### Push to repo ####
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -53,51 +96,6 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          directory: ./source/site/coverage/jest-coverage
+          directory: ./source/site/coverage/merged
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
-
-
-
-
-
-
-
-
-
-        
-      # - name: Cypress install
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     runTests: false
-      #     working-directory: source/site
-
-
-
-
-
-      # - name: Generate Jsdocs
-      #   run: cd source/site && npx yarn docs    
-
-      # - name: Run all tests
-      #   run: cd source/site && npx yarn coverage
-      # - name: Commit coverage files
-      #   run: |
-      #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      #     git config --local user.name "github-actions[bot]"
-      #     git add ./source/coverage
-      #     git commit -m "generated coverage"
-
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}    
-
-      # # now run the tests from the subfolder
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     install: false
-      #     working-directory: source/site
-      #     start: yarn start-server
