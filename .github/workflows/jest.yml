@@ -9,4 +9,4 @@ jobs:
     - name: Install modules
       run: npm install --prefix source/site
     - name: Run tests
-      run: npm --prefix source/site test
+      run: cd ./source/site/ && npx yarn coverage:jest
