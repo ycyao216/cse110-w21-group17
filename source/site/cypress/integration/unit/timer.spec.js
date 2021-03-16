@@ -72,7 +72,7 @@ context('Window', () => {
 context('Window', () => {
     beforeEach(() => {
         cy.visit('http://localhost:3000/user/bo');
-        cy.wait(100);
+        cy.wait(500);
     })
 
     it('timer.js - test entering the website with user bo', () => {
@@ -83,7 +83,7 @@ context('Window', () => {
         }).then(() => {
             cy.window().then((win) => {
                 cy.visit('http://localhost:3000/user/bo');
-                cy.wait(100);
+                cy.wait(500);
                 expect(win.userid).to.equal('bo');
                 expect(win.user_data.settings.allow_emergency_stop).to.equal(false);
             })
