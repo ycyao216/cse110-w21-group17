@@ -17,4 +17,4 @@ The pomodoro method is a time management technique in order to increase producti
 ### How to Login to Cloud Sync
 
 If you are currently logged in anonymously, your data will be preserved locally and will NOT be synced.
-You can enter the website using http://127.0.0.1:3000/user/${your_access_token} in order to enable cloud sync.
+You can enter the website using http://cse110.bobobobobobo.net/user/${your_access_token} in order to enable cloud sync.
