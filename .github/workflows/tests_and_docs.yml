@@ -1,4 +1,4 @@
-name: subfolder
+name: tests_and_docs
 on: [push]
 jobs:
   cypress-run:
