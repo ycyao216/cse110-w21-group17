@@ -40,7 +40,7 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add source/site/coverage
+          git add --force source/site/coverage
           git commit -m "generated coverage"
 
       - name: Push changes
