@@ -85,8 +85,6 @@ export function upload_userdata() {
         })
             .then(data => {
                 console.log("Sync Successful");
-                // data ready
-                window.user_data = data; //data
             })
     } else {
         // User logged in anonymously
