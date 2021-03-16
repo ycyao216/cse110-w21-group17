@@ -39,12 +39,35 @@ h3 {
 }
 
 /*
+ * Column header container
+ */
+.column-headings {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin: 1.3em;
+  margin-bottom: 0;
+}
+
+/*
+ * Headings
+ */
+.heading {
+  margin-bottom: 0;
+  width: 33%;
+}
+
+/*
  * Task-List Section divs
  */
 .task-list-separator {
-  margin: 5px;
+  margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
+}
+
+.task-list-separator:hover {
+  background-color: rgba(230, 252, 255, 0.219);
 }
 
 #pending-list {
@@ -92,3 +115,4 @@ ul {
   margin: 1em;
   list-style-type: none;
 }
+

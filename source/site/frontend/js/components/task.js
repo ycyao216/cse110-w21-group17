@@ -1,4 +1,5 @@
 
+
 import { create_uid } from "../utils.js";
 /**
  * Enacts the constructor for the task element
@@ -23,6 +24,7 @@ export function define_task(html) {
             this.pomo_edit_btn = this.shadowRoot.getElementById("pomo-edit-btn");
             this.order_btn_up = this.shadowRoot.getElementById("order-btn-up");
             this.order_btn_down = this.shadowRoot.getElementById("order-btn-down");
+            this.actual_cycle_container = this.shadowRoot.getElementById("actual-cycle-container");
             this.pomo_actual_counter = this.shadowRoot.getElementById("actual-pomo-counter");
 
             this.task_edit = this.shadowRoot.getElementById("task-edit");
@@ -48,6 +50,7 @@ export function define_task(html) {
             this.populate.bind(this);
             this.mode_view.bind(this);
             this.mode_edit.bind(this);
+            this.mode_non_pending.bind(this);
             this.remove_task.bind(this);
             this.confirm.bind(this);
             this.cancel.bind(this);
@@ -64,6 +67,7 @@ export function define_task(html) {
         mode_view() {
             this.view_div.style.display = "flex";
             this.edit_div.style.display = "none";
+            this.actual_cycle_container.style.display = "none";
         }
 
         /**
@@ -76,18 +80,22 @@ export function define_task(html) {
             this.task_edit.focus();
             this.task_edit.select();
         }
-        
+
         /**
          * Move task to non_pending mode
          * @function
          */
-        mode_non_pending(){
+        mode_non_pending() {
+            this.actual_cycle_container.style.display = "flex";
             this.pomo_actual_counter.style.display = "flex";
             this.edit_div.style.display = "none";
-            this.pomo_delete_btn.style.display="none";
-            this.pomo_edit_btn.style.display="none";
-            this.order_btn_up.style.display="none";
-            this.order_btn_down.style.display="none";
+            this.pomo_delete_btn.style.display = "none";
+            this.pomo_edit_btn.style.display = "none";
+            this.order_btn_up.style.display = "none";
+            this.order_btn_down.style.display = "none";
+            if (this.task.pomo_estimation > this.task.pomo_estimation_start){
+                this.view_div.style.backgroundColor = "rgba(255, 0, 0, 0.651)";
+            }
         }
 
         // Values
@@ -99,8 +107,13 @@ export function define_task(html) {
         populate(task) {
             this.task = task;
             this.task_view.innerText = this.task_edit.innerText = task.description;
-            this.pomo_counter_view.innerText = this.pomo_counter_edit.innerText = task.pomo_estimation_start;
+            this.pomo_counter_view.innerText = task.pomo_estimation_start == null ? task.pomo_estimation : task.pomo_estimation_start;
             this.pomo_actual_counter.innerText = task.cycles_completed;
+
+            this.mode_view();
+            if (task !== null && (is_running(task) || is_finished(task))) {
+                this.mode_non_pending();
+            }
         }
 
         // Buttons
@@ -155,7 +168,6 @@ export function define_task(html) {
                     "id": create_uid(10),
                     "description": `${task_data.description} Part ${list_of_tasks.length + 1}`,
                     "pomo_estimation": this_pomo_estimation,
-                    "pomo_estimation_start": this_pomo_estimation,
                     "cycles_completed": this_cycles_completed,
                 })
                 remaining_pomo_estimation -= this_pomo_estimation;
@@ -190,7 +202,7 @@ export function define_task(html) {
         confirm() {
             self.task = this.task; // bind self task to this task
             //Check for invalid inputs
-            if (!this.input_validation()){
+            if (!this.input_validation()) {
                 return
             }
             // remove this node, as it will be created when data updated
@@ -205,7 +217,7 @@ export function define_task(html) {
             } : this.task;
             new_data.description = this.task_edit.value;
             new_data.pomo_estimation = parseInt(this.pomo_counter_edit.value);
-            new_data.pomo_estimation_start = parseInt(this.pomo_counter_edit.value);
+
             if (new_data.pomo_estimation > 4) {
                 document.getElementById('c-modal').display_confirm("The task takes too many cycles. Do you want to split it into more tasks?",
                     () => {
@@ -225,20 +237,20 @@ export function define_task(html) {
          * @function
          * @returns boolean matching whether or not valid input
          */
-        input_validation(){
-            if (this.task_edit.value === ""){
+        input_validation() {
+            if (this.task_edit.value === "") {
                 document.getElementById('c-modal').display_alert("Please enter an task description");
                 return false;
             }
-            else if (Number(this.pomo_counter_edit.value) === 0){
+            else if (Number(this.pomo_counter_edit.value) === 0) {
                 document.getElementById('c-modal').display_alert("The task cannot take more 0 cycles");
                 return false;
             }
-            else if (Number(this.pomo_counter_edit.value) < 0){
+            else if (Number(this.pomo_counter_edit.value) < 0) {
                 document.getElementById('c-modal').display_alert("The task cannot take negative cycles");
                 return false;
             }
-            else if (!Number.isInteger(Number(this.pomo_counter_edit.value))){
+            else if (!Number.isInteger(Number(this.pomo_counter_edit.value))) {
                 document.getElementById('c-modal').display_alert("The task cannot take non-integer cycles");
                 return false;
             }

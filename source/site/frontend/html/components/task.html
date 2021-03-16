@@ -2,23 +2,35 @@
 <link rel="stylesheet" href="/css/task-item.css" />
 <div id="view" class="task-container">
   <!-- View Mode -->
-  <p class="task" id="task-view" title="Task Name">undefined</p>
-  <p class="pomo-counter" id="pomo-counter-view" title="Estimated Pomo Cycles">undefined</p>
+
+  <div class="nonpending-item" id="task-name-container">
+    <p class="task" id="task-view" title="Task Name">undefined</p>
+  </div>
+
+  <div class="nonpending-item" id="estimated-cycle-container">
+    <p class="pomo-counter" id="pomo-counter-view" title="Estimated Pomo Cycles">undefined</p>
+  </div>
+
   <div class="order-btn-container">
-    <button class="pomo-delete-btn" id="pomo-delete-btn" title="Delete Button"><img src="../../assets/images/delete.png" alt="Delete Button" class="button-icon"></button>
-    <button class="pomo-edit-btn" id="pomo-edit-btn" title="Edit Button"><img src="../../assets/images/edit.png" alt="Edit Button" class="button-icon"></button>
+    <button class="pomo-delete-btn" id="pomo-delete-btn" title="Delete Button"><img src="../../assets/images/delete.png"
+        alt="Delete Button" class="button-icon"></button>
+    <button class="pomo-edit-btn" id="pomo-edit-btn" title="Edit Button"><img src="../../assets/images/edit.png"
+        alt="Edit Button" class="button-icon"></button>
     <div class="position-btn-container">
       <button class="order-btn" id="order-btn-up" title="Move Position Up Button">&uarr;</button>
       <button class="order-btn" id="order-btn-down" title="Move Poisition Down Button">&darr;</button>
     </div>
-    
+  </div>
+
+  <div class="nonpending-item" id="actual-cycle-container">
     <p class="pomo-counter" id="actual-pomo-counter" title="Actual Pomo Cycles" style="display: none"></p>
   </div>
+
 </div>
 
 <div id="edit" class="task-container">
   <!-- Edit Mode -->
-  <input class="task" id="task-edit" type="text" placeholder="Task Name"/>
+  <input class="task" id="task-edit" type="text" placeholder="Task Name" />
   <input class="pomo-counter" id="pomo-counter-edit" type="number" placeholder="Cycle Count" />
   <button class="pomo-confirm-btn" id="pomo-confirm-btn">Confirm</button>
   <button class="pomo-cancel-btn" id="pomo-cancel-btn">Cancel</button>
