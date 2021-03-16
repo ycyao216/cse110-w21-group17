@@ -60,6 +60,7 @@ export var timer_state_machine = {
         'next_states': [
             // Settings should ONLY open when timer is not counting down AT ALL
             'timer_init',
+            'timer_toggle_task_list',
         ],
         'functions_enter': [
             () => console.log('[timer_open_settings]'),

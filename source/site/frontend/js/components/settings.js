@@ -96,6 +96,12 @@ export function define_settings(html) {
             // people_online
             this.people_online = this.shadowRoot.getElementById("people-online");
 
+            /**
+             * Show analysis of the user history
+             */
+            // analysis
+            this.analysis = this.shadowRoot.getElementById("analysis");
+
 
             /**
              * Validates the values user typed in for work/break durations. Upholds work > long > short.
@@ -172,6 +178,7 @@ export function define_settings(html) {
             this.working_min.value = window.user_data.settings.working_sec / 60;
             this.short_break_min.value = window.user_data.settings.short_break_sec / 60;
             this.long_break_min.value = window.user_data.settings.long_break_sec / 60;
+            this.analysis.innerText = `\n${window.analysis()}\n`
             postData('/online', {
                 "token": window.userid,
             }).then(data => {

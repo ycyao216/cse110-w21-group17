@@ -140,7 +140,7 @@ export function advance_break_cycle() {
  */
 export function advance_task() {
     window.active_userstate().current_task = window.next_task_id();
-    if (window.current_task() !== null){
+    if (window.current_task() !== null) {
         window.current_task().pomo_estimation_start = window.current_task().pomo_estimation;
     }
     document.getElementById('c-task-list').refresh_list();
@@ -228,4 +228,27 @@ export function next_task_id() {
  */
 export function active_userstate() {
     return window.user_data.user_log;
+}
+
+
+/**
+ * Analysis of the user history
+ * @function
+ * @returns current user's analysis
+ */
+export function analysis() {
+    let num_early = window.user_data.task_list_data
+        .filter((x) => x.pomo_estimation_start !== null)
+        .filter((x) => x.pomo_estimation_start > x.pomo_estimation_start).length;
+    let num_ontime = window.user_data.task_list_data
+        .filter((x) => x.pomo_estimation_start !== null)
+        .filter((x) => x.pomo_estimation_start == x.pomo_estimation_start).length;
+    let num_late = window.user_data.task_list_data
+        .filter((x) => x.pomo_estimation_start !== null)
+        .filter((x) => x.pomo_estimation_start < x.pomo_estimation_start).length;
+    let total = num_early + num_ontime + num_late;
+    let ana = `\n${window.userid}'s analysis:`
+    ana += `\nCompleted ${num_early} tasks early,  ${num_ontime} tasks on time, ${num_late} tasks late`
+    ana += `\nThe chance being late finishing a task is ${parseFloat(num_late / total).toFixed(2) + "%"}`
+    return ana;
 }
