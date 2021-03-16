@@ -106,10 +106,10 @@ export function define_task(html) {
          */
         populate(task) {
             this.task = task;
-            this.task_view.innerText = this.task_edit.innerText = task.description;
+            this.task_view.innerText = this.task_edit.value = task.description;
+            this.pomo_counter_edit.value = task.pomo_estimation;
             this.pomo_counter_view.innerText = task.pomo_estimation_start == null ? task.pomo_estimation : task.pomo_estimation_start;
             this.pomo_actual_counter.innerText = task.cycles_completed;
-
             this.mode_view();
             if (task !== null && (is_running(task) || is_finished(task))) {
                 this.mode_non_pending();
