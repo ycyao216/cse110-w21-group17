@@ -31,8 +31,8 @@ export function transition(statelet, to_state_string) {
     }
 
     // State Transition
-    statelet.previous = statelet.current;
-    statelet.current = to_state_string;
+    window.active_userstate().timer_state.previous = statelet.current;
+    window.active_userstate().timer_state.current = to_state_string;
     from_state = statelet.current;
     window.update_state();
 
