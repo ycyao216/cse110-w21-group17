@@ -26,7 +26,7 @@ window.TIME_UP_LONG_MSG = "You have done 4 pomos! Good job! Now take a long brea
 window.TIME_UP_WORK_MSG = "Break is over! Now get back to the tasks!";
 window.EMERG_STOP_WARNING = "Are you sure? If you stop now, you will lose these sessions!"
 window.OVERSTUDY_MSG = "Great job! Don't start the next task yet, reflect on your current task!"
-window.LOCAL_MSG = "You are currently logged in anonymously. Your data will be preserved locally and will NOT be synced.\n Please enter the website using http://127.0.0.1:3000/user/${your_access_token} in order to enable cloud sync."
+window.LOCAL_MSG = "You are currently logged in anonymously. Your data will be preserved locally and will NOT be synced.\n Please enter the website using http://cse110.bobobobobobo.net/user/${your_access_token} in order to enable cloud sync."
 
 // Added example events to text compatibilities with event listener
 window.TIME_START_EVENT = 't_start';

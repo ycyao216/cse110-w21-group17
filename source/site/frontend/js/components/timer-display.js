@@ -58,6 +58,9 @@ export function define_timer_display(html) {
 
             this.timer_display.innerHTML = minutes + ":" + timer_seconds;
 
+            // change taskbar label
+            document.title = minutes + ":" + timer_seconds;
+
             // decrement time
             this.countdown.endTime -= 1;
         }
@@ -93,6 +96,9 @@ export function define_timer_display(html) {
                 seconds = "0" + seconds;
 
             this.timer_display.innerHTML = minutes + ":" + seconds;
+
+            // change taskbar label
+            document.title = minutes + ":" + seconds;
 
             // decrement time
             this.countdown.endTime -= 1;

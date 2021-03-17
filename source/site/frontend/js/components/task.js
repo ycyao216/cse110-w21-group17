@@ -239,15 +239,19 @@ export function define_task(html) {
          */
         input_validation() {
             if (this.task_edit.value === "") {
-                document.getElementById('c-modal').display_alert("Please enter an task description");
+                document.getElementById('c-modal').display_alert("Please enter a task description");
                 return false;
             }
             else if (Number(this.pomo_counter_edit.value) === 0) {
-                document.getElementById('c-modal').display_alert("The task cannot take more 0 cycles");
+                document.getElementById('c-modal').display_alert("The task cannot take 0 cycles");
                 return false;
             }
             else if (Number(this.pomo_counter_edit.value) < 0) {
                 document.getElementById('c-modal').display_alert("The task cannot take negative cycles");
+                return false;
+            }
+            else if (Number(this.pomo_counter_edit.value) > 999) {
+                document.getElementById('c-modal').display_alert("This is way too many cycles");
                 return false;
             }
             else if (!Number.isInteger(Number(this.pomo_counter_edit.value))) {

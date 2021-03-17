@@ -34,6 +34,8 @@ export var timer_state_machine = {
             () => document.getElementById("timer-display").reset_countdown(window.user_data.settings.working_sec),
             // Set everything to defaultView
             () => {
+                //set title
+                document.title = "Tortellini Timer!";
                 // should show
                 document.getElementById("start-button").style.display = 'initial';
                 document.getElementById("settings-btn").style.display = 'initial';
