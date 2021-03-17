@@ -66,6 +66,19 @@ context('Window', () => {
     })
   })
 
+  it('task.js - test cancel task right after add', () => {
+    cy.window().then((win) => {
+      win.user_data.task_list_data[0].pomo_estimation = 5;
+      cy.get('#c-task-list').shadow().find('#add-task-button').click();
+      cycle_input(1).clear({force:true}).type(3, {force: true});
+      description_input(1).clear({force:true}).type("task 3", {force: true});
+      confirm_btn(1).click();
+    });
+    cy.window().then(()=>{
+      cy.get('#c-task-list').shadow().find('#running').find('c-task').shadow().find('#view').should('have.css','background-color','rgba(255, 0, 0, 0.65)');
+    });
+  });
+
   it('task.js - test moving task up and down', () => {
     cy.window().then((win) => {
       cy.get('#c-task-list').shadow().find('#add-task-button').click();
@@ -160,6 +173,20 @@ context('Window', () => {
       edit_btn(0).click();
       description_input(0).clear({force:true});
       cycle_input(0).clear({force:true}).type(10, {force: true});
+      confirm_btn(0).click();
+    });
+    cy.window().then((win)=>{
+      expect(win.user_data.task_list_data).to.have.length(2);
+      expect(win.user_data.task_list_data[1].description).to.contain("task 2");
+      expect(win.user_data.task_list_data[1].pomo_estimation.toString()).to.contain("2");
+    });
+  });
+
+  it('task.js - test invalid cycles too long', () => {
+    cy.window().then(() => {
+      edit_btn(0).click();
+      description_input(0).clear({force:true}).type("Invalid task", {force: true});
+      cycle_input(0).clear({force:true}).type(9999, {force: true});
       confirm_btn(0).click();
     });
     cy.window().then((win)=>{
