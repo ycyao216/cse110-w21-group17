@@ -99,7 +99,7 @@ export var timer_state_machine = {
             () => document.getElementById("overstudy-button").style.display = 'none',
             // decide between what buttons show
             () => {
-                if(window.statelet().previous == "timer_init") {
+                if (window.statelet().previous == "timer_init") {
                     document.getElementById("start-button").style.display = 'initial';
                     document.getElementById("settings-btn").style.visibility = 'initial';
                     document.getElementById("emergency-stop-button").style.display = 'none';
@@ -180,7 +180,7 @@ export var timer_state_machine = {
                 document.getElementById("timer-label").innerHTML = "Ringing";
                 // should NOT show
                 document.getElementById("start-button").style.display = 'none';
-                if(window.user_data.settings.allow_emergency_stop) {
+                if (window.user_data.settings.allow_emergency_stop) {
                     document.getElementById("overstudy-button").style.display = 'none';
                 } else {
                     document.getElementById("overstudy-button").style.visibility = 'hidden';
@@ -213,7 +213,7 @@ export var timer_state_machine = {
             // Update the page
             () => {
                 // should show
-                if(window.user_data.settings.allow_emergency_stop) {
+                if (window.user_data.settings.allow_emergency_stop) {
                     document.getElementById("add-cycle-button").style.display = (document.getElementById('early-prompt').style.visibility == 'visible') ? 'none' : 'initial';
                 } else {
                     document.getElementById("add-cycle-button").style.display = 'initial';
@@ -235,7 +235,7 @@ export var timer_state_machine = {
                     let break_string = window.active_userstate().break_status.break;
                     let sec_limit = window.user_data.settings[`${break_string}_sec`];
                     // set label
-                    if(break_string == "short_break") {
+                    if (break_string == "short_break") {
                         document.getElementById("timer-label").innerHTML = "Short Break";
                     } else {
                         document.getElementById("timer-label").innerHTML = "Long Break";
@@ -243,18 +243,16 @@ export var timer_state_machine = {
                     document.getElementById("timer-display").trigger_countdown(sec_limit, () => {
                         // advance 1 break cycle
                         window.advance_break_cycle();
+                        // advance task if completed
+                        if (window.is_finished(window.current_task())) {
+                            window.advance_task();
+                        }
                         transition(window.statelet(), 'timer_during_countdown');
                     });
                 }
             },
         ],
         'functions_leave': [
-            // advance task if completed
-            () => {
-                if (window.is_finished(window.current_task())) {
-                    window.advance_task();
-                }
-            }
         ],
     }
 }
