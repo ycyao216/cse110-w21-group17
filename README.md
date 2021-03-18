@@ -7,3 +7,11 @@
 ![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m787536266-e93c6bdcc9be739180377842)
 
 ![Website Up](https://img.shields.io/website?url=http%3A%2F%2Fcse110.bobobobobobo.net%2F)
+
+Website URL: http://cse110.bobobobobobo.net/
+
+If you wish to run the site locally, directions on how to do so and on how to operate the site are found in onboard.md on the main branch.
+
+Our documentation for our repo can be found under docs/ in the main branch.
+
+Our coverage reports can be found under source/coverage in the main branch.
