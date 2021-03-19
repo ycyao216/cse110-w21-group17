@@ -122,5 +122,3 @@ If the user would like to save their tasks to a cloud sync, they would:
 
 3. And then press enter. Now the user&#39;s tasklist will be saved and can be accessed at any time using the link they typed in step 2 unless their data is deleted.
 4. If they would like to delete their user data, please refer to part 2.d under &quot;Usage of the Website&quot;. This also applies for anonymous users who did not input a username but would also like their data deleted (again, please refer back to 2.d under &quot;Usage of the Website&quot;). Anonymous users&#39; data would be stored in the local storage.
-
-Pictures for README:
