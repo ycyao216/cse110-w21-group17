@@ -1,7 +1,21 @@
 // serve website
 const express = require('express');
+const http = require('http');
+var https = require('https');
+const fs = require('fs');
 const app = express();
 const httpport = 3000;
+
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/cse110.bobobobobobo.net/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/cse110.bobobobobobo.net/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/cse110.bobobobobobo.net/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 // serve database
 const jsonServer = require('json-server')
@@ -34,8 +48,18 @@ app.get('/', function (req, res) {
 
 app.use('/', express.static(root_dir));
 
-app.listen(httpport, '0.0.0.0', () => console.log(`http server running on port ${httpport}!`));
 
+// Start http & https servers
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(httpport, () => {
+	console.log(`HTTP Server running on port ${httpport}`);
+});
+
+httpsServer.listen(443, () => {
+	console.log('HTTPS Server running on port 443');
+});
 
 
 // serve database
