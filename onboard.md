@@ -48,13 +48,13 @@ This can alternatively be accessed through clicking &quot;Settings,&quot; then &
 
 2. Settings button - click this to open up the settings page
 
-&nbsp;&nbsp;&nbsp;&nbsp;a. Appearance (Light/Dark mode)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Appearance (Light/Dark mode)
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2a.PNG)
 
 Click on the white clock for light mode, and the dark clock for dark mode.
 
-&nbsp;&nbsp;&nbsp;&nbsp;b. Timer
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Timer
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2b.PNG)
 
@@ -62,11 +62,11 @@ Click on the white clock for light mode, and the dark clock for dark mode.
 
 -The durations of working sessions, short breaks, and long breaks can be changed here with their respective settings.
 
-&nbsp;&nbsp;&nbsp;&nbsp;c . Help
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Help
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- See &quot;Usage of the Website,&quot; 1 (Help button section).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- See &quot;Usage of the Website,&quot; 1 (Help button section).
 
-&nbsp;&nbsp;&nbsp;&nbsp;d. About
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. About
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2d.PNG)
 
