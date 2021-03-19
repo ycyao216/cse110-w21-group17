@@ -11,7 +11,7 @@
 
 Website URL: https://cse110.bobobobobobo.net/
 
-In-depth instructions on how to operate the webiste can be found in onboard.md on the main branch.
+In-depth instructions on how to operate the website can be found in onboard.md on the main branch.
 
 If you wish to run the site locally, directions on how to do so are also found in onboard.md on the main branch.
 
