@@ -212,7 +212,6 @@ let fetch_assets = Promise.all([
 ])
 
 fetch_assets.then(() => {
-    console.log(document.getElementById("timer-display").reset_countdown);
     // set user data
     if (window.userid == "") {
         window.user_data = default_user_data;
