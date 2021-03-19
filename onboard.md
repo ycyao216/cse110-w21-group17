@@ -1,15 +1,15 @@
-#Onboarding
+# Onboarding
 
 Purpose: This file demonstrates how to access the site in local and remote (Internet) environments, as well as how to use it.
 
-#Accessing the Site Remotely (through Internet)
+# Accessing the Site Remotely (through Internet)
 
 1. Visit [https://cse110.bobobobobobo.net/](https://cse110.bobobobobobo.net/).
 2. You&#39;re done.
 
 (Please note this enables https)
 
-#Accessing the Site Locally
+# Accessing the Site Locally
 
 1. (This assumes you have a copy of the code found at [https://github.com/ycyao216/cse110-w21-group17](https://github.com/ycyao216/cse110-w21-group17)). Click on the &quot;Code&quot; dropdown, then &quot;Download ZIP.&quot;
 
@@ -36,7 +36,7 @@ Purpose: This file demonstrates how to access the site in local and remote (Inte
 6. If the command does not run successfully, please make sure you have npm, nodejs, and any other dependencies correctly installed.
 7. Visit localhost:3000. (ie: 127.0.0.1:3000)
 
-#Usage of the Website
+# Usage of the Website
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite0.PNG)
 
@@ -48,13 +48,13 @@ This can alternatively be accessed through clicking &quot;Settings,&quot; then &
 
 2. Settings button - click this to open up the settings page
 
-   a. Appearance (Light/Dark mode)
+&nbsp;&nbsp;&nbsp;&nbsp;a. Appearance (Light/Dark mode)
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2a.PNG)
 
 Click on the white clock for light mode, and the dark clock for dark mode.
 
-   b. Timer
+&nbsp;&nbsp;&nbsp;&nbsp;b. Timer
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2b.PNG)
 
@@ -62,11 +62,11 @@ Click on the white clock for light mode, and the dark clock for dark mode.
 
 -The durations of working sessions, short breaks, and long breaks can be changed here with their respective settings.
 
-   c . Help
+&nbsp;&nbsp;&nbsp;&nbsp;c . Help
 
-     - See &quot;Usage of the Website,&quot; 1 (Help button section).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- See &quot;Usage of the Website,&quot; 1 (Help button section).
 
-   d. About
+&nbsp;&nbsp;&nbsp;&nbsp;d. About
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/usageofthewebsite2d.PNG)
 
@@ -106,7 +106,7 @@ As you can see, the above &quot;test, 19&quot; task was broken down into four te
 
 -The analytics page will also be updated accordingly.
 
-#User Login
+# User Login
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/userlogin0.PNG)
 
