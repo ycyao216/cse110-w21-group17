@@ -4,7 +4,7 @@ const http = require('http');
 var https = require('https');
 const fs = require('fs');
 const app = express();
-const httpport = 3000;
+const httpport = 80;
 
 // Certificate
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/cse110.bobobobobobo.net/privkey.pem', 'utf8');
