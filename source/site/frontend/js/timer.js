@@ -190,40 +190,42 @@ function state_entry() {
 
 // This Section Imports Requires Components
 // Settings Component
-fetch("/html/components/settings.html")
-    .then(stream => stream.text())
-    .then(text => define_settings(text))
-    .then(fetch("/html/components/timer-display.html")
+let fetch_assets = Promise.all([
+    fetch("/html/components/settings.html")
         .then(stream => stream.text())
-        .then(text => define_timer_display(text))
-        .then(fetch("/html/components/control-button.html")
-            .then(stream => stream.text())
-            .then(text => define_control_button(text))
-            .then(fetch("/html/components/modal.html")
-                .then(stream => stream.text())
-                .then(text => define_modal(text))
-                .then(fetch("/html/components/task.html")
-                    .then(stream => stream.text())
-                    .then(text => define_task(text))
-                    .then(fetch("/html/components/task-list.html")
-                        .then(stream => stream.text())
-                        .then(text => define_task_list(text))
-                        .then(() => {
-                            // set user data
-                            if (window.userid == "") {
-                                window.user_data = default_user_data;
-                                // User logged in anonymously
-                                if (localStorage.hasOwnProperty('user_data')) {
-                                    window.user_data = JSON.parse(localStorage.getItem('user_data'));
-                                }
-                                state_entry();
-                                document.getElementById('c-modal').display_alert(LOCAL_MSG);
-                            } else {
-                                request_user_data_and_start().then(() => {
-                                    // Initialize the timer state machine
-                                    state_entry()
-                                });
-                            }
-                        }))))));
+        .then(text => define_settings(text)),
+    fetch("/html/components/timer-display.html")
+        .then(stream => stream.text())
+        .then(text => define_timer_display(text)),
+    fetch("/html/components/control-button.html")
+        .then(stream => stream.text())
+        .then(text => define_control_button(text)),
+    fetch("/html/components/modal.html")
+        .then(stream => stream.text())
+        .then(text => define_modal(text)),
+    fetch("/html/components/task.html")
+        .then(stream => stream.text())
+        .then(text => define_task(text)),
+    fetch("/html/components/task-list.html")
+        .then(stream => stream.text())
+        .then(text => define_task_list(text))
+])
 
-
+fetch_assets.then(() => {
+    console.log(document.getElementById("timer-display").reset_countdown);
+    // set user data
+    if (window.userid == "") {
+        window.user_data = default_user_data;
+        // User logged in anonymously
+        if (localStorage.hasOwnProperty('user_data')) {
+            window.user_data = JSON.parse(localStorage.getItem('user_data'));
+        }
+        state_entry();
+        document.getElementById('c-modal').display_alert(LOCAL_MSG);
+    } else {
+        request_user_data_and_start().then(() => {
+            // Initialize the timer state machine
+            state_entry();
+        });
+    }
+})
