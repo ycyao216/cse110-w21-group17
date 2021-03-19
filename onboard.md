@@ -13,8 +13,8 @@ Accessing the Site Locally
 
 1. (This assumes you have a copy of the code found at [https://github.com/ycyao216/cse110-w21-group17](https://github.com/ycyao216/cse110-w21-group17)). Click on the &quot;Code&quot; dropdown, then &quot;Download ZIP.&quot;
 [alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-[alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/accesssitelocally1.PNG)
-[alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/accesssitelocally1.PNG?raw=true)
+![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/accesssitelocally1.PNG)
+![alt text](https://github.com/ycyao216/cse110-w21-group17/blob/main/images/accesssitelocally1.PNG?raw=true)
 2. Extract the files using some unzipping software.
 
 ![alt text](https://github.com/ycyao216/cse110-w21-group17/tree/main/images/accessingsitelocally2.png)
